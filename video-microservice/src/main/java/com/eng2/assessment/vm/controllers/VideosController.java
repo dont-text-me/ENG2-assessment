@@ -52,9 +52,7 @@ public class VideosController {
                   return h;
                 })
             .collect(Collectors.toSet());
-    System.out.println(hashtagsToCreate);
     if (!hashtagsToCreate.isEmpty()) {
-      System.out.println("Storing new hashtags " + hashtagsToCreate.stream().map(Hashtag::getId));
       hashtagRepo.saveAll(hashtagsToCreate);
     }
     Set<Hashtag> allHashtags = new HashSet<>(hashtagRepo.findByIdIn(videoDetails.hashtagNames()));
