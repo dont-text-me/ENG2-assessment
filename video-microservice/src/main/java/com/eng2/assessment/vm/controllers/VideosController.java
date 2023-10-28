@@ -28,7 +28,6 @@ public class VideosController {
   private static final Logger logger = LoggerFactory.getLogger(VideosController.class);
 
   @Get("/")
-  @Transactional
   public Iterable<Video> list(
       @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag) {
     logger.info(author);
@@ -37,17 +36,29 @@ public class VideosController {
     if (author != null && hashtag == null) {
       return videoRepo.findAllByAuthorUsernameEquals(author);
     } else if (author == null && hashtag != null) {
-      return videoRepo.findByHashtagsId(hashtag);
+      return videoRepo.findAllByHashtagsId(hashtag);
     } else if (author != null && hashtag != null) {
-      return videoRepo.findByAuthorUsernameEqualsAndHashtagsId(author, hashtag);
+      return videoRepo.findAllByAuthorUsernameEqualsAndHashtagsId(author, hashtag);
     } else {
       return videoRepo.findAll();
     }
   }
 
   @Get("/{id}")
-  public Video getVideo(UUID id) {
-    return videoRepo.findById(id).orElse(null);
+  public Video getVideo(
+      UUID id, @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag) {
+    Optional<Video> result;
+    if (author != null && hashtag == null) {
+      result = videoRepo.findByIdAndAuthorUsernameEquals(id, author);
+    } else if (author == null && hashtag != null) {
+      result = videoRepo.findByIdAndHashtagsId(id, hashtag);
+    } else if (author != null && hashtag != null) {
+      result = videoRepo.findByIdAndAuthorUsernameEqualsAndHashtagsId(id, author, hashtag);
+    } else {
+      result = videoRepo.findById(id);
+    }
+
+    return result.orElse(null);
   }
   /**
    * Publish a new video.

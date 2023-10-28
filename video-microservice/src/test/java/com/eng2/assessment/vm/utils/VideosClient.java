@@ -15,7 +15,8 @@ public interface VideosClient {
       @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag);
 
   @Get("/{id}")
-  public Video getVideo(UUID id);
+  public Video getVideo(
+      UUID id, @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag);
 
   @Post("/")
   public HttpResponse<String> publish(@Body VideoDTO videoDetails);

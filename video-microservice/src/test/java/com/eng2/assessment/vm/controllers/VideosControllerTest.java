@@ -36,8 +36,105 @@ public class VideosControllerTest {
   @Inject private HashtagRepository hashtagRepo;
 
   @Nested
-  @DisplayName("list books tests")
-  class ListBooksTest {
+  @DisplayName("retrieve video tests")
+  class GetVideoTest {
+    @Test
+    public void whenNoVideo() {
+      Video result = client.getVideo(UUID.randomUUID(), null, null);
+      assertThat(result).isNull();
+    }
+
+    @Test
+    public void findsById() {
+      Video video = new Video();
+      video.setTitle("Me at the zoo");
+      videoRepo.save(video);
+
+      Video result = client.getVideo(video.getId(), null, null);
+
+      assertThat(result)
+          .isNotNull()
+          .satisfies(it -> assertThat(it.getTitle()).isEqualTo(video.getTitle()))
+          .satisfies(it -> assertThat(it.getLikeCount()).isEqualTo(video.getLikeCount()));
+    }
+
+    @Test
+    public void findsByIdAndAuthor(){
+      User author = new User();
+      author.setUsername("ZooLover");
+      userRepo.save(author);
+      Video video = new Video();
+      video.setTitle("Me at the zoo");
+      video.setAuthor(author);
+      videoRepo.save(video);
+
+      Video otherVideo = new Video();
+      otherVideo.setTitle("Me at the park");
+      videoRepo.save(otherVideo); // should not be returned
+
+      Video result = client.getVideo(video.getId(), author.getUsername(), null);
+
+      assertThat(result)
+              .isNotNull()
+              .satisfies(it -> assertThat(it.getTitle()).isEqualTo(video.getTitle()))
+              .satisfies(it -> assertThat(it.getLikeCount()).isEqualTo(video.getLikeCount()));
+    }
+
+    @Test
+    public void findsByIdAndHashtag(){
+      Hashtag zooTag = new Hashtag();
+      zooTag.setId("Zoo");
+      hashtagRepo.save(zooTag);
+
+      Video video = new Video();
+      video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(zooTag));
+      videoRepo.save(video);
+
+      Video otherVideo = new Video();
+      otherVideo.setTitle("Me at the park");
+      videoRepo.save(otherVideo); // should not be returned
+
+      Video result = client.getVideo(video.getId(), null, zooTag.getId());
+
+      assertThat(result)
+              .isNotNull()
+              .satisfies(it -> assertThat(it.getTitle()).isEqualTo(video.getTitle()))
+              .satisfies(it -> assertThat(it.getLikeCount()).isEqualTo(video.getLikeCount()));
+    }
+
+    @Test
+    public void findsByIdAuthorAndHashtag(){
+      User author = new User();
+      author.setUsername("ZooLover");
+      userRepo.save(author);
+
+      Hashtag zooTag = new Hashtag();
+      zooTag.setId("Zoo");
+      hashtagRepo.save(zooTag);
+
+      Video video = new Video();
+      video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(zooTag));
+      video.setAuthor(author);
+      videoRepo.save(video);
+
+      Video otherVideo = new Video();
+      otherVideo.setTitle("Me at the park");
+      videoRepo.save(otherVideo); // should not be returned
+
+      Video result = client.getVideo(video.getId(), author.getUsername(), zooTag.getId());
+
+      assertThat(result)
+              .isNotNull()
+              .satisfies(it -> assertThat(it.getTitle()).isEqualTo(video.getTitle()))
+              .satisfies(it -> assertThat(it.getLikeCount()).isEqualTo(video.getLikeCount()));
+    }
+  }
+
+  @Nested
+  @DisplayName("list videos tests")
+  class ListVideosTest {
     @Test
     public void emptyList() {
       Iterable<Video> iterVideos = client.list(null, null);
