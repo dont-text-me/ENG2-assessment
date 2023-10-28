@@ -1,0 +1,21 @@
+micronaut:
+  application:
+    name: video-microservice
+datasources:
+  default:
+    driver-class-name: org.mariadb.jdbc.Driver
+    db-type: mariadb
+    dialect: MYSQL
+jpa:
+  default:
+    entity-scan:
+      packages:
+        - com.eng2.assessment.thm.domain
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+netty:
+  default:
+    allocator:
+      max-order: 3
