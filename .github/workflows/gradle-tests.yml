@@ -21,7 +21,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Navigate to project dir
-        run: cd video-microservice
       - name: Run Gradle Tests
+        working-directory: ./video-microservice
         run: ./gradlew test  # Adjust this command as needed
