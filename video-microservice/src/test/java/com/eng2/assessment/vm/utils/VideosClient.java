@@ -3,17 +3,16 @@ package com.eng2.assessment.vm.utils;
 import com.eng2.assessment.vm.domain.Video;
 import com.eng2.assessment.vm.dto.VideoDTO;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Post;
-import io.micronaut.http.annotation.Put;
+import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
+import jakarta.annotation.Nullable;
 import java.util.UUID;
 
 @Client("${videos.url: `http://localhost:8080/videos`}")
 public interface VideosClient {
   @Get("/")
-  public Iterable<Video> list();
+  public Iterable<Video> list(
+      @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag);
 
   @Get("/{id}")
   public Video getVideo(UUID id);

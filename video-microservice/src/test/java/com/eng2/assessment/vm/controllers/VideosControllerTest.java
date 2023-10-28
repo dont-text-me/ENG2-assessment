@@ -1,5 +1,6 @@
 package com.eng2.assessment.vm.controllers;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.eng2.assessment.vm.domain.Hashtag;
@@ -39,8 +40,8 @@ public class VideosControllerTest {
   class ListBooksTest {
     @Test
     public void emptyList() {
-      Iterable<Video> iterVideos = client.list();
-      assertFalse(iterVideos.iterator().hasNext());
+      Iterable<Video> iterVideos = client.list(null, null);
+      assertThat(iterVideos.iterator()).isExhausted();
     }
 
     @Test
@@ -49,10 +50,120 @@ public class VideosControllerTest {
       video.setTitle("Me at the zoo");
       videoRepo.save(video);
 
-      Video result = client.list().iterator().next();
+      Video result = client.list(null, null).iterator().next();
 
-      assertNotNull(result);
-      assertEquals(result.getTitle(), "Me at the zoo");
+      assertThat(result).isNotNull();
+      assertThat(result.getTitle()).isEqualTo("Me at the zoo");
+    }
+
+    @Nested
+    @DisplayName("filtering")
+    class VideoFilteringTest {
+      @Test
+      public void canFilterByAuthor() {
+        int expectedCount = 5;
+        User author = new User();
+        author.setUsername("ZooLover");
+        userRepo.save(author);
+
+        User otherAuthor = new User();
+        otherAuthor.setUsername("FoodReviewer");
+        userRepo.save(otherAuthor);
+
+        for (int i = 0; i < 10; i++) {
+          Video video = new Video();
+          video.setAuthor(otherAuthor);
+          video.setTitle("Video " + i);
+          videoRepo.save(video);
+        }
+
+        for (int i = 0; i < expectedCount; i++) {
+          Video video = new Video();
+          video.setAuthor(author);
+          video.setTitle("My video " + i);
+          videoRepo.save(video);
+        }
+
+        Iterable<Video> result = client.list(author.getUsername(), null);
+
+        assertThat(result).hasSize(expectedCount);
+      }
+
+      @Test
+      public void canFilterByHashtag() {
+        int expectedCount = 5;
+        User author = new User();
+        author.setUsername("ZooLover");
+        userRepo.save(author);
+
+        Hashtag zooTag = new Hashtag();
+        zooTag.setId("Zoo");
+        hashtagRepo.save(zooTag);
+
+        Hashtag otherTag = new Hashtag();
+        otherTag.setId("Gym");
+        hashtagRepo.save(otherTag);
+
+        for (int i = 0; i < 10; i++) {
+          Video video = new Video();
+          video.setAuthor(author);
+          video.setTitle("Video " + i);
+          video.setHashtags(Set.of(otherTag));
+          videoRepo.save(video);
+        }
+
+        for (int i = 0; i < expectedCount; i++) {
+          Video video = new Video();
+          video.setAuthor(author);
+          video.setTitle("My video " + i);
+          video.setHashtags(Set.of(zooTag));
+          videoRepo.save(video);
+        }
+
+        Iterable<Video> result = client.list(null, "Zoo");
+
+        assertThat(result).hasSize(expectedCount);
+      }
+
+      @Test
+      public void canFilterByAuthorAndHashtag() {
+        int expectedCount = 5;
+        User author = new User();
+        author.setUsername("ZooLover");
+        userRepo.save(author);
+
+        Hashtag zooTag = new Hashtag();
+        zooTag.setId("Zoo");
+        hashtagRepo.save(zooTag);
+
+        Hashtag otherTag = new Hashtag();
+        otherTag.setId("Gym");
+        hashtagRepo.save(otherTag);
+
+        User otherAuthor = new User();
+        otherAuthor.setUsername("FoodReviewer");
+        userRepo.save(otherAuthor);
+
+        for (int i = 0; i < 10; i++) {
+          Video video = new Video();
+          video.setAuthor(otherAuthor);
+          video.setTitle("Video " + i);
+          video.setHashtags(Set.of(otherTag));
+          videoRepo.save(video);
+        }
+
+        for (int i = 0; i < expectedCount; i++) {
+          Video video = new Video();
+          video.setAuthor(author);
+          video.setTitle("My video " + i);
+          video.setHashtags(Set.of(zooTag));
+          videoRepo.save(video);
+        }
+
+        Iterable<Video> result = client.list(author.getUsername(), "Zoo");
+
+        assertThat(result).hasSize(expectedCount);
+      }
     }
   }
 
@@ -95,13 +206,12 @@ public class VideosControllerTest {
     }
 
     @Test
-    public void addsMissingHashtagsToDatabase(){
+    public void addsMissingHashtagsToDatabase() {
       User author = new User();
       author.setUsername("ZooLover");
       userRepo.save(author);
 
-      VideoDTO details =
-              new VideoDTO("Me at the zoo", author.getUsername(), List.of("Zoo"));
+      VideoDTO details = new VideoDTO("Me at the zoo", author.getUsername(), List.of("Zoo"));
 
       HttpResponse<String> response = client.publish(details);
 
@@ -114,28 +224,26 @@ public class VideosControllerTest {
       assertNotNull(createdHashtag);
       assertEquals(createdHashtag.getId(), "Zoo");
       assertEquals(
-              createdVideo.getHashtags().stream().map(Hashtag::getId).collect(Collectors.toSet()),
-              Set.of("Zoo"));
-
+          createdVideo.getHashtags().stream().map(Hashtag::getId).collect(Collectors.toSet()),
+          Set.of("Zoo"));
     }
 
     @Test
-    public void handlesUnknownAuthor(){
-      VideoDTO details =
-              new VideoDTO("Me at the zoo", "random-user", List.of("Zoo"));
+    public void handlesUnknownAuthor() {
+      VideoDTO details = new VideoDTO("Me at the zoo", "random-user", List.of("Zoo"));
 
       HttpResponse<String> response = client.publish(details);
 
       assertEquals(response.getStatus(), HttpStatus.NOT_FOUND);
-      assert(response.body().contains("Could not find author"))
-;    }
+      assert (response.body().contains("Could not find author"));
+    }
   }
 
   @Nested
   @DisplayName("like video tests")
-  class LikeVideoTest{
+  class LikeVideoTest {
     @Test
-    public void canLikeVideo(){
+    public void canLikeVideo() {
       User author = new User();
       author.setUsername("ZooLover");
       userRepo.save(author);
@@ -149,11 +257,11 @@ public class VideosControllerTest {
       assertEquals(response.getStatus(), HttpStatus.OK);
 
       Video videoAfterLike = videoRepo.findById(video.getId()).get();
-      assert(videoAfterLike.getLikeCount() - video.getLikeCount() == 1);
+      assert (videoAfterLike.getLikeCount() - video.getLikeCount() == 1);
     }
 
     @Test
-    public void handlesUnknownUser(){
+    public void handlesUnknownUser() {
       Video video = new Video();
       video.setTitle("Me at the zoo");
       videoRepo.save(video);
@@ -161,11 +269,11 @@ public class VideosControllerTest {
       HttpResponse<String> response = client.likeVideo(video.getId(), "Unknown username");
 
       assertEquals(response.getStatus(), HttpStatus.NOT_FOUND);
-      assert(response.getBody().get().contains("Could not find user"));
+      assert (response.getBody().get().contains("Could not find user"));
     }
 
     @Test
-    public void handlesUnknownVideo(){
+    public void handlesUnknownVideo() {
       User author = new User();
       author.setUsername("ZooLover");
       userRepo.save(author);
@@ -173,15 +281,15 @@ public class VideosControllerTest {
       HttpResponse<String> response = client.likeVideo(UUID.randomUUID(), author.getUsername());
 
       assertEquals(response.getStatus(), HttpStatus.NOT_FOUND);
-      assert(response.getBody().get().contains("Could not find video"));
+      assert (response.getBody().get().contains("Could not find video"));
     }
   }
 
   @Nested
   @DisplayName("dislike video tests")
-  class DislikeVideoTest{
+  class DislikeVideoTest {
     @Test
-    public void canDislikeVideo(){
+    public void canDislikeVideo() {
       User author = new User();
       author.setUsername("ZooLover");
       userRepo.save(author);
@@ -195,11 +303,11 @@ public class VideosControllerTest {
       assertEquals(response.getStatus(), HttpStatus.OK);
 
       Video videoAfterDislike = videoRepo.findById(video.getId()).get();
-      assert(video.getLikeCount() - videoAfterDislike.getLikeCount()  == 1);
+      assert (video.getLikeCount() - videoAfterDislike.getLikeCount() == 1);
     }
 
     @Test
-    public void handlesUnknownUser(){
+    public void handlesUnknownUser() {
       Video video = new Video();
       video.setTitle("Me at the zoo");
       videoRepo.save(video);
@@ -207,11 +315,11 @@ public class VideosControllerTest {
       HttpResponse<String> response = client.dislikeVideo(video.getId(), "Unknown username");
 
       assertEquals(response.getStatus(), HttpStatus.NOT_FOUND);
-      assert(response.getBody().get().contains("Could not find user"));
+      assert (response.getBody().get().contains("Could not find user"));
     }
 
     @Test
-    public void handlesUnknownVideo(){
+    public void handlesUnknownVideo() {
       User author = new User();
       author.setUsername("ZooLover");
       userRepo.save(author);
@@ -219,7 +327,91 @@ public class VideosControllerTest {
       HttpResponse<String> response = client.dislikeVideo(UUID.randomUUID(), author.getUsername());
 
       assertEquals(response.getStatus(), HttpStatus.NOT_FOUND);
-      assert(response.getBody().get().contains("Could not find video"));
+      assert (response.getBody().get().contains("Could not find video"));
+    }
+  }
+
+  @Nested
+  @DisplayName("view video tests")
+  class ViewVideoTest {
+    @Test
+    public void canViewVideo() {
+      User user = new User();
+      user.setUsername("ZooLover");
+      userRepo.save(user);
+
+      Video video = new Video();
+      video.setTitle("Me at the zoo");
+      videoRepo.save(video);
+
+      HttpResponse<String> response = client.watchVideo(video.getId(), user.getUsername());
+      assertEquals(response.getStatus(), HttpStatus.OK);
+
+      Video videoAfterView = videoRepo.findById(video.getId()).get();
+      assert (videoAfterView.getViewCount() - video.getViewCount() == 1);
+
+      assertEquals(videoAfterView.getViewers().size(), 1);
+      assertEquals(videoAfterView.getViewers().iterator().next().getUsername(), user.getUsername());
+    }
+
+    @Test
+    public void canHandleMultipleViewsBySameUser() {
+      // Setup mimics a scenario where this user has already watched the video once.
+      // We expect a database link between the two entities to already exists
+
+      // Setup
+      Video video = new Video();
+      video.setTitle("Me at the zoo");
+      videoRepo.save(video);
+      User user = new User();
+      user.setUsername("ZooLover");
+      userRepo.save(user);
+      client.watchVideo(video.getId(), user.getUsername());
+      Video videoBeforeView = videoRepo.findById(video.getId()).get();
+      assertEquals(
+          videoBeforeView.getViewers().iterator().next().getUsername(), user.getUsername());
+      assertEquals(videoBeforeView.getViewCount(), 1);
+
+      // Act
+      HttpResponse<String> response = client.watchVideo(video.getId(), user.getUsername());
+
+      // Verify
+      assertEquals(response.getStatus(), HttpStatus.OK);
+      Video videoAfterView = videoRepo.findById(video.getId()).get();
+      assertThat(videoAfterView.getViewers())
+          .hasSameSizeAs(videoBeforeView.getViewers())
+          .allMatch(
+              it ->
+                  videoAfterView.getViewers().stream()
+                      .map(User::getId)
+                      .toList()
+                      .contains(it.getId()));
+
+      assertEquals(videoAfterView.getViewCount() - videoBeforeView.getViewCount(), 1);
+    }
+
+    @Test
+    public void handlesUnknownUser() {
+      Video video = new Video();
+      video.setTitle("Me at the zoo");
+      videoRepo.save(video);
+
+      HttpResponse<String> response = client.watchVideo(video.getId(), "Unknown username");
+
+      assertEquals(response.getStatus(), HttpStatus.NOT_FOUND);
+      assert (response.getBody().get().contains("Could not find user"));
+    }
+
+    @Test
+    public void handlesUnknownVideo() {
+      User user = new User();
+      user.setUsername("ZooLover");
+      userRepo.save(user);
+
+      HttpResponse<String> response = client.watchVideo(UUID.randomUUID(), user.getUsername());
+
+      assertEquals(response.getStatus(), HttpStatus.NOT_FOUND);
+      assert (response.getBody().get().contains("Could not find video"));
     }
   }
 }

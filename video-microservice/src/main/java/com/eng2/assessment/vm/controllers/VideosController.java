@@ -9,6 +9,7 @@ import com.eng2.assessment.vm.repositories.UsersRepository;
 import com.eng2.assessment.vm.repositories.VideosRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
+import jakarta.annotation.Nullable;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.net.URI;
@@ -27,8 +28,21 @@ public class VideosController {
   private static final Logger logger = LoggerFactory.getLogger(VideosController.class);
 
   @Get("/")
-  public Iterable<Video> list() {
-    return videoRepo.findAll();
+  @Transactional
+  public Iterable<Video> list(
+      @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag) {
+    logger.info(author);
+    logger.info(hashtag);
+
+    if (author != null && hashtag == null) {
+      return videoRepo.findAllByAuthorUsernameEquals(author);
+    } else if (author == null && hashtag != null) {
+      return videoRepo.findByHashtagsId(hashtag);
+    } else if (author != null && hashtag != null) {
+      return videoRepo.findByAuthorUsernameEqualsAndHashtagsId(author, hashtag);
+    } else {
+      return videoRepo.findAll();
+    }
   }
 
   @Get("/{id}")

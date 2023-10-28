@@ -4,6 +4,7 @@ plugins {
     id("io.micronaut.test-resources") version "4.0.4"
     id("io.micronaut.aot") version "4.0.4"
     id("com.diffplug.spotless") version "6.12.1"
+    id("jacoco")
 }
 
 version = "0.1"
@@ -28,6 +29,8 @@ dependencies {
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     runtimeOnly("org.yaml:snakeyaml")
     testImplementation("io.micronaut:micronaut-http-client")
+    testImplementation("org.assertj:assertj-core:3.24.2")
+
 }
 
 
@@ -46,6 +49,7 @@ spotless{
         googleJavaFormat()
     }
 }
+
 
 graalvmNative.toolchainDetection = false
 micronaut {
