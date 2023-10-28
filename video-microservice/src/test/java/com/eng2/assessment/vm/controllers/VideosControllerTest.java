@@ -59,7 +59,7 @@ public class VideosControllerTest {
     }
 
     @Test
-    public void findsByIdAndAuthor(){
+    public void findsByIdAndAuthor() {
       User author = new User();
       author.setUsername("ZooLover");
       userRepo.save(author);
@@ -75,13 +75,13 @@ public class VideosControllerTest {
       Video result = client.getVideo(video.getId(), author.getUsername(), null);
 
       assertThat(result)
-              .isNotNull()
-              .satisfies(it -> assertThat(it.getTitle()).isEqualTo(video.getTitle()))
-              .satisfies(it -> assertThat(it.getLikeCount()).isEqualTo(video.getLikeCount()));
+          .isNotNull()
+          .satisfies(it -> assertThat(it.getTitle()).isEqualTo(video.getTitle()))
+          .satisfies(it -> assertThat(it.getLikeCount()).isEqualTo(video.getLikeCount()));
     }
 
     @Test
-    public void findsByIdAndHashtag(){
+    public void findsByIdAndHashtag() {
       Hashtag zooTag = new Hashtag();
       zooTag.setId("Zoo");
       hashtagRepo.save(zooTag);
@@ -98,13 +98,13 @@ public class VideosControllerTest {
       Video result = client.getVideo(video.getId(), null, zooTag.getId());
 
       assertThat(result)
-              .isNotNull()
-              .satisfies(it -> assertThat(it.getTitle()).isEqualTo(video.getTitle()))
-              .satisfies(it -> assertThat(it.getLikeCount()).isEqualTo(video.getLikeCount()));
+          .isNotNull()
+          .satisfies(it -> assertThat(it.getTitle()).isEqualTo(video.getTitle()))
+          .satisfies(it -> assertThat(it.getLikeCount()).isEqualTo(video.getLikeCount()));
     }
 
     @Test
-    public void findsByIdAuthorAndHashtag(){
+    public void findsByIdAuthorAndHashtag() {
       User author = new User();
       author.setUsername("ZooLover");
       userRepo.save(author);
@@ -126,9 +126,9 @@ public class VideosControllerTest {
       Video result = client.getVideo(video.getId(), author.getUsername(), zooTag.getId());
 
       assertThat(result)
-              .isNotNull()
-              .satisfies(it -> assertThat(it.getTitle()).isEqualTo(video.getTitle()))
-              .satisfies(it -> assertThat(it.getLikeCount()).isEqualTo(video.getLikeCount()));
+          .isNotNull()
+          .satisfies(it -> assertThat(it.getTitle()).isEqualTo(video.getTitle()))
+          .satisfies(it -> assertThat(it.getLikeCount()).isEqualTo(video.getLikeCount()));
     }
   }
 

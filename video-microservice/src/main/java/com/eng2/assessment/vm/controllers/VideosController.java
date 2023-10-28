@@ -60,6 +60,7 @@ public class VideosController {
 
     return result.orElse(null);
   }
+
   /**
    * Publish a new video.
    *
