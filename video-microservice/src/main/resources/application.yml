@@ -13,8 +13,6 @@ jpa:
                 - com.eng2.assessment.vm.domain
         properties:
             hibernate:
-                format_sql: true
-                show_sql: true
                 hbm2ddl:
                     auto: update
 netty:

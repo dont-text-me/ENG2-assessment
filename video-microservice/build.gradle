@@ -55,9 +55,6 @@ micronaut {
         incremental(true)
         annotations("com.eng2.assessment.vm.*")
     }
-    testResources {
-        sharedServer = true
-    }
     aot {
     // Please review carefully the optimizations enabled below
     // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
