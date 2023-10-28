@@ -34,6 +34,16 @@ application {
 	mainClass.set("com.eng2.assessment.vm.Application")
 }
 
+run{
+	systemProperties([
+			'datasources.default.url': 'jdbc:mariadb://localhost:3306/videos',
+			'datasources.default.username': 'video',
+			'datasources.default.password': 'videosecret',
+			'kafka.bootstrap.servers': 'localhost:9094,localhost:9095,localhost:9096',
+
+	])
+}
+
 graalvmNative.toolchainDetection = false
 micronaut {
 	runtime("netty")
