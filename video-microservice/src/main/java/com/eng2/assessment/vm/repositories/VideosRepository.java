@@ -5,6 +5,7 @@ import io.micronaut.data.annotation.Join;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import jakarta.annotation.Nonnull;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,4 +17,28 @@ public interface VideosRepository extends CrudRepository<Video, UUID> {
   @Join(value = "hashtags", type = Join.Type.LEFT_FETCH)
   @Override
   Optional<Video> findById(@Nonnull UUID id);
+
+  @Join(value = "author", type = Join.Type.LEFT_FETCH)
+  Optional<Video> findByIdAndAuthorUsernameEquals(UUID id, String authorUsername);
+
+  @Join(value = "hashtags", type = Join.Type.LEFT_FETCH)
+  @Join(value = "author", type = Join.Type.LEFT_FETCH)
+  Optional<Video> findByIdAndHashtagsId(UUID id, String hashtagsId);
+
+  @Join(value = "hashtags", type = Join.Type.LEFT_FETCH)
+  @Join(value = "author", type = Join.Type.LEFT_FETCH)
+  Optional<Video> findByIdAndAuthorUsernameEqualsAndHashtagsId(
+      UUID id, String authorUsername, String hashtagsId);
+
+  @Join(value = "author", type = Join.Type.LEFT_FETCH)
+  Collection<Video> findAllByAuthorUsernameEquals(String authorUsername);
+
+  @Join(value = "hashtags", type = Join.Type.LEFT_FETCH)
+  @Join(value = "author", type = Join.Type.LEFT_FETCH)
+  Collection<Video> findAllByHashtagsId(String hashtagsId);
+
+  @Join(value = "hashtags", type = Join.Type.LEFT_FETCH)
+  @Join(value = "author", type = Join.Type.LEFT_FETCH)
+  Collection<Video> findAllByAuthorUsernameEqualsAndHashtagsId(
+      String authorUsername, String hashtagId);
 }

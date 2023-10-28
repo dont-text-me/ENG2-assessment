@@ -29,7 +29,9 @@ public class Video {
 
   @JsonIgnore @ManyToOne private User author;
 
-  @JsonIgnore @ManyToMany private Set<User> viewers;
+  @JsonIgnore
+  @ManyToMany(mappedBy = "viewedVideos")
+  private Set<User> viewers;
 
   @JsonIgnore @ManyToMany private Set<Hashtag> hashtags;
 
@@ -53,6 +55,14 @@ public class Video {
     return likeCount;
   }
 
+  public void incrementLikeCount() {
+    likeCount++;
+  }
+
+  public void decrementLikeCount() {
+    likeCount--;
+  }
+
   public void setLikeCount(Integer likeCount) {
     this.likeCount = likeCount;
   }
@@ -67,6 +77,10 @@ public class Video {
 
   public Integer getViewCount() {
     return viewCount;
+  }
+
+  public void incrementViewCount() {
+    viewCount++;
   }
 
   public void setViewCount(Integer viewCount) {
