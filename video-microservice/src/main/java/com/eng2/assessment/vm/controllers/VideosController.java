@@ -4,6 +4,7 @@ import com.eng2.assessment.vm.domain.Hashtag;
 import com.eng2.assessment.vm.domain.User;
 import com.eng2.assessment.vm.domain.Video;
 import com.eng2.assessment.vm.dto.VideoDTO;
+import com.eng2.assessment.vm.dto.VideoInteractionDetailsDTO;
 import com.eng2.assessment.vm.events.VideoInteractionProducer;
 import com.eng2.assessment.vm.repositories.HashtagRepository;
 import com.eng2.assessment.vm.repositories.UsersRepository;
@@ -117,9 +118,7 @@ public class VideosController {
         .body(String.format("Created video with ID " + newVideo.getId()));
   }
 
-  /**
-   * Like a video with a given ID Updates the like count
-   */
+  /** Like a video with a given ID Updates the like count */
   @Put("/{id}/like")
   @Transactional
   public HttpResponse<String> likeVideo(UUID id, @Body String userName) {
@@ -136,14 +135,14 @@ public class VideosController {
     video.incrementLikeCount();
     logger.info(String.format("User %s liked the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
-    producer.likeVideo(video.getId(), userName);
+    producer.likeVideo(
+        video.getId(),
+        new VideoInteractionDetailsDTO(
+            userName, video.getHashtags().stream().map(Hashtag::getId).toList()));
     return HttpResponse.ok(String.format("Video with title %s liked", video.getTitle()));
   }
 
-  /**
-   * Dislike a video with a given ID
-   * Updates the like count
-   */
+  /** Dislike a video with a given ID Updates the like count */
   @Put("/{id}/dislike")
   @Transactional
   public HttpResponse<String> dislikeVideo(UUID id, @Body String userName) {
@@ -161,13 +160,15 @@ public class VideosController {
     logger.info(
         String.format("User %s disliked the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
-    producer.dislikeVideo(video.getId(), userName);
+    producer.dislikeVideo(
+        video.getId(),
+        new VideoInteractionDetailsDTO(
+            userName, video.getHashtags().stream().map(Hashtag::getId).toList()));
     return HttpResponse.ok(String.format("Video with title %s disliked", video.getTitle()));
   }
 
   /**
-   * Marks a video with the given id as watched by the user with hte given username.
-   * Updates the
+   * Marks a video with the given id as watched by the user with hte given username. Updates the
    * view count.
    */
   @Put("/{id}/watch")
@@ -195,7 +196,10 @@ public class VideosController {
     logger.info(
         String.format("User %s viewed the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
-    producer.viewVideo(video.getId(), userName);
+    producer.viewVideo(
+        video.getId(),
+        new VideoInteractionDetailsDTO(
+            userName, video.getHashtags().stream().map(Hashtag::getId).toList()));
     return HttpResponse.ok(String.format("Video with title %s viewed", video.getTitle()));
   }
 }

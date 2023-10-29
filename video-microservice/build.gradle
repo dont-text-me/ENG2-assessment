@@ -36,12 +36,16 @@ application {
 
 run{
 	systemProperties([
-			'datasources.default.url': 'jdbc:mariadb://localhost:3306/videos',
-			'datasources.default.username': 'video',
-			'datasources.default.password': 'videosecret',
-			'kafka.bootstrap.servers': 'localhost:9094,localhost:9095,localhost:9096',
+		'datasources.default.url': 'jdbc:mariadb://localhost:3306/videos',
+		'datasources.default.username': 'video',
+		'datasources.default.password': 'videosecret',
+		'kafka.bootstrap.servers': 'localhost:9094,localhost:9095,localhost:9096',
 
 	])
+}
+
+jar{
+	exclude("logback.xml")
 }
 
 graalvmNative.toolchainDetection = false

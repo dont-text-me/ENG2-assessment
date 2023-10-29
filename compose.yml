@@ -1,16 +1,27 @@
 services:
   # Our database management system
-  db:
+  vm-db:
     image: mariadb:11
     environment:
-      MARIADB_USER: &dbuser video
-      MARIADB_PASSWORD: &dbpass videosecret
+      MARIADB_USER: &vmdbuser video
+      MARIADB_PASSWORD: &vmdbpass videosecret
       MARIADB_ROOT_PASSWORD: iamroot
-      MARIADB_DATABASE: &dbname videos
+      MARIADB_DATABASE: &vmdbname videos
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - mariadb_vm_data:/var/lib/mysql
     ports:
       - 3306:3306
+  thm-db:
+    image: mariadb:11
+    environment:
+      MARIADB_USER: &thmdbuser trendingHashtag
+      MARIADB_PASSWORD: &thmdbpass hashtagSecret
+      MARIADB_ROOT_PASSWORD: iamroot
+      MARIADB_DATABASE: &thmdbname trendingHashtags
+    volumes:
+      - mariadb_thm_data:/var/lib/mysql
+    ports:
+      - 3307:3306
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -102,7 +113,8 @@ services:
       - kafka_2_data:/bitnami/kafka
 
 volumes:
-  mariadb_data:
+  mariadb_vm_data:
+  mariadb_thm_data:
   kafka_0_data:
   kafka_1_data:
   kafka_2_data:
