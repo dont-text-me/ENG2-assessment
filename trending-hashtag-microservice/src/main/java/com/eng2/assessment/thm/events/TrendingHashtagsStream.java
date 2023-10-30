@@ -34,8 +34,7 @@ public class TrendingHashtagsStream {
             .selectKey((k, v) -> v)
             .groupByKey()
             .windowedBy(
-                TimeWindows.ofSizeAndGrace(Duration.ofHours(1), Duration.ofMinutes(5))
-                    .advanceBy(Duration.ofMinutes(10)))
+                SlidingWindows.ofTimeDifferenceAndGrace(Duration.ofHours(1), Duration.ofMinutes(5)))
             .count()
             .suppress(Suppressed.untilWindowCloses(Suppressed.BufferConfig.unbounded()))
             .toStream();
