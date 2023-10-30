@@ -85,6 +85,9 @@ public class VideosController {
       return HttpResponse.notFound(
           "Could not find author with username " + videoDetails.authorUsername());
     }
+    if (videoDetails.hashtagNames() == null || videoDetails.hashtagNames().isEmpty()) {
+      return HttpResponse.badRequest("Please specify one or more hashtags for your video");
+    }
     // Check if any hashtags in the video DTO are missing from the database and add
     Set<Hashtag> hashtagsToCreate =
         videoDetails.hashtagNames().stream()
@@ -136,9 +139,7 @@ public class VideosController {
     logger.info(String.format("User %s liked the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
     producer.likeVideo(
-        video.getId(),
-        new VideoInteractionDetailsDTO(
-            userName, video.getHashtags().stream().map(Hashtag::getId).toList()));
+        video.getId(), new VideoInteractionDetailsDTO(userName, video.getHashtagIds()));
     return HttpResponse.ok(String.format("Video with title %s liked", video.getTitle()));
   }
 
@@ -161,9 +162,7 @@ public class VideosController {
         String.format("User %s disliked the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
     producer.dislikeVideo(
-        video.getId(),
-        new VideoInteractionDetailsDTO(
-            userName, video.getHashtags().stream().map(Hashtag::getId).toList()));
+        video.getId(), new VideoInteractionDetailsDTO(userName, video.getHashtagIds()));
     return HttpResponse.ok(String.format("Video with title %s disliked", video.getTitle()));
   }
 
@@ -197,9 +196,7 @@ public class VideosController {
         String.format("User %s viewed the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
     producer.viewVideo(
-        video.getId(),
-        new VideoInteractionDetailsDTO(
-            userName, video.getHashtags().stream().map(Hashtag::getId).toList()));
+        video.getId(), new VideoInteractionDetailsDTO(userName, video.getHashtagIds()));
     return HttpResponse.ok(String.format("Video with title %s viewed", video.getTitle()));
   }
 }
