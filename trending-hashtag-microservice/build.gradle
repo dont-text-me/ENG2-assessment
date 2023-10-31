@@ -42,6 +42,7 @@ run{
 		'datasources.default.username': 'trendingHashtag',
 		'datasources.default.password': 'hashtagSecret',
 		'kafka.bootstrap.servers': 'localhost:9094,localhost:9095,localhost:9096',
+		'micronaut.server.port': '8081',
 
 	])
 }
