@@ -32,7 +32,7 @@ public class TrendingHashtagsStream {
         builder.stream(TOPIC_VIDEO_LIKED, Consumed.with(Serdes.UUID(), valueSerde))
             .flatMapValues(VideoInteractionDetailsDTO::hashtagNames)
             .selectKey((k, v) -> v)
-            .groupByKey()
+            .groupByKey(Grouped.with(Serdes.String(), Serdes.String()))
             .windowedBy(
                 SlidingWindows.ofTimeDifferenceAndGrace(Duration.ofHours(1), Duration.ofMinutes(5)))
             .count()

@@ -10,7 +10,7 @@ import java.util.Map;
 @KafkaListener
 public class TrendingHashtagSummaryConsumer {
   @Topic(TOPIC_HASHTAG_SUMMARY)
-  void reportHashtagStatistics(@KafkaKey String topTenHashtags, Map<String, Long> likeCounts) {
+  void reportHashtagStatistics(@KafkaKey String topTenHashtags, Long likeCount) {
     System.out.println(
         "Received trending hashtag statistics: top ten hashtags are " + topTenHashtags);
   }
