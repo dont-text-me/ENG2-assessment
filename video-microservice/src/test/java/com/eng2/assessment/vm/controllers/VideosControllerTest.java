@@ -73,8 +73,13 @@ public class VideosControllerTest {
 
     @Test
     public void findsById() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
+
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       Video result = client.getVideo(video.getId(), null, null);
@@ -87,16 +92,21 @@ public class VideosControllerTest {
 
     @Test
     public void findsByIdAndAuthor() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
       User author = new User();
       author.setUsername("ZooLover");
       userRepo.save(author);
       Video video = new Video();
       video.setTitle("Me at the zoo");
       video.setAuthor(author);
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       Video otherVideo = new Video();
       otherVideo.setTitle("Me at the park");
+      otherVideo.setHashtags(Set.of(hashtag));
       videoRepo.save(otherVideo); // should not be returned
 
       Video result = client.getVideo(video.getId(), author.getUsername(), null);
@@ -113,6 +123,10 @@ public class VideosControllerTest {
       zooTag.setId("Zoo");
       hashtagRepo.save(zooTag);
 
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Gym");
+      hashtagRepo.save(hashtag);
+
       Video video = new Video();
       video.setTitle("Me at the zoo");
       video.setHashtags(Set.of(zooTag));
@@ -120,6 +134,7 @@ public class VideosControllerTest {
 
       Video otherVideo = new Video();
       otherVideo.setTitle("Me at the park");
+      otherVideo.setHashtags(Set.of(hashtag));
       videoRepo.save(otherVideo); // should not be returned
 
       Video result = client.getVideo(video.getId(), null, zooTag.getId());
@@ -136,6 +151,10 @@ public class VideosControllerTest {
       author.setUsername("ZooLover");
       userRepo.save(author);
 
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Gym");
+      hashtagRepo.save(hashtag);
+
       Hashtag zooTag = new Hashtag();
       zooTag.setId("Zoo");
       hashtagRepo.save(zooTag);
@@ -148,6 +167,7 @@ public class VideosControllerTest {
 
       Video otherVideo = new Video();
       otherVideo.setTitle("Me at the park");
+      otherVideo.setHashtags(Set.of(hashtag));
       videoRepo.save(otherVideo); // should not be returned
 
       Video result = client.getVideo(video.getId(), author.getUsername(), zooTag.getId());
@@ -170,8 +190,13 @@ public class VideosControllerTest {
 
     @Test
     public void returnsList() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
+
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       Video result = client.list(null, null).iterator().next();
@@ -186,6 +211,10 @@ public class VideosControllerTest {
       @Test
       public void canFilterByAuthor() {
         int expectedCount = 5;
+        Hashtag hashtag = new Hashtag();
+        hashtag.setId("Zoo");
+        hashtagRepo.save(hashtag);
+
         User author = new User();
         author.setUsername("ZooLover");
         userRepo.save(author);
@@ -198,6 +227,7 @@ public class VideosControllerTest {
           Video video = new Video();
           video.setAuthor(otherAuthor);
           video.setTitle("Video " + i);
+          video.setHashtags(Set.of(hashtag));
           videoRepo.save(video);
         }
 
@@ -205,6 +235,7 @@ public class VideosControllerTest {
           Video video = new Video();
           video.setAuthor(author);
           video.setTitle("My video " + i);
+          video.setHashtags(Set.of(hashtag));
           videoRepo.save(video);
         }
 
@@ -412,8 +443,12 @@ public class VideosControllerTest {
 
     @Test
     public void handlesUnknownUser() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       HttpResponse<String> response = client.likeVideo(video.getId(), "Unknown username");
@@ -469,8 +504,13 @@ public class VideosControllerTest {
 
     @Test
     public void handlesUnknownUser() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
+
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       HttpResponse<String> response = client.dislikeVideo(video.getId(), "Unknown username");
@@ -532,9 +572,13 @@ public class VideosControllerTest {
       // We expect a database link between the two entities to already exists
 
       // Setup
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
       Video video = new Video();
       video.setTitle("Me at the zoo");
       video.setViewCount(1);
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
       User user = new User();
       user.setUsername("ZooLover");
@@ -565,8 +609,12 @@ public class VideosControllerTest {
 
     @Test
     public void handlesUnknownUser() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       HttpResponse<String> response = client.watchVideo(video.getId(), "Unknown username");
