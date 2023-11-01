@@ -1,4 +1,4 @@
-package com.eng2.assessment.thm.events;
+package com.eng2.assessment.thm.events.dto;
 
 import io.micronaut.serde.annotation.Serdeable;
 import java.util.*;
@@ -17,7 +17,7 @@ public class Top10Hashtags {
 
   // sort alphabetically by ID
 
-  public Top10Hashtags(){
+  public Top10Hashtags() {
     System.out.println("Creating new leaderboard");
   }
 
@@ -42,9 +42,6 @@ public class Top10Hashtags {
 
   @Override
   public String toString() {
-    return "Top10Hashtags{" +
-            "id=" + id +
-            ", leaderboard=" + leaderboard +
-            '}';
+    return "Top10Hashtags{" + "id=" + id + ", leaderboard=" + leaderboard + '}';
   }
 }

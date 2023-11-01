@@ -1,4 +1,4 @@
-package com.eng2.assessment.thm.events;
+package com.eng2.assessment.thm.events.dto;
 
 import io.micronaut.serde.annotation.Serdeable;
 

@@ -1,8 +1,11 @@
 package com.eng2.assessment.thm.events;
 
 import static com.eng2.assessment.thm.events.Topics.TOPIC_HASHTAG_SUMMARY;
+import static com.eng2.assessment.thm.events.utils.Topics.TOPIC_HASHTAG_SUMMARY;
 import static com.eng2.assessment.vm.events.Topics.TOPIC_VIDEO_LIKED;
 
+import com.eng2.assessment.thm.events.dto.HashtagWIthLikeCount;
+import com.eng2.assessment.thm.events.dto.Top10Hashtags;
 import com.eng2.assessment.vm.dto.VideoInteractionDetailsDTO;
 import io.micronaut.configuration.kafka.serde.CompositeSerdeRegistry;
 import io.micronaut.configuration.kafka.streams.ConfiguredStreamBuilder;
