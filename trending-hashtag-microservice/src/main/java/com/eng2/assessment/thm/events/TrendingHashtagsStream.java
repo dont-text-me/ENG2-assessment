@@ -1,6 +1,5 @@
 package com.eng2.assessment.thm.events;
 
-import static com.eng2.assessment.thm.events.utils.Topics.TOPIC_HASHTAG_SUMMARY;
 import static com.eng2.assessment.vm.events.Topics.TOPIC_VIDEO_LIKED;
 
 import com.eng2.assessment.thm.events.dto.WindowedHashtagWIthLikeCount;
@@ -22,6 +21,20 @@ import org.apache.kafka.streams.kstream.*;
 public class TrendingHashtagsStream {
   @Inject private CompositeSerdeRegistry serdeRegistry;
 
+  public static final String TOPIC_HASHTAG_SUMMARY = "trending-hashtags";
+
+  /**
+   * A kafka stream that listens to messages about liked videos from VM and reposts per-hashtag
+   * statistics.
+   *
+   * <p>The stream breaks incoming messages down in a way that one liked hashtag is associated with
+   * one record, i.e. if a video with 5 hashtags is liked, 5 internal messages are produced for each
+   * of the hashtags. Then, the likes for each hashtag are summed over a time window and passed
+   * forward once the window closes. Further processing is done in {@link
+   * TrendingHashtagSummaryConsumer}, which stores a {@link
+   * com.eng2.assessment.thm.domain.TrendingHashtag} for each summarized message i.e. for each
+   * hashtag's like count over the time window.
+   */
   @Singleton
   KStream<String, WindowedHashtagWIthLikeCount> hashtagSummary(ConfiguredStreamBuilder builder) {
     Properties props = builder.getConfiguration();
@@ -45,8 +58,6 @@ public class TrendingHashtagsStream {
                         key.key(),
                         new WindowedHashtagWIthLikeCount(
                             key.key(), value, key.window().start(), key.window().end())));
-
-    stream.print(Printed.toSysOut());
 
     stream.to(
         TOPIC_HASHTAG_SUMMARY,

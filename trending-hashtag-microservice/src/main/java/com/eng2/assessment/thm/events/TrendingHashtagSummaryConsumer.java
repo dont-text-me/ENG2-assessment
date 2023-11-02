@@ -1,6 +1,6 @@
 package com.eng2.assessment.thm.events;
 
-import static com.eng2.assessment.thm.events.utils.Topics.TOPIC_HASHTAG_SUMMARY;
+import static com.eng2.assessment.thm.events.TrendingHashtagsStream.TOPIC_HASHTAG_SUMMARY;
 
 import com.eng2.assessment.thm.domain.TrendingHashtag;
 import com.eng2.assessment.thm.events.dto.WindowedHashtagWIthLikeCount;
@@ -26,7 +26,7 @@ public class TrendingHashtagSummaryConsumer {
     hashtag.setLikeCount(stats.likeCount());
     hashtag.setWindowStart(stats.windowStart());
     hashtag.setWindowEnd(stats.windowEnd());
-    logger.info("Storing new trending hashtag entry " + hashtag);
+    logger.debug("Storing new trending hashtag entry " + hashtag);
     hashtagRepo.save(hashtag);
   }
 }
