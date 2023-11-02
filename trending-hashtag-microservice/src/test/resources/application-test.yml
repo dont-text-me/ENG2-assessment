@@ -6,3 +6,6 @@ jpa:
         format_sql: true
         hbm2ddl:
           auto: create-drop
+
+trending-hashtags:
+  url: /trending-hashtags

@@ -3,16 +3,11 @@ package com.eng2.assessment.vm.utils;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
-import io.micronaut.runtime.EmbeddedApplication;
 import io.micronaut.test.extensions.junit5.MicronautJunit5Extension;
-import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import jakarta.inject.Inject;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
-@MicronautTest
 public class DbCleanupExtension implements BeforeEachCallback {
-  @Inject EmbeddedApplication<?> application;
 
   @Override
   public void beforeEach(ExtensionContext context) {

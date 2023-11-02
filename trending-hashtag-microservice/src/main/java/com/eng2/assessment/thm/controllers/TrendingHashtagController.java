@@ -5,6 +5,7 @@ import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import jakarta.inject.Inject;
+import java.util.Collections;
 import java.util.List;
 
 @Controller("/trending-hashtags")
@@ -13,7 +14,10 @@ public class TrendingHashtagController {
 
   @Get("/latest")
   public List<TrendingHashtag> latestStats() {
-    Long latestWindowEnd = repo.findMaxWindowEnd();
+    Long latestWindowEnd = repo.findMaxWindowEnd().orElse(null);
+    if (latestWindowEnd == null) {
+      return Collections.emptyList();
+    }
     return repo.findFirst10ByWindowEndEqualOrderByLikeCountDesc(latestWindowEnd);
   }
 }

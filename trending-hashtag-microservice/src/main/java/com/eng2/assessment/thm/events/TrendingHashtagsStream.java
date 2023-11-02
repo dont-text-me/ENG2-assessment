@@ -7,6 +7,7 @@ import com.eng2.assessment.vm.dto.VideoInteractionDetailsDTO;
 import io.micronaut.configuration.kafka.serde.CompositeSerdeRegistry;
 import io.micronaut.configuration.kafka.streams.ConfiguredStreamBuilder;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Value;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.time.Duration;
@@ -20,6 +21,9 @@ import org.apache.kafka.streams.kstream.*;
 @Factory
 public class TrendingHashtagsStream {
   @Inject private CompositeSerdeRegistry serdeRegistry;
+
+  @Value(value = "${trending-hashtags.window-size: `1h`}")
+  private Duration windowSize;
 
   public static final String TOPIC_HASHTAG_SUMMARY = "trending-hashtags";
 
@@ -48,7 +52,7 @@ public class TrendingHashtagsStream {
             .flatMapValues(VideoInteractionDetailsDTO::hashtagNames)
             .selectKey((k, v) -> v)
             .groupByKey(Grouped.with(Serdes.String(), Serdes.String()))
-            .windowedBy(SlidingWindows.ofTimeDifferenceWithNoGrace(Duration.ofMinutes(2)))
+            .windowedBy(SlidingWindows.ofTimeDifferenceWithNoGrace(windowSize))
             .count()
             .suppress(Suppressed.untilWindowCloses(Suppressed.BufferConfig.unbounded()))
             .toStream()

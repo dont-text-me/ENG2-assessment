@@ -4,11 +4,12 @@ import com.eng2.assessment.thm.domain.TrendingHashtag;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface TrendingHashtagRepository extends CrudRepository<TrendingHashtag, UUID> {
-  Long findMaxWindowEnd();
+  Optional<Long> findMaxWindowEnd();
 
   /**
    * Returns the top 10 most liked hashtags for a provided time window. <br>

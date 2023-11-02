@@ -1,0 +1,7 @@
+kafka:
+  streams:
+    default:
+      start-kafka-streams: false
+
+trending-hashtags:
+  window-size: 1h

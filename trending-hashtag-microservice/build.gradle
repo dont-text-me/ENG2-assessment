@@ -26,6 +26,7 @@ dependencies {
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 	testImplementation("io.micronaut:micronaut-http-client")
 	testImplementation("org.assertj:assertj-core:3.24.2")
+	testImplementation("org.apache.kafka:kafka-streams-test-utils:3.6.0")
 }
 
 
