@@ -22,6 +22,7 @@ dependencies {
 	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
 	implementation("jakarta.annotation:jakarta.annotation-api")
 	implementation("io.micronaut:micronaut-http-client")
+	implementation("io.micronaut:micronaut-management")
 	runtimeOnly("ch.qos.logback:logback-classic")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 	runtimeOnly("org.yaml:snakeyaml")
@@ -49,6 +50,10 @@ run{
 
 jar{
 	exclude("logback.xml")
+}
+
+tasks.named("dockerfile") {
+	instruction """RUN apk --no-cache add curl"""
 }
 
 graalvmNative.toolchainDetection = false

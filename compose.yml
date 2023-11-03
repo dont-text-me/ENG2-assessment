@@ -2,17 +2,24 @@ services:
   # Our database management system
   vm-db:
     image: mariadb:11
+    restart: unless-stopped
     environment:
       MARIADB_USER: &vmdbuser video
       MARIADB_PASSWORD: &vmdbpass videosecret
       MARIADB_ROOT_PASSWORD: iamroot
       MARIADB_DATABASE: &vmdbname videos
+    healthcheck:
+      # https://github.com/docker-library/healthcheck/blob/master/mysql/Dockerfile.mariadb
+      test: [ 'CMD', 'healthcheck.sh', '--su=mysql', '--connect', '--innodb_initialized' ]
+      timeout: 10s
+      retries: 3
     volumes:
       - mariadb_vm_data:/var/lib/mysql
     ports:
       - 3306:3306
   thm-db:
     image: mariadb:11
+    restart: unless-stopped
     environment:
       MARIADB_USER: &thmdbuser trendingHashtag
       MARIADB_PASSWORD: &thmdbpass hashtagSecret
@@ -20,9 +27,33 @@ services:
       MARIADB_DATABASE: &thmdbname trendingHashtags
     volumes:
       - mariadb_thm_data:/var/lib/mysql
+    healthcheck:
+      test: [ 'CMD', 'healthcheck.sh', '--su=mysql', '--connect', '--innodb_initialized' ]
+      timeout: 10s
+      retries: 3
     ports:
       - 3307:3306
-
+  vm:
+    image: video-microservice:latest
+    restart: unless-stopped
+    environment:
+      DB_USER: *vmdbuser
+      DB_PASSWORD: *vmdbpass
+      DB_HOST: vm-db
+      DB_NAME: *vmdbname
+      KAFKA_BOOTSTRAP_SERVERS: kafka-0:9092,kafka-1:9092,kafka-2:9092
+      MICRONAUT_ENVIRONMENTS: prod
+    ports:
+      - 8080:8080
+    healthcheck:
+      test: curl -s http://vm:8080/health | grep -q '"status":"UP"' || exit 1
+      timeout: 10s
+      retries: 3
+    depends_on:
+      vm-db:
+        condition: service_healthy
+      kafka-0:
+        condition: service_healthy
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     ports:
@@ -61,6 +92,11 @@ services:
       - KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-0 -Dcom.sun.management.jmxremote.rmi.port=9997
     volumes:
       - kafka_0_data:/bitnami/kafka
+    healthcheck:
+      test: [ 'CMD-SHELL', 'unset KAFKA_JMX_OPTS; export JMX_PORT=9999; kafka-topics.sh --bootstrap-server localhost:9092 --topic hc --create --if-not-exists && kafka-topics.sh --bootstrap-server localhost:9092 --topic hc --describe' ]
+      timeout: 10s
+      retries: 3
+
 
   kafka-1:
     image: docker.io/bitnami/kafka:3.5
