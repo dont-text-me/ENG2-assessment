@@ -1,5 +1,4 @@
 services:
-  # Our database management system
   vm-db:
     image: mariadb:11
     restart: unless-stopped
@@ -54,6 +53,28 @@ services:
         condition: service_healthy
       kafka-0:
         condition: service_healthy
+  thm:
+    image: trending-hashtag-microservice:latest
+    restart: unless-stopped
+    environment:
+      DB_USER: *thmdbuser
+      DB_PASSWORD: *thmdbpass
+      DB_HOST: thm-db
+      DB_NAME: *thmdbname
+      KAFKA_BOOTSTRAP_SERVERS: kafka-0:9092,kafka-1:9092,kafka-2:9092
+      MICRONAUT_ENVIRONMENTS: prod
+    ports:
+      - 8081:8080
+    healthcheck:
+      test: curl -s http://thm:8080/health | grep -q '"status":"UP"' || exit 1
+      timeout: 10s
+      retries: 3
+    depends_on:
+      thm-db:
+        condition: service_healthy
+      kafka-0:
+        condition: service_healthy
+
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     ports:

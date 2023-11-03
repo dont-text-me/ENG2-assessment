@@ -20,6 +20,7 @@ dependencies {
 	implementation("io.micronaut.kafka:micronaut-kafka-streams")
 	implementation("io.micronaut.serde:micronaut-serde-jackson")
 	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+	implementation("io.micronaut:micronaut-management")
 	implementation(project(":video-microservice"))
 	compileOnly("io.micronaut:micronaut-http-client")
 	runtimeOnly("ch.qos.logback:logback-classic")
@@ -47,6 +48,11 @@ run{
 		'micronaut.server.port': '8081',
 
 	])
+}
+
+tasks.named("dockerfile") {
+	instruction """RUN apk add --no-cache libstdc++""" // for kafka-streams
+	instruction """RUN apk --no-cache add curl""" // Add curl to the alpine base image to enable self-pings for healthchecks
 }
 
 graalvmNative.toolchainDetection = false

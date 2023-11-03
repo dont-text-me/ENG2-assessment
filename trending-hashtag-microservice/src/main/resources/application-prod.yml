@@ -1,0 +1,15 @@
+datasources:
+  default:
+    url: jdbc:mariadb://${DB_HOST}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+jpa:
+  default:
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+
+kafka:
+  bootstrap:
+    servers: ${KAFKA_BOOTSTRAP_SERVERS}

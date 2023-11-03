@@ -53,7 +53,7 @@ jar{
 }
 
 tasks.named("dockerfile") {
-	instruction """RUN apk --no-cache add curl"""
+	instruction """RUN apk --no-cache add curl""" // Add curl to the alpine base image to enable self-pings for healthchecks
 }
 
 graalvmNative.toolchainDetection = false
