@@ -1,0 +1,12 @@
+jpa:
+  default:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        hbm2ddl:
+          auto: create-drop
+
+trending-hashtags:
+  url: /trending-hashtags
+  window-size: 1h

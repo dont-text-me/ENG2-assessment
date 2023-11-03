@@ -27,5 +27,5 @@ jobs:
         if: success() || failure()
         with:
           name: Gradle tests
-          path: video-microservice/build/test-results/test/*.xml
+          path: ./*/build/test-results/test/*.xml
           reporter: java-junit

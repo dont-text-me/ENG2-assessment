@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -117,5 +118,9 @@ public class Video {
 
   public void setHashtags(Set<Hashtag> hashtags) {
     this.hashtags = hashtags;
+  }
+
+  public List<String> getHashtagIds() {
+    return hashtags.stream().map(Hashtag::getId).toList();
   }
 }

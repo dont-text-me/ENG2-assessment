@@ -4,6 +4,8 @@ import com.eng2.assessment.vm.domain.Hashtag;
 import com.eng2.assessment.vm.domain.User;
 import com.eng2.assessment.vm.domain.Video;
 import com.eng2.assessment.vm.dto.VideoDTO;
+import com.eng2.assessment.vm.dto.VideoInteractionDetailsDTO;
+import com.eng2.assessment.vm.events.VideoInteractionProducer;
 import com.eng2.assessment.vm.repositories.HashtagRepository;
 import com.eng2.assessment.vm.repositories.UsersRepository;
 import com.eng2.assessment.vm.repositories.VideosRepository;
@@ -25,6 +27,7 @@ public class VideosController {
   @Inject private VideosRepository videoRepo;
   @Inject private UsersRepository userRepo;
   @Inject private HashtagRepository hashtagRepo;
+  @Inject private VideoInteractionProducer producer;
   private static final Logger logger = LoggerFactory.getLogger(VideosController.class);
 
   @Get("/")
@@ -82,6 +85,9 @@ public class VideosController {
       return HttpResponse.notFound(
           "Could not find author with username " + videoDetails.authorUsername());
     }
+    if (videoDetails.hashtagNames() == null || videoDetails.hashtagNames().isEmpty()) {
+      return HttpResponse.badRequest("Please specify one or more hashtags for your video");
+    }
     // Check if any hashtags in the video DTO are missing from the database and add
     Set<Hashtag> hashtagsToCreate =
         videoDetails.hashtagNames().stream()
@@ -115,10 +121,7 @@ public class VideosController {
         .body(String.format("Created video with ID " + newVideo.getId()));
   }
 
-  /**
-   * Like a video with a given ID Updates the like count, TODO: sends message to the kafka cluster
-   * with the username of the person who liked it.
-   */
+  /** Like a video with a given ID Updates the like count */
   @Put("/{id}/like")
   @Transactional
   public HttpResponse<String> likeVideo(UUID id, @Body String userName) {
@@ -135,13 +138,12 @@ public class VideosController {
     video.incrementLikeCount();
     logger.info(String.format("User %s liked the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
+    producer.likeVideo(
+        video.getId(), new VideoInteractionDetailsDTO(userName, video.getHashtagIds()));
     return HttpResponse.ok(String.format("Video with title %s liked", video.getTitle()));
   }
 
-  /**
-   * Dislike a video with a given ID Updates the like count, TODO: sends message to the kafka
-   * cluster with the username of the person who disliked it.
-   */
+  /** Dislike a video with a given ID Updates the like count */
   @Put("/{id}/dislike")
   @Transactional
   public HttpResponse<String> dislikeVideo(UUID id, @Body String userName) {
@@ -159,13 +161,14 @@ public class VideosController {
     logger.info(
         String.format("User %s disliked the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
+    producer.dislikeVideo(
+        video.getId(), new VideoInteractionDetailsDTO(userName, video.getHashtagIds()));
     return HttpResponse.ok(String.format("Video with title %s disliked", video.getTitle()));
   }
 
   /**
    * Marks a video with the given id as watched by the user with hte given username. Updates the
-   * view count, TODO: sends message to the kafka cluster with the username of the person who viewed
-   * it.
+   * view count.
    */
   @Put("/{id}/watch")
   @Transactional
@@ -192,6 +195,8 @@ public class VideosController {
     logger.info(
         String.format("User %s viewed the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
+    producer.viewVideo(
+        video.getId(), new VideoInteractionDetailsDTO(userName, video.getHashtagIds()));
     return HttpResponse.ok(String.format("Video with title %s viewed", video.getTitle()));
   }
 }

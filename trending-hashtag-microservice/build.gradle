@@ -2,11 +2,10 @@ plugins {
 	id("io.micronaut.application") version "4.0.4"
 	id("io.micronaut.test-resources") version "4.0.4"
 	id("io.micronaut.aot") version "4.0.4"
-	id("jacoco")
 }
 
 version = "0.1"
-group = "com.eng2.assessment"
+group = "com.eng2.assessment.thm"
 
 repositories {
 	mavenCentral()
@@ -18,41 +17,43 @@ dependencies {
 	annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
 	implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
 	implementation("io.micronaut.kafka:micronaut-kafka")
+	implementation("io.micronaut.kafka:micronaut-kafka-streams")
 	implementation("io.micronaut.serde:micronaut-serde-jackson")
 	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
-	implementation("jakarta.annotation:jakarta.annotation-api")
-	implementation("io.micronaut:micronaut-http-client")
 	implementation("io.micronaut:micronaut-management")
+	implementation(project(":video-microservice"))
+	compileOnly("io.micronaut:micronaut-http-client")
 	runtimeOnly("ch.qos.logback:logback-classic")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
-	runtimeOnly("org.yaml:snakeyaml")
 	testImplementation("io.micronaut:micronaut-http-client")
 	testImplementation("org.assertj:assertj-core:3.24.2")
+	testImplementation("org.apache.kafka:kafka-streams-test-utils:3.6.0")
 	testImplementation("org.mockito:mockito-core:5.6.0")
 	testImplementation("org.mockito:mockito-junit-jupiter:5.6.0")
-	testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
 }
 
 
 application {
-	mainClass.set("com.eng2.assessment.vm.Application")
+	mainClass.set("com.eng2.assessment.thm.Application")
+}
+java {
+	sourceCompatibility = JavaVersion.toVersion("17")
+	targetCompatibility = JavaVersion.toVersion("17")
 }
 
 run{
 	systemProperties([
-		'datasources.default.url': 'jdbc:mariadb://localhost:3306/videos',
-		'datasources.default.username': 'video',
-		'datasources.default.password': 'videosecret',
+		'datasources.default.url': 'jdbc:mariadb://localhost:3307/trendingHashtags',
+		'datasources.default.username': 'trendingHashtag',
+		'datasources.default.password': 'hashtagSecret',
 		'kafka.bootstrap.servers': 'localhost:9094,localhost:9095,localhost:9096',
+		'micronaut.server.port': '8081',
 
 	])
 }
 
-jar{
-	exclude("logback.xml")
-}
-
 tasks.named("dockerfile") {
+	instruction """RUN apk add --no-cache libstdc++""" // for kafka-streams
 	instruction """RUN apk --no-cache add curl""" // Add curl to the alpine base image to enable self-pings for healthchecks
 }
 
@@ -62,7 +63,7 @@ micronaut {
 	testRuntime("junit5")
 	processing {
 		incremental(true)
-		annotations("com.eng2.assessment.vm.*")
+		annotations("com.eng2.assessment.thm.*")
 	}
 	aot {
 		// Please review carefully the optimizations enabled below
@@ -76,8 +77,6 @@ micronaut {
 		optimizeNetty = true
 	}
 }
-
-tasks.register("prepareKotlinBuildScriptModel"){}
 
 
 

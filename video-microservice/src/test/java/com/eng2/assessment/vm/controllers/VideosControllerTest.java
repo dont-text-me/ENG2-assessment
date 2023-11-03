@@ -1,31 +1,40 @@
 package com.eng2.assessment.vm.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import com.eng2.assessment.vm.domain.Hashtag;
 import com.eng2.assessment.vm.domain.User;
 import com.eng2.assessment.vm.domain.Video;
 import com.eng2.assessment.vm.dto.VideoDTO;
+import com.eng2.assessment.vm.dto.VideoInteractionDetailsDTO;
+import com.eng2.assessment.vm.events.VideoInteractionProducer;
 import com.eng2.assessment.vm.repositories.HashtagRepository;
 import com.eng2.assessment.vm.repositories.UsersRepository;
 import com.eng2.assessment.vm.repositories.VideosRepository;
 import com.eng2.assessment.vm.utils.DbCleanupExtension;
 import com.eng2.assessment.vm.utils.VideosClient;
+import io.micronaut.context.annotation.Replaces;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
+import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)
@@ -34,6 +43,24 @@ public class VideosControllerTest {
   @Inject private VideosRepository videoRepo;
   @Inject private UsersRepository userRepo;
   @Inject private HashtagRepository hashtagRepo;
+
+  @Singleton
+  @Replaces(VideoInteractionProducer.class)
+  VideoInteractionProducer mockProducer() {
+    return mock(VideoInteractionProducer.class);
+  }
+
+  @Inject VideoInteractionProducer mockProducer;
+
+  @BeforeEach
+  public void setup() {
+    openMocks(this);
+  }
+
+  @AfterEach
+  public void cleanup() {
+    reset(mockProducer);
+  }
 
   @Nested
   @DisplayName("retrieve video tests")
@@ -46,8 +73,13 @@ public class VideosControllerTest {
 
     @Test
     public void findsById() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
+
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       Video result = client.getVideo(video.getId(), null, null);
@@ -60,16 +92,21 @@ public class VideosControllerTest {
 
     @Test
     public void findsByIdAndAuthor() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
       User author = new User();
       author.setUsername("ZooLover");
       userRepo.save(author);
       Video video = new Video();
       video.setTitle("Me at the zoo");
       video.setAuthor(author);
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       Video otherVideo = new Video();
       otherVideo.setTitle("Me at the park");
+      otherVideo.setHashtags(Set.of(hashtag));
       videoRepo.save(otherVideo); // should not be returned
 
       Video result = client.getVideo(video.getId(), author.getUsername(), null);
@@ -86,6 +123,10 @@ public class VideosControllerTest {
       zooTag.setId("Zoo");
       hashtagRepo.save(zooTag);
 
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Gym");
+      hashtagRepo.save(hashtag);
+
       Video video = new Video();
       video.setTitle("Me at the zoo");
       video.setHashtags(Set.of(zooTag));
@@ -93,6 +134,7 @@ public class VideosControllerTest {
 
       Video otherVideo = new Video();
       otherVideo.setTitle("Me at the park");
+      otherVideo.setHashtags(Set.of(hashtag));
       videoRepo.save(otherVideo); // should not be returned
 
       Video result = client.getVideo(video.getId(), null, zooTag.getId());
@@ -109,6 +151,10 @@ public class VideosControllerTest {
       author.setUsername("ZooLover");
       userRepo.save(author);
 
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Gym");
+      hashtagRepo.save(hashtag);
+
       Hashtag zooTag = new Hashtag();
       zooTag.setId("Zoo");
       hashtagRepo.save(zooTag);
@@ -121,6 +167,7 @@ public class VideosControllerTest {
 
       Video otherVideo = new Video();
       otherVideo.setTitle("Me at the park");
+      otherVideo.setHashtags(Set.of(hashtag));
       videoRepo.save(otherVideo); // should not be returned
 
       Video result = client.getVideo(video.getId(), author.getUsername(), zooTag.getId());
@@ -143,8 +190,13 @@ public class VideosControllerTest {
 
     @Test
     public void returnsList() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
+
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       Video result = client.list(null, null).iterator().next();
@@ -159,6 +211,10 @@ public class VideosControllerTest {
       @Test
       public void canFilterByAuthor() {
         int expectedCount = 5;
+        Hashtag hashtag = new Hashtag();
+        hashtag.setId("Zoo");
+        hashtagRepo.save(hashtag);
+
         User author = new User();
         author.setUsername("ZooLover");
         userRepo.save(author);
@@ -171,6 +227,7 @@ public class VideosControllerTest {
           Video video = new Video();
           video.setAuthor(otherAuthor);
           video.setTitle("Video " + i);
+          video.setHashtags(Set.of(hashtag));
           videoRepo.save(video);
         }
 
@@ -178,6 +235,7 @@ public class VideosControllerTest {
           Video video = new Video();
           video.setAuthor(author);
           video.setTitle("My video " + i);
+          video.setHashtags(Set.of(hashtag));
           videoRepo.save(video);
         }
 
@@ -334,6 +392,20 @@ public class VideosControllerTest {
       assertEquals(response.getStatus(), HttpStatus.NOT_FOUND);
       assert (response.body().contains("Could not find author"));
     }
+
+    @ParameterizedTest
+    @NullSource
+    @EmptySource
+    public void handlesInvalidHashtags(List<String> badHashtags) {
+      User author = new User();
+      author.setUsername("ZooLover");
+      userRepo.save(author);
+      VideoDTO details = new VideoDTO("Me at the zoo", author.getUsername(), badHashtags);
+
+      assertThatExceptionOfType(HttpClientResponseException.class)
+          .isThrownBy(() -> client.publish(details))
+          .withMessageContaining("Bad Request");
+    }
   }
 
   @Nested
@@ -341,17 +413,29 @@ public class VideosControllerTest {
   class LikeVideoTest {
     @Test
     public void canLikeVideo() {
+
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
+
       User author = new User();
       author.setUsername("ZooLover");
       userRepo.save(author);
 
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       HttpResponse<String> response = client.likeVideo(video.getId(), author.getUsername());
 
       assertEquals(response.getStatus(), HttpStatus.OK);
+
+      // check that the producer has been called with the correct data
+      verify(mockProducer)
+          .likeVideo(
+              video.getId(),
+              new VideoInteractionDetailsDTO(author.getUsername(), List.of(hashtag.getId())));
 
       Video videoAfterLike = videoRepo.findById(video.getId()).get();
       assert (videoAfterLike.getLikeCount() - video.getLikeCount() == 1);
@@ -359,8 +443,12 @@ public class VideosControllerTest {
 
     @Test
     public void handlesUnknownUser() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       HttpResponse<String> response = client.likeVideo(video.getId(), "Unknown username");
@@ -387,17 +475,28 @@ public class VideosControllerTest {
   class DislikeVideoTest {
     @Test
     public void canDislikeVideo() {
-      User author = new User();
-      author.setUsername("ZooLover");
-      userRepo.save(author);
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
+
+      User user = new User();
+      user.setUsername("ZooLover");
+      userRepo.save(user);
 
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
-      HttpResponse<String> response = client.dislikeVideo(video.getId(), author.getUsername());
+      HttpResponse<String> response = client.dislikeVideo(video.getId(), user.getUsername());
 
       assertEquals(response.getStatus(), HttpStatus.OK);
+
+      // check that the producer has been called with the correct data
+      verify(mockProducer)
+          .dislikeVideo(
+              video.getId(),
+              new VideoInteractionDetailsDTO(user.getUsername(), List.of(hashtag.getId())));
 
       Video videoAfterDislike = videoRepo.findById(video.getId()).get();
       assert (video.getLikeCount() - videoAfterDislike.getLikeCount() == 1);
@@ -405,8 +504,13 @@ public class VideosControllerTest {
 
     @Test
     public void handlesUnknownUser() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
+
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       HttpResponse<String> response = client.dislikeVideo(video.getId(), "Unknown username");
@@ -433,18 +537,29 @@ public class VideosControllerTest {
   class ViewVideoTest {
     @Test
     public void canViewVideo() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
+
       User user = new User();
       user.setUsername("ZooLover");
       userRepo.save(user);
 
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       HttpResponse<String> response = client.watchVideo(video.getId(), user.getUsername());
       assertEquals(response.getStatus(), HttpStatus.OK);
 
       Video videoAfterView = videoRepo.findById(video.getId()).get();
+
+      // check that the producer has been called with the correct data
+      verify(mockProducer)
+          .viewVideo(
+              video.getId(),
+              new VideoInteractionDetailsDTO(user.getUsername(), List.of(hashtag.getId())));
       assert (videoAfterView.getViewCount() - video.getViewCount() == 1);
 
       assertEquals(videoAfterView.getViewers().size(), 1);
@@ -457,13 +572,18 @@ public class VideosControllerTest {
       // We expect a database link between the two entities to already exists
 
       // Setup
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setViewCount(1);
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
       User user = new User();
       user.setUsername("ZooLover");
+      user.setViewedVideos(Set.of(video));
       userRepo.save(user);
-      client.watchVideo(video.getId(), user.getUsername());
       Video videoBeforeView = videoRepo.findById(video.getId()).get();
       assertEquals(
           videoBeforeView.getViewers().iterator().next().getUsername(), user.getUsername());
@@ -489,8 +609,12 @@ public class VideosControllerTest {
 
     @Test
     public void handlesUnknownUser() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
       Video video = new Video();
       video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
       HttpResponse<String> response = client.watchVideo(video.getId(), "Unknown username");

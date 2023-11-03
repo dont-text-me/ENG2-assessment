@@ -1,4 +1,4 @@
-package com.eng2.assessment.vm.utils;
+package com.eng2.assessment.thm.utils;
 
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.data.annotation.Repository;
@@ -19,9 +19,10 @@ public class DbCleanupExtension implements BeforeEachCallback {
     applicationContext.getAllBeanDefinitions().stream()
         .filter(
             (beanDefinition ->
-                beanDefinition
-                    .findAnnotation(Repository.class)
-                    .isPresent())) // find all the @Repository's in the application context
+                beanDefinition.findAnnotation(Repository.class).isPresent()
+                    && beanDefinition
+                        .getName()
+                        .contains("thm"))) // find all the @Repository's in the application context
         .toList()
         .forEach(
             it -> {
