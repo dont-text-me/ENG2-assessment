@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.eng2.assessment.thm.domain.TrendingHashtag;
 import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
+import com.eng2.assessment.thm.utils.DbCleanupExtension;
 import com.eng2.assessment.thm.utils.TrendingHashtagsClient;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
@@ -13,10 +14,11 @@ import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 @MicronautTest(transactional = false)
+@ExtendWith(DbCleanupExtension.class)
 public class TrendingHashtagControllerTest {
   @Inject private TrendingHashtagsClient client;
 
@@ -26,11 +28,6 @@ public class TrendingHashtagControllerTest {
       Comparator.comparing(TrendingHashtag::getLikeCount)
           .reversed()
           .thenComparing(TrendingHashtag::getHashtagName);
-
-  @BeforeEach
-  public void reset() {
-    repo.deleteAll();
-  }
 
   @Test
   public void whenNoHashtags() {
