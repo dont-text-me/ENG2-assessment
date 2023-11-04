@@ -1,0 +1,38 @@
+plugins {
+	id("io.micronaut.application") version "4.0.4"
+	id("io.micronaut.test-resources") version "4.0.4"
+}
+
+version = "0.1"
+group = "com.eng2.assessment.client"
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	annotationProcessor("info.picocli:picocli-codegen")
+	annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+	implementation("info.picocli:picocli")
+	implementation(project(":trending-hashtag-microservice"))
+	implementation(project(":video-microservice"))
+	implementation("io.micronaut.picocli:micronaut-picocli")
+	implementation("io.micronaut.serde:micronaut-serde-jackson")
+	runtimeOnly("ch.qos.logback:logback-classic")
+}
+
+
+application {
+	mainClass.set("com.eng2.assessment.client.ClientCommand")
+}
+
+micronaut {
+	testRuntime("junit5")
+	processing {
+		incremental(true)
+		annotations("com.eng2.assessment.*")
+	}
+}
+tasks.register("prepareKotlinBuildScriptModel"){}
+
+

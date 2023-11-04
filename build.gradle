@@ -2,6 +2,9 @@ plugins {
 	id 'java'
 	id("com.diffplug.spotless") version "6.21.0"
 	id("com.github.johnrengelman.shadow") version "8.1.1"
+	id("io.micronaut.application") version "4.0.4" apply false
+	id("io.micronaut.test-resources") version "4.0.4" apply false
+	id("io.micronaut.aot") version "4.0.4" apply false
 }
 
 repositories {
