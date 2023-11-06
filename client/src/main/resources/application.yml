@@ -1,3 +1,10 @@
 micronaut:
   application:
     name: client
+
+client-urls:
+  vm:
+    videos: http://localhost:8080/videos
+    users: http://localhost:8080/users
+  thm:
+    trending-hashtags: http://localhost:8081/trending-hashtags
