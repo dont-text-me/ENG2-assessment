@@ -22,3 +22,4 @@ netty:
 
 trending-hashtags:
   window-size: 1h
+  leaderboard-size: 10
