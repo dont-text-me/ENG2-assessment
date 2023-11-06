@@ -3,10 +3,7 @@ package com.eng2.assessment.client;
 import com.eng2.assessment.client.commands.thm.ListTrendingHashtagsCommand;
 import com.eng2.assessment.client.commands.vm.users.ListUsersCommand;
 import com.eng2.assessment.client.commands.vm.users.RegisterUserCommand;
-import com.eng2.assessment.client.commands.vm.videos.DislikeVideoCommand;
-import com.eng2.assessment.client.commands.vm.videos.LikeVideoCommand;
-import com.eng2.assessment.client.commands.vm.videos.PostVideoCommand;
-import com.eng2.assessment.client.commands.vm.videos.WatchVideoCommand;
+import com.eng2.assessment.client.commands.vm.videos.*;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -19,10 +16,10 @@ import picocli.CommandLine.Option;
       ListUsersCommand.class,
       RegisterUserCommand.class,
       DislikeVideoCommand.class,
-      ListUsersCommand.class,
       LikeVideoCommand.class,
       PostVideoCommand.class,
       WatchVideoCommand.class,
+      ListVideosCommand.class,
       ListTrendingHashtagsCommand.class
     })
 public class ClientCommand implements Runnable {
