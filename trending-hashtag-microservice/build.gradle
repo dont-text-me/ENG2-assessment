@@ -36,10 +36,6 @@ dependencies {
 application {
 	mainClass.set("com.eng2.assessment.thm.Application")
 }
-java {
-	sourceCompatibility = JavaVersion.toVersion("17")
-	targetCompatibility = JavaVersion.toVersion("17")
-}
 
 run{
 	systemProperties([

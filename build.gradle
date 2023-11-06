@@ -11,7 +11,7 @@ repositories {
 	mavenCentral()
 }
 
-allprojects {
+subprojects {
 	java{
 		sourceCompatibility = JavaVersion.toVersion("17")
 		targetCompatibility = JavaVersion.toVersion("17")
