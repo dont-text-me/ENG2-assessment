@@ -31,7 +31,7 @@ public class VideosController {
   private static final Logger logger = LoggerFactory.getLogger(VideosController.class);
 
   @Get("/")
-  public Iterable<Video> list(
+  public List<Video> list(
       @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag) {
     logger.info(author);
     logger.info(hashtag);

@@ -184,8 +184,8 @@ public class VideosControllerTest {
   class ListVideosTest {
     @Test
     public void emptyList() {
-      Iterable<Video> iterVideos = client.list(null, null);
-      assertThat(iterVideos.iterator()).isExhausted();
+      List<Video> result = client.list(null, null);
+      assertThat(result).isEmpty();
     }
 
     @Test
@@ -199,7 +199,7 @@ public class VideosControllerTest {
       video.setHashtags(Set.of(hashtag));
       videoRepo.save(video);
 
-      Video result = client.list(null, null).iterator().next();
+      Video result = client.list(null, null).get(0);
 
       assertThat(result).isNotNull();
       assertThat(result.getTitle()).isEqualTo("Me at the zoo");
@@ -239,7 +239,7 @@ public class VideosControllerTest {
           videoRepo.save(video);
         }
 
-        Iterable<Video> result = client.list(author.getUsername(), null);
+        List<Video> result = client.list(author.getUsername(), null);
 
         assertThat(result).hasSize(expectedCount);
       }
@@ -275,7 +275,7 @@ public class VideosControllerTest {
           videoRepo.save(video);
         }
 
-        Iterable<Video> result = client.list(null, "Zoo");
+        List<Video> result = client.list(null, "Zoo");
 
         assertThat(result).hasSize(expectedCount);
       }
@@ -315,7 +315,7 @@ public class VideosControllerTest {
           videoRepo.save(video);
         }
 
-        Iterable<Video> result = client.list(author.getUsername(), "Zoo");
+        List<Video> result = client.list(author.getUsername(), "Zoo");
 
         assertThat(result).hasSize(expectedCount);
       }

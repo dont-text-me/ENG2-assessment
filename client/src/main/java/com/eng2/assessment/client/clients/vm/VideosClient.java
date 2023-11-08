@@ -6,12 +6,13 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import jakarta.annotation.Nullable;
+import java.util.List;
 import java.util.UUID;
 
 @Client("${client-urls.vm.videos:`http://localhost:8080/videos`}")
 public interface VideosClient {
   @Get("/")
-  Iterable<Video> list(@Nullable @QueryValue String author, @Nullable @QueryValue String hashtag);
+  List<Video> list(@Nullable @QueryValue String author, @Nullable @QueryValue String hashtag);
 
   @Get("/{id}")
   Video getVideo(

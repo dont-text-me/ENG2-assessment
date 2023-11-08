@@ -6,27 +6,27 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import jakarta.annotation.Nullable;
+import java.util.List;
 import java.util.UUID;
 
 @Client(value = "${videos.url: `http://localhost:8080/videos`}")
 public interface VideosClient {
   @Get("/")
-  public Iterable<Video> list(
-      @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag);
+  List<Video> list(@Nullable @QueryValue String author, @Nullable @QueryValue String hashtag);
 
   @Get("/{id}")
-  public Video getVideo(
+  Video getVideo(
       UUID id, @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag);
 
   @Post("/")
-  public HttpResponse<String> publish(@Body VideoDTO videoDetails);
+  HttpResponse<String> publish(@Body VideoDTO videoDetails);
 
   @Put("/{id}/like")
-  public HttpResponse<String> likeVideo(UUID id, @Body String userName);
+  HttpResponse<String> likeVideo(UUID id, @Body String userName);
 
   @Put("/{id}/dislike")
-  public HttpResponse<String> dislikeVideo(UUID id, @Body String userName);
+  HttpResponse<String> dislikeVideo(UUID id, @Body String userName);
 
   @Put("/{id}/watch")
-  public HttpResponse<String> watchVideo(UUID id, @Body String userName);
+  HttpResponse<String> watchVideo(UUID id, @Body String userName);
 }

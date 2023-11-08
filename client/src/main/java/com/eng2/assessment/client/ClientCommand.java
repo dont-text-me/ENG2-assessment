@@ -15,10 +15,8 @@ import picocli.CommandLine.Command;
     subcommands = {
       ListUsersCommand.class,
       RegisterUserCommand.class,
-      DislikeVideoCommand.class,
-      LikeVideoCommand.class,
       PostVideoCommand.class,
-      WatchVideoCommand.class,
+      InteractWithVideoCommand.class,
       ListVideosCommand.class,
       ListTrendingHashtagsCommand.class
     })
