@@ -53,6 +53,10 @@ tasks.named("dockerfile") {
 	instruction """RUN apk --no-cache add curl""" // Add curl to the alpine base image to enable self-pings for healthchecks
 }
 
+jar{
+	exclude("logback.xml") // do not include the logback config in the jar. This prevents warnings when running projects that depend on each other
+}
+
 graalvmNative.toolchainDetection = false
 micronaut {
 	runtime("netty")

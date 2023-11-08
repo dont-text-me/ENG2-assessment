@@ -17,7 +17,6 @@ subprojects {
 		targetCompatibility = JavaVersion.toVersion("17")
 	}
 }
-
 spotless{
 	java{
 		target '**/**.java'

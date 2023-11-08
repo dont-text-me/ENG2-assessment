@@ -28,13 +28,13 @@ public class Video {
 
   @Column private Timestamp publishedAt;
 
-  @JsonIgnore @ManyToOne private User author;
+  @ManyToOne private User author;
 
   @JsonIgnore
   @ManyToMany(mappedBy = "viewedVideos")
   private Set<User> viewers;
 
-  @JsonIgnore @ManyToMany private Set<Hashtag> hashtags;
+  @ManyToMany private Set<Hashtag> hashtags;
 
   public UUID getId() {
     return id;
