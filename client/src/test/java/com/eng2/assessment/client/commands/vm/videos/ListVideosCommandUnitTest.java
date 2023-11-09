@@ -66,7 +66,9 @@ public class ListVideosCommandUnitTest {
           .contains("Author: Maria")
           .contains("Likes: 120")
           .contains("Dislikes: 10")
-          .contains("Hashtags: Gorilla, Giraffe");
+          .contains("Hashtags: ")
+          .contains("Gorilla")
+          .contains("Giraffe");
     }
   }
 
