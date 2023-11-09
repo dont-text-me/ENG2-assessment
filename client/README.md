@@ -1,18 +1,26 @@
-## Micronaut 4.1.6 Documentation
-
-- [User Guide](https://docs.micronaut.io/4.1.6/guide/index.html)
-- [API Reference](https://docs.micronaut.io/4.1.6/api/index.html)
-- [Configuration Reference](https://docs.micronaut.io/4.1.6/guide/configurationreference.html)
-- [Micronaut Guides](https://guides.micronaut.io/index.html)
-
----
-
-- [Shadow Gradle Plugin](https://plugins.gradle.org/plugin/com.github.johnrengelman.shadow)
-- [Micronaut Gradle Plugin documentation](https://micronaut-projects.github.io/micronaut-gradle-plugin/latest/)
-- [GraalVM Gradle Plugin documentation](https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html)
-
-## Feature serialization-jackson documentation
-
-- [Micronaut Serialization Jackson Core documentation](https://micronaut-projects.github.io/micronaut-serialization/latest/guide/)
-
-
+# CLI client for the video microservices
+## This directory contains the code for the CLI client enabling interactions with the other microservices.
+### Currently implemented commands are:
+* `list-videos`
+  * Lists all currently known videos.
+  * Allows filtering by:
+    * Hashtag, by setting the `--hashtag-name` parameter
+    * Author's username, by setting the `--author-username` parameter
+* `post-video`
+  * Creates a new video and adds it to the database
+  * Requires the following parameters:
+    * `-a`, the username of the author (must be a valid user)
+    * `-t`, the title of the video
+    * `h`, the comma-separated list of hashtags
+* `interact-with-video`
+  * Records an interaction with a given video
+  * Requires the following parameters:
+    * `-v`, the ID of the video to be interacted with
+    * `-t`, the type of interaction (LIKE, DISLIKE or WATCH)
+    * `-u`, the username of the user performing the interaction (must be a valid user)
+* `register-user`
+  * Creates a new user and adds it to the database
+  * Requires the following parameters:
+    * `-u`, the desired username of the new user
+* `list-trending-hashtags`
+  * Lists the top 10 (or less, if less are available) hashtags, ordered by the number of likes they received
