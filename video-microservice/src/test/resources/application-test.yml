@@ -9,3 +9,5 @@ jpa:
 
 videos:
   url: /videos
+users:
+  url: /users

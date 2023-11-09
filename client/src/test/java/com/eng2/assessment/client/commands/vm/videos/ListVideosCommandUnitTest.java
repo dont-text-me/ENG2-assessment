@@ -1,6 +1,6 @@
 package com.eng2.assessment.client.commands.vm.videos;
 
-import static com.eng2.assessment.client.commands.vm.utils.mockResponses.VideoListMockResponse.getVideoList;
+import static com.eng2.assessment.client.commands.vm.utils.mockResponses.MockResponses.getVideoList;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;

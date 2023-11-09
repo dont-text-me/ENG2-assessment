@@ -1,5 +1,6 @@
 package com.eng2.assessment.client.commands.vm.utils.mockResponses;
 
+import com.eng2.assessment.thm.domain.TrendingHashtag;
 import com.eng2.assessment.vm.domain.Hashtag;
 import com.eng2.assessment.vm.domain.User;
 import com.eng2.assessment.vm.domain.Video;
@@ -15,7 +16,7 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class VideoListMockResponse {
+public class MockResponses {
 
   public static String getVideoList(MinifiedVideoDetails... args) {
     Random r = new Random();
@@ -66,5 +67,37 @@ public class VideoListMockResponse {
               videos.add(v);
             });
     return gson.toJson(videos, new TypeToken<List<Video>>() {}.getType());
+  }
+
+  public static String getUserList(String... userNames) {
+    Gson gson = new GsonBuilder().create();
+    List<User> users =
+        Arrays.stream(userNames)
+            .map(
+                it -> {
+                  User u = new User();
+                  u.setId(UUID.randomUUID());
+                  u.setUsername(it);
+                  return u;
+                })
+            .toList();
+    return gson.toJson(users, new TypeToken<List<User>>() {}.getType());
+  }
+
+  public static String getTrendingHashtagsList(MinifiedTrendingHashtagDetails... hashtags) {
+    Gson gson = new GsonBuilder().create();
+    List<TrendingHashtag> trendingHashtags =
+        Arrays.stream(hashtags)
+            .map(
+                it -> {
+                  TrendingHashtag t = new TrendingHashtag();
+                  t.setHashtagName(it.hashtagName());
+                  t.setLikeCount(it.likeCount());
+                  t.setWindowStart(Instant.now().minus(Duration.ofMinutes(60)).toEpochMilli());
+                  t.setWindowEnd(Instant.now().toEpochMilli());
+                  return t;
+                })
+            .toList();
+    return gson.toJson(trendingHashtags, new TypeToken<List<TrendingHashtag>>() {}.getType());
   }
 }

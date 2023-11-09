@@ -19,9 +19,13 @@ public class UsersController {
   public HttpResponse<String> registerUser(@Body UserDTO userDetails) {
     User newUser = new User();
     newUser.setUsername(userDetails.username());
-
+    if (repo.existsByUsernameEqual(userDetails.username())) {
+      return HttpResponse.badRequest(
+          "User with username " + userDetails.username() + " already exists.");
+    }
     repo.save(newUser);
 
-    return HttpResponse.created(URI.create("/users/" + newUser.getId()));
+    return HttpResponse.created(URI.create("/users/" + newUser.getId()))
+        .body(String.format("Created user with username " + newUser.getId()));
   }
 }

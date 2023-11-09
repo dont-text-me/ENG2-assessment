@@ -19,4 +19,6 @@ public interface UsersRepository extends CrudRepository<User, UUID> {
   @Join(value = "publishedVideos", type = Join.Type.LEFT_FETCH)
   @Join(value = "viewedVideos", type = Join.Type.LEFT_FETCH)
   Optional<User> findByUsernameEqual(@Nonnull String username);
+
+  Boolean existsByUsernameEqual(String username);
 }
