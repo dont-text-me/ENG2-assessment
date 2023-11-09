@@ -3,7 +3,7 @@ package com.eng2.assessment.vm.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.persistence.*;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -26,15 +26,15 @@ public class Video {
 
   @Column private Integer viewCount = 0;
 
-  @Column private Timestamp publishedAt;
+  @Column private Instant publishedAt;
 
-  @JsonIgnore @ManyToOne private User author;
+  @ManyToOne private User author;
 
   @JsonIgnore
   @ManyToMany(mappedBy = "viewedVideos")
   private Set<User> viewers;
 
-  @JsonIgnore @ManyToMany private Set<Hashtag> hashtags;
+  @ManyToMany private Set<Hashtag> hashtags;
 
   public UUID getId() {
     return id;
@@ -88,11 +88,11 @@ public class Video {
     this.viewCount = viewCount;
   }
 
-  public Timestamp getPublishedAt() {
+  public Instant getPublishedAt() {
     return publishedAt;
   }
 
-  public void setPublishedAt(Timestamp publishedAt) {
+  public void setPublishedAt(Instant publishedAt) {
     this.publishedAt = publishedAt;
   }
 

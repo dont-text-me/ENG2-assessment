@@ -15,7 +15,6 @@ import jakarta.annotation.Nullable;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.net.URI;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,7 +30,7 @@ public class VideosController {
   private static final Logger logger = LoggerFactory.getLogger(VideosController.class);
 
   @Get("/")
-  public Iterable<Video> list(
+  public List<Video> list(
       @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag) {
     logger.info(author);
     logger.info(hashtag);
@@ -110,7 +109,7 @@ public class VideosController {
 
     // Store new video to database
     Video newVideo = new Video();
-    newVideo.setPublishedAt(Timestamp.from(Instant.now()));
+    newVideo.setPublishedAt(Instant.now());
     newVideo.setTitle(videoDetails.title());
     newVideo.setAuthor(author);
     newVideo.setHashtags(allHashtags);

@@ -36,10 +36,6 @@ dependencies {
 application {
 	mainClass.set("com.eng2.assessment.thm.Application")
 }
-java {
-	sourceCompatibility = JavaVersion.toVersion("17")
-	targetCompatibility = JavaVersion.toVersion("17")
-}
 
 run{
 	systemProperties([
@@ -55,6 +51,10 @@ run{
 tasks.named("dockerfile") {
 	instruction """RUN apk add --no-cache libstdc++""" // for kafka-streams
 	instruction """RUN apk --no-cache add curl""" // Add curl to the alpine base image to enable self-pings for healthchecks
+}
+
+jar{
+	exclude("logback.xml") // do not include the logback config in the jar. This prevents warnings when running projects that depend on each other
 }
 
 graalvmNative.toolchainDetection = false
