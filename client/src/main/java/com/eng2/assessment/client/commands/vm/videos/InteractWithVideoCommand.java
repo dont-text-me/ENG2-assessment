@@ -10,7 +10,7 @@ import picocli.CommandLine;
 @CommandLine.Command(name = "interact-with-video", mixinStandardHelpOptions = true)
 public class InteractWithVideoCommand implements Runnable {
 
-  enum VideoInteractionType {
+  public enum VideoInteractionType {
     LIKE,
     DISLIKE,
     WATCH

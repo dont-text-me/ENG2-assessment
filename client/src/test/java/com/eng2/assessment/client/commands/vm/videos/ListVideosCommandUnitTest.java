@@ -102,4 +102,20 @@ public class ListVideosCommandUnitTest {
       verify(getRequestedFor(urlEqualTo("/videos?hashtag=someHashtag")));
     }
   }
+
+  @Test
+  public void handlesEmptyList() {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+      wireMock.stubFor(
+          WireMock.get("/videos")
+              .willReturn(
+                  ResponseDefinitionBuilder.responseDefinition()
+                      .withStatus(HttpStatus.OK.getCode())
+                      .withHeader("Content-Type", MediaType.APPLICATION_JSON)
+                      .withBody(getVideoList())));
+      PicocliRunner.run(sut, ctx);
+      assertThat(baos.toString())
+          .contains("No videos available. Please try again later or post a video");
+    }
+  }
 }
