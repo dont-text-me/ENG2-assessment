@@ -19,6 +19,12 @@ dependencies {
 	implementation("io.micronaut.serde:micronaut-serde-jackson")
 	implementation("io.micronaut:micronaut-http-client")
 	runtimeOnly("ch.qos.logback:logback-classic")
+
+	testImplementation("io.micronaut:micronaut-http-client")
+	testImplementation("org.assertj:assertj-core:3.24.2")
+	testImplementation("org.wiremock:wiremock-standalone:3.0.4")
+	testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
+	testImplementation("com.google.code.gson:gson:2.10.1")
 }
 
 

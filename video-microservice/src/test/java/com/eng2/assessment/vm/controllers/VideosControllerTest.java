@@ -355,9 +355,7 @@ public class VideosControllerTest {
       assertEquals(createdVideo.getLikeCount(), 0);
       assertEquals(createdVideo.getDislikeCount(), 0);
       assertEquals(createdVideo.getViewCount(), 0);
-      assert (Duration.between(createdVideo.getPublishedAt().toInstant(), justAfterUpdate)
-              .toSeconds()
-          <= 1);
+      assert (Duration.between(createdVideo.getPublishedAt(), justAfterUpdate).toSeconds() <= 1);
     }
 
     @Test
