@@ -4,30 +4,33 @@ import static com.eng2.assessment.client.utils.TestContainerServicesInfo.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.eng2.assessment.client.commands.vm.videos.ListVideosCommand;
+import com.eng2.assessment.client.utils.FeatureTestExtension;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
+
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.testcontainers.containers.ComposeContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
+@MicronautTest
+@Tag("feature-test")
+@ExtendWith(FeatureTestExtension.class)
+@DisplayName("Feature tests for the `post-video` command")
 public class PostVideoCommandFeatureTests {
 
   private ByteArrayOutputStream baos;
 
   private final Class<ListVideosCommand> sut = ListVideosCommand.class;
-
-  @Container
-  public static ComposeContainer ENV =
-      new ComposeContainer(new File("src/test/resources/compose-feature-tests.yml"))
-          .withExposedService(VM_NAME, VM_PORT)
-          .withLocalCompose(true);
 
   @BeforeEach
   public void setup() {

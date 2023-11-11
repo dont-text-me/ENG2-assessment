@@ -18,10 +18,7 @@ public class FeatureTestExtension
   public static ComposeContainer ENV =
       new ComposeContainer(new File("src/test/resources/compose-feature-tests.yml"))
           .withExposedService(VM_NAME, VM_PORT)
-          .withLocalCompose(
-              !Boolean.parseBoolean(
-                  System.getenv()
-                      .get("RUNNING_IN_CI"))); // use local docker compose if not running in CI
+          .withLocalCompose(true);
 
   @Override
   public void beforeEach(ExtensionContext extensionContext) throws Exception {
