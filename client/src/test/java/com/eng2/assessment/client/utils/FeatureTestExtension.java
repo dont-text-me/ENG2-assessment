@@ -27,7 +27,9 @@ public class FeatureTestExtension
         Connection thmConnection =
             DriverManager.getConnection(THM_DB_JDBC_URL, THM_DB_USERNAME, THM_DB_PASSWORD)) {
       try (Statement vmStatement = vmConnection.createStatement();
-          Statement thmStatement = thmConnection.createStatement(); ) {
+          Statement thmStatement = thmConnection.createStatement()) {
+        // Note: this is not the most correct way to go about this,
+        // but we are deleting everything so there is less need to worry about these checks.
         vmStatement.addBatch("SET foreign_key_checks = 0;");
         vmStatement.addBatch("TRUNCATE TABLE video_hashtag;");
         vmStatement.addBatch("TRUNCATE TABLE user_video;");

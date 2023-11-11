@@ -156,7 +156,7 @@ public class VideosController {
       return HttpResponse.notFound("Could not find video with id " + id);
     }
 
-    video.decrementLikeCount();
+    video.incrementDislikeCount();
     logger.info(
         String.format("User %s disliked the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);

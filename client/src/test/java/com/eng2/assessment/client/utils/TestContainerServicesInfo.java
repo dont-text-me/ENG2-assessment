@@ -15,4 +15,7 @@ public class TestContainerServicesInfo {
   public static final String THM_DB_JDBC_URL = "jdbc:mariadb://localhost:3307/trendingHashtags";
   public static final String THM_DB_USERNAME = "trendingHashtag";
   public static final String THM_DB_PASSWORD = "featureTestHashtagSecret";
+
+  public static final String KAFKA_BOOTSTRAP_SERVERS =
+      "localhost:9092,localhost:9092,localhost:9092";
 }
