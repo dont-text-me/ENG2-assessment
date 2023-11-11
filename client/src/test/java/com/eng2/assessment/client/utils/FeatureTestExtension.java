@@ -1,7 +1,6 @@
 package com.eng2.assessment.client.utils;
 
-import static com.eng2.assessment.client.utils.TestContainerServicesInfo.VM_NAME;
-import static com.eng2.assessment.client.utils.TestContainerServicesInfo.VM_PORT;
+import static com.eng2.assessment.client.utils.TestContainerServicesInfo.*;
 
 import java.io.File;
 import java.sql.Connection;
@@ -26,19 +25,21 @@ public class FeatureTestExtension
 
   @Override
   public void beforeEach(ExtensionContext extensionContext) throws Exception {
-    try (Connection connection =
-        DriverManager.getConnection(
-            "jdbc:mariadb://localhost:3306/videos", "video", "videosecret")) {
-      try (Statement statement = connection.createStatement()) {
-        statement.addBatch("SET foreign_key_checks = 0;");
-        statement.addBatch("TRUNCATE TABLE video_hashtag;");
-        statement.addBatch("TRUNCATE TABLE user_video;");
-        statement.addBatch("TRUNCATE TABLE video;");
-        statement.addBatch("TRUNCATE TABLE user;");
-        statement.addBatch("TRUNCATE TABLE hashtag;");
-        statement.addBatch("SET foreign_key_checks = 1;");
-
-        statement.executeBatch();
+    try (Connection vmConnection =
+            DriverManager.getConnection(VM_DB_JDBC_URL, VM_DB_USERNAME, VM_DB_PASSWORD);
+        Connection thmConnection =
+            DriverManager.getConnection(THM_DB_JDBC_URL, THM_DB_USERNAME, THM_DB_PASSWORD)) {
+      try (Statement vmStatement = vmConnection.createStatement();
+          Statement thmStatement = thmConnection.createStatement(); ) {
+        vmStatement.addBatch("SET foreign_key_checks = 0;");
+        vmStatement.addBatch("TRUNCATE TABLE video_hashtag;");
+        vmStatement.addBatch("TRUNCATE TABLE user_video;");
+        vmStatement.addBatch("TRUNCATE TABLE video;");
+        vmStatement.addBatch("TRUNCATE TABLE user;");
+        vmStatement.addBatch("TRUNCATE TABLE hashtag;");
+        vmStatement.addBatch("SET foreign_key_checks = 1;");
+        vmStatement.executeBatch();
+        thmStatement.executeUpdate("TRUNCATE TABLE trending_hashtag");
       }
     }
   }
