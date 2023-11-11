@@ -19,7 +19,10 @@ public class FeatureTestExtension
   public static ComposeContainer ENV =
       new ComposeContainer(new File("src/test/resources/compose-feature-tests.yml"))
           .withExposedService(VM_NAME, VM_PORT)
-          .withLocalCompose(true);
+          .withLocalCompose(
+              !Boolean.parseBoolean(
+                  System.getenv()
+                      .get("RUNNING_IN_CI"))); // use local docker compose if not running in CI
 
   @Override
   public void beforeEach(ExtensionContext extensionContext) throws Exception {
@@ -27,7 +30,6 @@ public class FeatureTestExtension
         DriverManager.getConnection(
             "jdbc:mariadb://localhost:3306/videos", "video", "videosecret")) {
       try (Statement statement = connection.createStatement()) {
-        // TODO make this nicer (look at joining + deleting)
         statement.addBatch("SET foreign_key_checks = 0;");
         statement.addBatch("TRUNCATE TABLE video_hashtag;");
         statement.addBatch("TRUNCATE TABLE user_video;");

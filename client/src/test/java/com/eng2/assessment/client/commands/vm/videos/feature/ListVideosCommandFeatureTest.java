@@ -18,11 +18,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.testcontainers.shaded.org.apache.commons.lang3.StringUtils;
 
-@ExtendWith(FeatureTestExtension.class)
 @MicronautTest
+@Tag("feature-test")
+@ExtendWith(FeatureTestExtension.class)
+@DisplayName("Feature tests for the `list-videos` command")
 public class ListVideosCommandFeatureTest {
 
   private ByteArrayOutputStream baos;
@@ -39,6 +44,7 @@ public class ListVideosCommandFeatureTest {
   }
 
   @Test
+  @DisplayName("When no videos available")
   public void whenNoVideos() {
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
       PicocliRunner.run(sut, ctx);
@@ -48,6 +54,7 @@ public class ListVideosCommandFeatureTest {
   }
 
   @Test
+  @DisplayName("Happy path (videos are available, no filter)")
   public void canListVideos() {
     usersClient.registerUser(new UserDTO("AnimalPlanet"));
     videosClient.publish(
@@ -56,7 +63,56 @@ public class ListVideosCommandFeatureTest {
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
       PicocliRunner.run(sut, ctx);
       assertThat(baos.toString())
-          .contains("No videos available. Please try again later or post a video");
+          .contains("Me at the zoo")
+          .contains("Author: AnimalPlanet")
+          .contains("Likes: 0")
+          .contains("Dislikes: 0")
+          .contains("Hashtags: ")
+          .contains("Zoo")
+          .contains("Giraffe")
+          .contains("Gorilla");
+    }
+  }
+
+  @Test
+  @DisplayName("Can filter by author's username")
+  public void canFilterByAuthorName() throws InterruptedException {
+    usersClient.registerUser(new UserDTO("AnimalPlanet"));
+    usersClient.registerUser(new UserDTO("OtherUser"));
+
+    for (int i = 0; i < 10; i++) {
+      videosClient.publish(new VideoDTO("Included video " + i, "AnimalPlanet", List.of("spam")));
+      Thread.sleep(100L);
+      videosClient.publish(new VideoDTO("Excluded video " + i, "OtherUser", List.of("spam")));
+    }
+
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+      String[] args = new String[] {"-a", "AnimalPlanet"};
+      PicocliRunner.run(sut, ctx, args);
+      assertThat(StringUtils.countMatches(baos.toString(), "Author: "))
+          .isEqualTo(10); // only the 10 videos by "AnimalPlanet" are returned
+      assertThat(baos.toString()).doesNotContain("OtherUser").doesNotContain("Excluded video ");
+    }
+  }
+
+  @Test
+  @DisplayName("Can filter by hashtag name")
+  public void canFilterByHashtagName() throws InterruptedException {
+    usersClient.registerUser(new UserDTO("AnimalPlanet"));
+
+    for (int i = 0; i < 10; i++) {
+      videosClient.publish(
+          new VideoDTO("Included video " + i, "AnimalPlanet", List.of("Included")));
+      Thread.sleep(100L);
+      videosClient.publish(new VideoDTO("Excluded video " + i, "AnimalPlanet", List.of("spam")));
+    }
+
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+      String[] args = new String[] {"-h", "Included"};
+      PicocliRunner.run(sut, ctx, args);
+      assertThat(StringUtils.countMatches(baos.toString(), "Author: "))
+          .isEqualTo(10); // only the 10 videos with hashtag "Included" are returned
+      assertThat(baos.toString()).doesNotContain("spam");
     }
   }
 }
