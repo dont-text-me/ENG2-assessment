@@ -74,6 +74,8 @@ services:
         condition: service_healthy
       kafka-0:
         condition: service_healthy
+      create-topics:
+        condition: service_completed_successfully
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -168,6 +170,14 @@ services:
       - KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-2 -Dcom.sun.management.jmxremote.rmi.port=9997
     volumes:
       - kafka_2_data:/bitnami/kafka
+
+  create-topics:
+    image: docker.io/bitnami/kafka:3.5
+    depends_on:
+      kafka-0:
+        condition: service_started
+    command: kafka-topics.sh --bootstrap-server kafka-0:9092 --topic video-liked --create --if-not-exists; kafka-topics.sh --bootstrap-server kafka-0:9092 --topic trending-hashtags --create --if-not-exists
+
 
 volumes:
   mariadb_vm_data:
