@@ -59,16 +59,20 @@ public class TrendingHashtagsCommandFeatureTest {
       usersClient.registerUser(new UserDTO("User-" + i));
 
       String postVideoResponseBody =
-          videosClient.publish(new VideoDTO("Video " + i, "User-" + i, List.of("Elephant"))).body();
+          videosClient.publish(new VideoDTO("Video " + i, "User-" + i, List.of("Hashtag " + i))).body();
       UUID videoId =
           UUID.fromString(
               postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
       videoIds.add(videoId);
     }
 
-    videosClient.likeVideo(videoIds.get(0), "User-1");
-    Thread.sleep(1000L);
-    videosClient.likeVideo(videoIds.get(1), "User-1");
+    for (int i = 0; i < 10; i++){
+      videosClient.likeVideo(videoIds.get(0), "User-" + i);
+      videosClient.likeVideo(videoIds.get(1), "User-" + i);
+      if (i > 5){
+        videosClient.likeVideo(videoIds.get(2), "User-" + i);
+      }
+    }
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
       PicocliRunner.run(sut, ctx);
