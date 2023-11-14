@@ -8,6 +8,9 @@ group = "com.eng2.assessment.client"
 repositories {
 	mavenCentral()
 }
+// Do not run the dependency microservices, they are only needed to import their classes
+gradle.startParameter.excludedTaskNames.add(":video-microservice:run")
+gradle.startParameter.excludedTaskNames.add(":trending-hashtag-microservice:run")
 
 dependencies {
 	annotationProcessor("info.picocli:picocli-codegen")
@@ -43,5 +46,3 @@ micronaut {
 	}
 }
 tasks.register("prepareKotlinBuildScriptModel"){}
-
-
