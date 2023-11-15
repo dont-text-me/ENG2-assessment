@@ -169,6 +169,13 @@ services:
     volumes:
       - kafka_2_data:/bitnami/kafka
 
+  create-topics:
+    image: docker.io/bitnami/kafka:3.5
+    depends_on:
+      kafka-0:
+        condition: service_started
+    command: kafka-topics.sh --bootstrap-server kafka-0:9092 --topic video-liked --create --if-not-exists; kafka-topics.sh --bootstrap-server kafka-0:9092 --topic trending-hashtags --create --if-not-exists
+
 volumes:
   mariadb_vm_data:
   mariadb_thm_data:

@@ -26,6 +26,6 @@ public class UsersController {
     repo.save(newUser);
 
     return HttpResponse.created(URI.create("/users/" + newUser.getId()))
-        .body(String.format("Created user with username " + newUser.getId()));
+        .body(String.format("Created user with username " + newUser.getUsername()));
   }
 }

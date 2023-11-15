@@ -73,6 +73,7 @@ public class TrendingHashtagsCommandFeatureTest {
       for (int j = 0; j < i; j++) {
         videosClient.likeVideo(
             videoIds.get(i), "User-" + j); // Video 9 has 9 likes, 8 has 8 and so on.
+        Thread.sleep(500L);
       }
     }
     Thread.sleep(3000L); // The loop above produced a lot of records, pause for THM to process them
