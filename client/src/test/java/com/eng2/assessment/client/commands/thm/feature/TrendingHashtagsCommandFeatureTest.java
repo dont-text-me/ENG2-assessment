@@ -52,6 +52,7 @@ public class TrendingHashtagsCommandFeatureTest {
   }
 
   @Test
+  @Tag("flaky")
   @DisplayName("Calculates and displays top 10 trending hashtags")
   public void canDisplayTrendingHashtags() throws InterruptedException {
     ArrayList<UUID> videoIds = new ArrayList<>();
@@ -59,24 +60,28 @@ public class TrendingHashtagsCommandFeatureTest {
       usersClient.registerUser(new UserDTO("User-" + i));
 
       String postVideoResponseBody =
-          videosClient.publish(new VideoDTO("Video " + i, "User-" + i, List.of("Hashtag " + i))).body();
+          videosClient
+              .publish(new VideoDTO("Video " + i, "User-" + i, List.of("Hashtag " + i)))
+              .body();
       UUID videoId =
           UUID.fromString(
               postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
       videoIds.add(videoId);
     }
 
-    for (int i = 0; i < 10; i++){
-      videosClient.likeVideo(videoIds.get(0), "User-" + i);
-      videosClient.likeVideo(videoIds.get(1), "User-" + i);
-      if (i > 5){
-        videosClient.likeVideo(videoIds.get(2), "User-" + i);
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < i; j++) {
+        videosClient.likeVideo(
+            videoIds.get(i), "User-" + j); // Video 9 has 9 likes, 8 has 8 and so on.
       }
     }
+    Thread.sleep(3000L); // The loop above produced a lot of records, pause for THM to process them
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
       PicocliRunner.run(sut, ctx);
-      assertThat(baos.toString()).contains(" bbbbbbbbbb");
+      for (int i = 1; i < 10; i++) { // Note: no one liked video 0
+        assertThat(baos.toString()).contains(String.format("Hashtag %s (%s likes)", i, i));
+      }
     }
   }
 }

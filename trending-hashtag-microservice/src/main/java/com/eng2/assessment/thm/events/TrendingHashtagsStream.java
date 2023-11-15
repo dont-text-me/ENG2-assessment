@@ -55,7 +55,6 @@ public class TrendingHashtagsStream {
             .groupByKey(Grouped.with(Serdes.String(), Serdes.String()))
             .windowedBy(SlidingWindows.ofTimeDifferenceWithNoGrace(windowSize))
             .count(Materialized.as(HASHTAG_LEADERBOARD_STORE))
-            .suppress(Suppressed.untilWindowCloses(Suppressed.BufferConfig.unbounded()))
             .toStream()
             .map(
                 (key, value) ->
