@@ -20,10 +20,10 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Build docker images
-        run: ./gradlew video-microservice:dockerBuild trending-hashtag-microservice:dockerBuild
       - name: Run unit and integration tests
         run: ./gradlew client:unitTests trending-hashtag-microservice:test video-microservice:test
+      - name: Build docker images
+        run: ./gradlew video-microservice:dockerBuild trending-hashtag-microservice:dockerBuild
       - name: Run feature tests
         run: ./gradlew client:featureTests
       - name: Test Report
