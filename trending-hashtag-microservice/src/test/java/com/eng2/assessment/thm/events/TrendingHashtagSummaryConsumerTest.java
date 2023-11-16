@@ -46,7 +46,7 @@ public class TrendingHashtagSummaryConsumerTest {
   }
 
   @Test
-  public void storesTop10Only() {
+  public void handlesBatchedMessages() {
     ArrayList<ConsumerRecord<String, WindowedHashtagWIthLikeCount>> records = new ArrayList<>();
     IntStream.range(0, 15)
         .forEach(
@@ -65,7 +65,7 @@ public class TrendingHashtagSummaryConsumerTest {
 
     sut.reportHashtagStatistics(records);
 
-    assertThat(repo.findAll()).isNotNull().isNotEmpty().hasSize(10);
+    assertThat(repo.findAll()).isNotNull().isNotEmpty().hasSize(15);
     assertThat(
             repo.findAll().stream()
                 .sorted(Comparator.comparing(TrendingHashtag::getLikeCount).reversed())
