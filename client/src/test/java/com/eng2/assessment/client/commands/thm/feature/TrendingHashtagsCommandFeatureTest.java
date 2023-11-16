@@ -52,7 +52,6 @@ public class TrendingHashtagsCommandFeatureTest {
   }
 
   @Test
-  @Tag("flaky")
   @DisplayName("Calculates and displays top 10 trending hashtags")
   public void canDisplayTrendingHashtags() throws InterruptedException {
     ArrayList<UUID> videoIds = new ArrayList<>();

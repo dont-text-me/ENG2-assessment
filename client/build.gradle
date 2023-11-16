@@ -45,4 +45,15 @@ micronaut {
 		annotations("com.eng2.assessment.client.*")
 	}
 }
+tasks.register('unitTests', Test) {
+	useJUnitPlatform {
+		excludeTags "feature-test"
+	}
+}
+
+tasks.register('featureTests', Test){
+	useJUnitPlatform{
+		includeTags "feature-test"
+	}
+}
 tasks.register("prepareKotlinBuildScriptModel"){}
