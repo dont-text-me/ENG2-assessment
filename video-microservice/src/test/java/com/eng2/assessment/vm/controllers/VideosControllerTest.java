@@ -497,7 +497,7 @@ public class VideosControllerTest {
               new VideoInteractionDetailsDTO(user.getUsername(), List.of(hashtag.getId())));
 
       Video videoAfterDislike = videoRepo.findById(video.getId()).get();
-      assert (video.getLikeCount() - videoAfterDislike.getLikeCount() == 1);
+      assertThat(videoAfterDislike.getDislikeCount() - video.getDislikeCount()).isOne();
     }
 
     @Test

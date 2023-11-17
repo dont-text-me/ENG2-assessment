@@ -1,9 +1,10 @@
-package com.eng2.assessment.client.commands.thm;
+package com.eng2.assessment.client.commands.thm.unit;
 
 import static com.eng2.assessment.client.commands.vm.utils.mockResponses.MockResponses.getTrendingHashtagsList;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.eng2.assessment.client.commands.thm.ListTrendingHashtagsCommand;
 import com.eng2.assessment.client.commands.vm.utils.mockResponses.MinifiedTrendingHashtagDetails;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;

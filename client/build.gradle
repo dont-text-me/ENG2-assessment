@@ -8,6 +8,9 @@ group = "com.eng2.assessment.client"
 repositories {
 	mavenCentral()
 }
+// Do not run the dependency microservices, they are only needed to import their classes
+gradle.startParameter.excludedTaskNames.add(":video-microservice:run")
+gradle.startParameter.excludedTaskNames.add(":trending-hashtag-microservice:run")
 
 dependencies {
 	annotationProcessor("info.picocli:picocli-codegen")
@@ -26,6 +29,8 @@ dependencies {
 	testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
 	testImplementation("com.google.code.gson:gson:2.10.1")
 	testImplementation("com.google.guava:guava:32.1.2-jre")
+	testImplementation("org.testcontainers:testcontainers:1.19.1")
+	testImplementation("org.testcontainers:junit-jupiter:1.19.1")
 }
 
 
@@ -40,6 +45,16 @@ micronaut {
 		annotations("com.eng2.assessment.client.*")
 	}
 }
+
+tasks.register('unitTests', Test) {
+	useJUnitPlatform {
+		excludeTags "feature-test"
+	}
+}
+
+tasks.register('featureTests', Test){
+	useJUnitPlatform{
+		includeTags "feature-test"
+	}
+}
 tasks.register("prepareKotlinBuildScriptModel"){}
-
-

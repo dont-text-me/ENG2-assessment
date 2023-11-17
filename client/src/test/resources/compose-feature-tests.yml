@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     environment:
       MARIADB_USER: &vmdbuser video
-      MARIADB_PASSWORD: &vmdbpass videosecret
+      MARIADB_PASSWORD: &vmdbpass featureTestVideoSecret
       MARIADB_ROOT_PASSWORD: iamroot
       MARIADB_DATABASE: &vmdbname videos
     healthcheck:
@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
     environment:
       MARIADB_USER: &thmdbuser trendingHashtag
-      MARIADB_PASSWORD: &thmdbpass hashtagSecret
+      MARIADB_PASSWORD: &thmdbpass featureTestHashtagSecret
       MARIADB_ROOT_PASSWORD: iamroot
       MARIADB_DATABASE: &thmdbname trendingHashtags
     volumes:
@@ -74,6 +74,8 @@ services:
         condition: service_healthy
       kafka-0:
         condition: service_healthy
+      create-topics:
+        condition: service_completed_successfully
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -175,6 +177,7 @@ services:
       kafka-0:
         condition: service_started
     command: kafka-topics.sh --bootstrap-server kafka-0:9092 --topic video-liked --create --if-not-exists; kafka-topics.sh --bootstrap-server kafka-0:9092 --topic trending-hashtags --create --if-not-exists
+
 
 volumes:
   mariadb_vm_data:

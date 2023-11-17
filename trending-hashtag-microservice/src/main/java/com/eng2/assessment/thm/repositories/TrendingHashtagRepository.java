@@ -1,7 +1,6 @@
 package com.eng2.assessment.thm.repositories;
 
 import com.eng2.assessment.thm.domain.TrendingHashtag;
-import io.micronaut.configuration.kafka.streams.ConfiguredStreamBuilder;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import java.util.List;
@@ -12,14 +11,6 @@ import java.util.UUID;
 public interface TrendingHashtagRepository extends CrudRepository<TrendingHashtag, UUID> {
   Optional<Long> findMaxWindowEnd();
 
-  /**
-   * Returns the top 10 most liked hashtags for a provided time window. <br>
-   * <br>
-   * <strong>Note:</strong> Because of the implementation of the underlying stream (see {@link
-   * com.eng2.assessment.thm.events.TrendingHashtagsStream#hashtagSummary(ConfiguredStreamBuilder)
-   * hashtagSummary}), there is no need to de-duplicate hashtags within a window as the updates are
-   * suppressed until the window closes. Therefore, this method only needs to apply ordering and (if
-   * needed) limiting to the returned data.
-   */
-  List<TrendingHashtag> findFirst10ByWindowEndEqualOrderByLikeCountDesc(Long windowEnd);
+  List<TrendingHashtag> findByWindowEndLessThanEqualsAndWindowEndGreaterThanOrderByLikeCountDesc(
+      Long windowEnd, Long windowEnd2);
 }

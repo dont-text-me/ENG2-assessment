@@ -1,8 +1,9 @@
-package com.eng2.assessment.client.commands.vm.videos;
+package com.eng2.assessment.client.commands.vm.videos.unit;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.eng2.assessment.client.commands.vm.videos.PostVideoCommand;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
@@ -10,7 +11,6 @@ import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
 import io.micronaut.http.HttpStatus;
-import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.UUID;
@@ -20,7 +20,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-@MicronautTest
 public class PostVideoCommandUnitTest {
 
   @RegisterExtension

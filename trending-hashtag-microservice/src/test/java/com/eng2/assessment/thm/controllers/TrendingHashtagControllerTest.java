@@ -38,8 +38,8 @@ public class TrendingHashtagControllerTest {
 
   @Test
   public void whenLessThanTenHashtags() {
-    Long windowStart = Instant.now().toEpochMilli(),
-        windowEnd = Instant.now().plus(Duration.ofMinutes(10)).toEpochMilli();
+    Long windowStart = Instant.now().minus(Duration.ofMinutes(50)).toEpochMilli(),
+        windowEnd = Instant.now().minus(Duration.ofMinutes(10)).toEpochMilli();
     IntStream.range(0, 5)
         .forEach(
             it -> {
@@ -57,9 +57,43 @@ public class TrendingHashtagControllerTest {
   }
 
   @Test
+  public void whenDuplicateRecords() {
+    Long windowStart = Instant.now().minus(Duration.ofMinutes(50)).toEpochMilli(),
+        windowEnd = Instant.now().minus(Duration.ofMinutes(10)).toEpochMilli();
+    IntStream.range(0, 5)
+        .forEach(
+            it -> {
+              TrendingHashtag h = new TrendingHashtag();
+              h.setWindowEnd(windowEnd);
+              h.setWindowStart(windowStart);
+              h.setHashtagName(valueOf(it));
+              h.setLikeCount((long) it);
+              repo.save(h);
+            });
+
+    TrendingHashtag duplicate = new TrendingHashtag();
+    duplicate.setHashtagName("2");
+    duplicate.setLikeCount(20L);
+    duplicate.setWindowEnd(windowEnd);
+    duplicate.setWindowStart(windowStart);
+    repo.save(duplicate);
+
+    List<TrendingHashtag> result = client.latestStats();
+
+    assertThat(result).isNotEmpty().hasSize(5).isSortedAccordingTo(expectedOrdering);
+    assertThat(result.get(0).getHashtagName()).isEqualTo("2");
+    assertThat(result.get(0).getLikeCount()).isEqualTo(20L);
+    assertThat(result)
+        .noneMatch(
+            it ->
+                it.getHashtagName().equals("2")
+                    && it.getLikeCount().equals(2L)); // duplicate entry replaces old one
+  }
+
+  @Test
   public void whenMoreThanTenHashtags() {
-    Long windowStart = Instant.now().toEpochMilli(),
-        windowEnd = Instant.now().plus(Duration.ofMinutes(10)).toEpochMilli();
+    Long windowStart = Instant.now().minus(Duration.ofMinutes(50)).toEpochMilli(),
+        windowEnd = Instant.now().minus(Duration.ofMinutes(20)).toEpochMilli();
     IntStream.range(0, 20)
         .forEach(
             it -> {
@@ -78,12 +112,12 @@ public class TrendingHashtagControllerTest {
   }
 
   @Test
-  public void whenSeveralTimeWindows() {
-    Long oldWindowStart = Instant.now().minus(Duration.ofMinutes(20)).toEpochMilli(),
+  public void limitsRecordAge() {
+    Long oldWindowStart = Instant.now().minus(Duration.ofHours(3)).toEpochMilli(),
         oldWindowEnd =
-            Instant.now().minus(Duration.ofMinutes(20)).plus(Duration.ofMinutes(10)).toEpochMilli(),
-        recentWindowStart = Instant.now().toEpochMilli(),
-        recentWindowEnd = Instant.now().plus(Duration.ofMinutes(10)).toEpochMilli();
+            Instant.now().minus(Duration.ofHours(3)).plus(Duration.ofMinutes(10)).toEpochMilli(),
+        recentWindowStart = Instant.now().minus(Duration.ofMinutes(30)).toEpochMilli(),
+        recentWindowEnd = Instant.now().minus(Duration.ofMinutes(10)).toEpochMilli();
     IntStream.range(0, 20)
         .forEach(
             it -> {

@@ -61,6 +61,14 @@ public class Video {
   }
 
   public void decrementLikeCount() {
+    dislikeCount--;
+  }
+
+  public void incrementDislikeCount() {
+    dislikeCount++;
+  }
+
+  public void decrementDislikeCount() {
     likeCount--;
   }
 
