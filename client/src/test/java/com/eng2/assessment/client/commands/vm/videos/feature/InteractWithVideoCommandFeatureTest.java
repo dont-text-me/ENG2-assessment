@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.eng2.assessment.client.clients.vm.UsersClient;
 import com.eng2.assessment.client.clients.vm.VideosClient;
 import com.eng2.assessment.client.commands.vm.videos.InteractWithVideoCommand;
+import com.eng2.assessment.client.utils.AbstractFeatureTest;
 import com.eng2.assessment.client.utils.FeatureTestExtension;
 import com.eng2.assessment.vm.domain.Video;
 import com.eng2.assessment.vm.dto.UserDTO;
@@ -21,16 +22,18 @@ import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
+@Order(1)
 @MicronautTest
 @Tag("feature-test")
 @ExtendWith(FeatureTestExtension.class)
 @DisplayName("Feature tests for the `interact-with-video` command")
-public class InteractWithVideoCommandFeatureTest {
+public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
   private ByteArrayOutputStream baos;
 
   @Inject VideosClient videosClient;

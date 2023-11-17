@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.eng2.assessment.client.clients.vm.UsersClient;
 import com.eng2.assessment.client.clients.vm.VideosClient;
 import com.eng2.assessment.client.commands.thm.ListTrendingHashtagsCommand;
+import com.eng2.assessment.client.utils.AbstractFeatureTest;
 import com.eng2.assessment.client.utils.FeatureTestExtension;
 import com.eng2.assessment.vm.dto.UserDTO;
 import com.eng2.assessment.vm.dto.VideoDTO;
@@ -18,17 +19,15 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+@Order(1)
 @MicronautTest
 @Tag("feature-test")
 @ExtendWith(FeatureTestExtension.class)
 @DisplayName("Feature tests for the `list-trending-hashtags` command")
-public class TrendingHashtagsCommandFeatureTest {
+public class TrendingHashtagsCommandFeatureTest extends AbstractFeatureTest {
   private ByteArrayOutputStream baos;
 
   @Inject VideosClient videosClient;

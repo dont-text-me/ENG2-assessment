@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.eng2.assessment.client.clients.vm.UsersClient;
 import com.eng2.assessment.client.clients.vm.VideosClient;
 import com.eng2.assessment.client.commands.vm.videos.PostVideoCommand;
+import com.eng2.assessment.client.utils.AbstractFeatureTest;
 import com.eng2.assessment.client.utils.FeatureTestExtension;
 import com.eng2.assessment.vm.domain.Video;
 import com.eng2.assessment.vm.dto.UserDTO;
@@ -15,17 +16,15 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+@Order(1)
 @MicronautTest
 @Tag("feature-test")
 @ExtendWith(FeatureTestExtension.class)
 @DisplayName("Feature tests for the `post-video` command")
-public class PostVideoCommandFeatureTest {
+public class PostVideoCommandFeatureTest extends AbstractFeatureTest {
 
   @Inject VideosClient videosClient;
   @Inject UsersClient usersClient;

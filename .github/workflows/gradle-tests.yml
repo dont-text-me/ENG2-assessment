@@ -20,12 +20,10 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Run unit and integration tests
-        run: ./gradlew client:unitTests trending-hashtag-microservice:test video-microservice:test
-#      - name: Build docker images
-#        run: ./gradlew video-microservice:dockerBuild trending-hashtag-microservice:dockerBuild
-#      - name: Run feature tests
-#        run: ./gradlew client:featureTests
+      - name: Build docker images
+        run: ./gradlew video-microservice:dockerBuild trending-hashtag-microservice:dockerBuild
+      - name: Run tests
+        run: ./gradlew test --continue
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()

@@ -24,3 +24,13 @@
     * `-u`, the desired username of the new user
 * `list-trending-hashtags`
   * Lists the top 10 (or less, if less are available) hashtags, ordered by the number of likes they received
+
+
+### Feature tests
+Feature tests are tagged with `@Tag(feature-tests)`
+
+To run all feature tests by themselves, use the `client:featureTests` task.
+
+Note: feature test classes are also annotated with `@Order`. 
+This is only needed due to the fact that Wiremock (used for unit tests) 
+cannot run with docker-compose running in the background as the exposed ports conflict. The order of tests does not matter otherwise.
