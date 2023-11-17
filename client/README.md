@@ -25,6 +25,7 @@
 * `list-trending-hashtags`
   * Lists the top 10 (or less, if less are available) hashtags, ordered by the number of likes they received
 
+---
 
 ### Feature tests
 Feature tests are tagged with `@Tag(feature-tests)`
