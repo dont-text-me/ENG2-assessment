@@ -34,6 +34,32 @@ public class Video {
   @ManyToMany(mappedBy = "viewedVideos")
   private Set<User> viewers;
 
+  @JsonIgnore
+  @ManyToMany(mappedBy = "likedVideos")
+  private Set<User> likers;
+
+  public Set<User> getLikers() {
+    return likers;
+  }
+
+  public Video setLikers(Set<User> likers) {
+    this.likers = likers;
+    return this;
+  }
+
+  public Set<User> getDislikers() {
+    return dislikers;
+  }
+
+  public Video setDislikers(Set<User> dislikers) {
+    this.dislikers = dislikers;
+    return this;
+  }
+
+  @JsonIgnore
+  @ManyToMany(mappedBy = "dislikedVideos")
+  private Set<User> dislikers;
+
   @ManyToMany private Set<Hashtag> hashtags;
 
   public UUID getId() {

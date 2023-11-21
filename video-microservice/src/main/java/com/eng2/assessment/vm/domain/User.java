@@ -18,7 +18,19 @@ public class User {
   @OneToMany(mappedBy = "author")
   private Set<Video> publishedVideos;
 
-  @JsonIgnore @ManyToMany private Set<Video> viewedVideos;
+  @JsonIgnore
+  @ManyToMany
+  private Set<Video> viewedVideos;
+
+  @JsonIgnore
+  @ManyToMany
+  @JoinTable(name = "user_video_likes")
+  private Set<Video> likedVideos;
+
+  @JsonIgnore
+  @ManyToMany
+  @JoinTable(name = "user_video_dislikes")
+  private Set<Video> dislikedVideos;
 
   public UUID getId() {
     return id;
@@ -48,12 +60,44 @@ public class User {
     return viewedVideos;
   }
 
+  public Set<Video> getLikedVideos() {
+    return likedVideos;
+  }
+
+  public User setLikedVideos(Set<Video> likedVideos) {
+    this.likedVideos = likedVideos;
+    return this;
+  }
+
+  public Set<Video> getDislikedVideos() {
+    return dislikedVideos;
+  }
+
+  public User setDislikedVideos(Set<Video> dislikedVideos) {
+    this.dislikedVideos = dislikedVideos;
+    return this;
+  }
+
   public boolean hasWatchedVideo(UUID videoId) {
     return viewedVideos.stream().anyMatch(it -> it.getId().equals(videoId));
   }
 
+  public boolean hasLikedVideo(UUID videoId){
+    return likedVideos.stream().anyMatch(it -> it.getId().equals(videoId));
+  }
+
+  public boolean hasDislikedVideo(UUID videoId){
+    return dislikedVideos.stream().anyMatch(it -> it.getId().equals(videoId));
+  }
+
   public void addViewedVideo(Video viewedVideo) {
     viewedVideos.add(viewedVideo);
+  }
+  public void addLikedVideo(Video viewedVideo) {
+    likedVideos.add(viewedVideo);
+  }
+  public void addDislikedVideo(Video viewedVideo) {
+    dislikedVideos.add(viewedVideo);
   }
 
   public void setViewedVideos(Set<Video> viewedVideos) {

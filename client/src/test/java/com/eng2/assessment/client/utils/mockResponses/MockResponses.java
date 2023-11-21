@@ -1,4 +1,4 @@
-package com.eng2.assessment.client.commands.vm.utils.mockResponses;
+package com.eng2.assessment.client.utils.mockResponses;
 
 import com.eng2.assessment.thm.domain.TrendingHashtag;
 import com.eng2.assessment.vm.domain.Hashtag;

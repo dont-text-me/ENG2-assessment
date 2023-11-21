@@ -9,7 +9,7 @@ import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-@Client(value = "${videos.url: `http://localhost:8080/videos`}")
+@Client(value = "${videos.url: `http://localhost:8080/videos`}", errorType = String.class)
 public interface VideosClient {
   @Get("/")
   List<Video> list(@Nullable @QueryValue String author, @Nullable @QueryValue String hashtag);

@@ -32,6 +32,6 @@ Feature tests are tagged with `@Tag(feature-tests)`
 
 To run all feature tests by themselves, use the `client:featureTests` task.
 
-Note: feature test classes are also annotated with `@Order`. 
-This is only needed due to the fact that Wiremock (used for unit tests) 
-cannot run with docker-compose running in the background as the exposed ports conflict. The order of tests does not matter otherwise.
+Note: unit tests run with a different configuration 
+(see [application-unit-test.yml](src/test/resources/application-unit-test.yml)). 
+This allows the unit tests to run parallel to the feature tests, using a separate set of ports (3000-3003 for unit tests, 8080-8083 for feature tests)

@@ -1,4 +1,4 @@
-package com.eng2.assessment.client.commands.vm.utils.mockResponses;
+package com.eng2.assessment.client.utils.mockResponses;
 
 import java.util.List;
 

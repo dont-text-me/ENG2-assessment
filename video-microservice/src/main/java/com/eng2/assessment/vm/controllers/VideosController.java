@@ -134,9 +134,15 @@ public class VideosController {
       return HttpResponse.notFound("Could not find video with id " + id);
     }
 
+    if(user.hasLikedVideo(id)){
+      return HttpResponse.badRequest(String.format("User %s has already liked the video with title %s", userName, video.getTitle()));
+    }
+
     video.incrementLikeCount();
+    user.addLikedVideo(video);
     logger.info(String.format("User %s liked the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
+    userRepo.update(user);
     producer.likeVideo(
         video.getId(), new VideoInteractionDetailsDTO(userName, video.getHashtagIds()));
     return HttpResponse.ok(String.format("Video with title %s liked", video.getTitle()));
@@ -156,10 +162,16 @@ public class VideosController {
       return HttpResponse.notFound("Could not find video with id " + id);
     }
 
+    if(user.hasDislikedVideo(id)){
+      return HttpResponse.badRequest(String.format("User %s has already disliked the video with title %s", userName, video.getTitle()));
+    }
+
     video.incrementDislikeCount();
+    user.addDislikedVideo(video);
     logger.info(
         String.format("User %s disliked the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
+    userRepo.update(user);
     producer.dislikeVideo(
         video.getId(), new VideoInteractionDetailsDTO(userName, video.getHashtagIds()));
     return HttpResponse.ok(String.format("Video with title %s disliked", video.getTitle()));
