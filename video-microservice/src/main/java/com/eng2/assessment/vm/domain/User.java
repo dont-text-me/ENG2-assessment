@@ -18,9 +18,7 @@ public class User {
   @OneToMany(mappedBy = "author")
   private Set<Video> publishedVideos;
 
-  @JsonIgnore
-  @ManyToMany
-  private Set<Video> viewedVideos;
+  @JsonIgnore @ManyToMany private Set<Video> viewedVideos;
 
   @JsonIgnore
   @ManyToMany
@@ -82,20 +80,22 @@ public class User {
     return viewedVideos.stream().anyMatch(it -> it.getId().equals(videoId));
   }
 
-  public boolean hasLikedVideo(UUID videoId){
+  public boolean hasLikedVideo(UUID videoId) {
     return likedVideos.stream().anyMatch(it -> it.getId().equals(videoId));
   }
 
-  public boolean hasDislikedVideo(UUID videoId){
+  public boolean hasDislikedVideo(UUID videoId) {
     return dislikedVideos.stream().anyMatch(it -> it.getId().equals(videoId));
   }
 
   public void addViewedVideo(Video viewedVideo) {
     viewedVideos.add(viewedVideo);
   }
+
   public void addLikedVideo(Video viewedVideo) {
     likedVideos.add(viewedVideo);
   }
+
   public void addDislikedVideo(Video viewedVideo) {
     dislikedVideos.add(viewedVideo);
   }

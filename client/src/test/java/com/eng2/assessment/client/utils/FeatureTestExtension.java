@@ -24,6 +24,8 @@ public class FeatureTestExtension implements BeforeEachCallback {
         vmStatement.addBatch("SET foreign_key_checks = 0;");
         vmStatement.addBatch("TRUNCATE TABLE video_hashtag;");
         vmStatement.addBatch("TRUNCATE TABLE user_video;");
+        vmStatement.addBatch("TRUNCATE TABLE user_video_likes;");
+        vmStatement.addBatch("TRUNCATE TABLE user_video_dislikes;");
         vmStatement.addBatch("TRUNCATE TABLE video;");
         vmStatement.addBatch("TRUNCATE TABLE user;");
         vmStatement.addBatch("TRUNCATE TABLE hashtag;");

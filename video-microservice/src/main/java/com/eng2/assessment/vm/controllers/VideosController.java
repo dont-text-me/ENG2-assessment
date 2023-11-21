@@ -134,8 +134,10 @@ public class VideosController {
       return HttpResponse.notFound("Could not find video with id " + id);
     }
 
-    if(user.hasLikedVideo(id)){
-      return HttpResponse.badRequest(String.format("User %s has already liked the video with title %s", userName, video.getTitle()));
+    if (user.hasLikedVideo(id)) {
+      return HttpResponse.badRequest(
+          String.format(
+              "User %s has already liked the video with title %s", userName, video.getTitle()));
     }
 
     video.incrementLikeCount();
@@ -162,8 +164,10 @@ public class VideosController {
       return HttpResponse.notFound("Could not find video with id " + id);
     }
 
-    if(user.hasDislikedVideo(id)){
-      return HttpResponse.badRequest(String.format("User %s has already disliked the video with title %s", userName, video.getTitle()));
+    if (user.hasDislikedVideo(id)) {
+      return HttpResponse.badRequest(
+          String.format(
+              "User %s has already disliked the video with title %s", userName, video.getTitle()));
     }
 
     video.incrementDislikeCount();
