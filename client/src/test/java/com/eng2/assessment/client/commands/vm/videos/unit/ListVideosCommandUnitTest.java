@@ -25,7 +25,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 public class ListVideosCommandUnitTest {
   @RegisterExtension
   static WireMockExtension wireMock =
-      WireMockExtension.newInstance().options(wireMockConfig().port(8080)).build();
+      WireMockExtension.newInstance().options(wireMockConfig().port(3000)).build();
 
   private ByteArrayOutputStream baos;
 
@@ -39,7 +39,7 @@ public class ListVideosCommandUnitTest {
 
   @Test
   public void happyPathTestWithoutFilters() {
-    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.get("/videos")
               .willReturn(
@@ -76,7 +76,7 @@ public class ListVideosCommandUnitTest {
   @Test
   public void appliesAuthorUsername() {
 
-    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.get(urlMatching("/videos"))
               .willReturn(
@@ -85,14 +85,14 @@ public class ListVideosCommandUnitTest {
                       .withHeader("Content-Type", MediaType.APPLICATION_JSON)));
       String[] args = new String[] {"-a", "someAuthor"};
       PicocliRunner.run(sut, ctx, args);
-      verify(getRequestedFor(urlEqualTo("/videos?author=someAuthor")));
+      wireMock.verify(getRequestedFor(urlEqualTo("/videos?author=someAuthor")));
     }
   }
 
   @Test
   public void appliesHashtagName() {
 
-    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.get(urlMatching("/videos"))
               .willReturn(
@@ -102,13 +102,13 @@ public class ListVideosCommandUnitTest {
                       .withBody("")));
       String[] args = new String[] {"-h", "someHashtag"};
       PicocliRunner.run(sut, ctx, args);
-      verify(getRequestedFor(urlEqualTo("/videos?hashtag=someHashtag")));
+      wireMock.verify(getRequestedFor(urlEqualTo("/videos?hashtag=someHashtag")));
     }
   }
 
   @Test
   public void handlesEmptyList() {
-    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.get("/videos")
               .willReturn(

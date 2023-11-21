@@ -30,7 +30,7 @@ import wiremock.com.google.common.collect.Sets;
 public class InteractWithVideoCommandUnitTest {
   @RegisterExtension
   static WireMockExtension wireMock =
-      WireMockExtension.newInstance().options(wireMockConfig().port(8080)).build();
+      WireMockExtension.newInstance().options(wireMockConfig().port(3000)).build();
 
   private ByteArrayOutputStream baos;
 
@@ -48,7 +48,7 @@ public class InteractWithVideoCommandUnitTest {
     UUID videoId = UUID.randomUUID();
     String userName = "Some-user";
 
-    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.put(urlMatching("/videos/" + videoId + "/" + type.toString().toLowerCase()))
               .willReturn(
@@ -59,7 +59,7 @@ public class InteractWithVideoCommandUnitTest {
       String[] args =
           new String[] {"-v", videoId.toString(), "-t", type.toString(), "-u", userName};
       PicocliRunner.run(sut, ctx, args);
-      verify(
+      wireMock.verify(
           putRequestedFor(
               urlEqualTo(String.format("/videos/%s/%s", videoId, type.toString().toLowerCase()))));
       assertThat(baos.toString()).contains("Success!").contains("Interacted with video!");
@@ -85,7 +85,7 @@ public class InteractWithVideoCommandUnitTest {
     UUID videoId = UUID.randomUUID();
     String userName = "Some-user";
 
-    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.put(urlMatching("/videos/" + videoId + "/" + type.toString().toLowerCase()))
               .willReturn(
