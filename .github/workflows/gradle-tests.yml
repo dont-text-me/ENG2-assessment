@@ -25,7 +25,7 @@ jobs:
       - name: Run unit/integration tests
         run: ./gradlew client:unitTests video-microservice:test trending-hashtag-microservice:test --continue
       - name: Start feature test Docker environment
-        run: docker compose -f client/src/test/resources/compose-feature-tests.yml up -d --wait
+        run: docker compose -f client/src/test/resources/compose-feature-tests.yml up --quiet-pull -d --wait
       - name: Run feature tests
         run: DO_NOT_START_TESTCONTAINER=true ./gradlew client:featureTests
       - name: Test Report

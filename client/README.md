@@ -32,6 +32,11 @@ Feature tests are tagged with `@Tag(feature-tests)`
 
 To run all feature tests by themselves, use the `client:featureTests` task.
 
+The system is started by using a Compose testcontainer by default. 
+It is possible, if desired, to run the tests against another instance of docker compose, 
+provided it is healthy and exposes the same ports as specified in [compose-feature-tests.yml](src/test/resources/compose-feature-tests.yml).
+To do that, set the `DO_NOT_START_TESTCONTAINER` environment variable to `true` prior to running tests.
+
 Note: unit tests run with a different configuration 
 (see [application-unit-test.yml](src/test/resources/application-unit-test.yml)). 
 This allows the unit tests to run parallel to the feature tests, using a separate set of ports (3000-3003 for unit tests, 8080-8083 for feature tests)
