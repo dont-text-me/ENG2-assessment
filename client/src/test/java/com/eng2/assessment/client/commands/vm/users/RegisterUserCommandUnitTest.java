@@ -23,7 +23,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 public class RegisterUserCommandUnitTest {
   @RegisterExtension
   static WireMockExtension wireMock =
-      WireMockExtension.newInstance().options(wireMockConfig().port(8080)).build();
+      WireMockExtension.newInstance().options(wireMockConfig().port(3000)).build();
 
   private ByteArrayOutputStream baos;
 
@@ -39,7 +39,7 @@ public class RegisterUserCommandUnitTest {
 
   @Test
   public void happyPathTest() {
-    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.post("/users")
               .willReturn(
@@ -49,7 +49,7 @@ public class RegisterUserCommandUnitTest {
 
       String[] args = new String[] {"-u", "someUser"};
       PicocliRunner.run(sut, ctx, args);
-      verify(
+      wireMock.verify(
           postRequestedFor(urlEqualTo("/users"))
               .withRequestBody(equalTo(gson.toJson(new UserDTO("someUser")))));
       assertThat(baos.toString()).contains("Success!").contains("Created user with username");
@@ -58,7 +58,7 @@ public class RegisterUserCommandUnitTest {
 
   @Test
   public void handlesError() {
-    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.post("/users")
               .willReturn(
@@ -68,7 +68,7 @@ public class RegisterUserCommandUnitTest {
 
       String[] args = new String[] {"-u", "someUser"};
       PicocliRunner.run(sut, ctx, args);
-      verify(
+      wireMock.verify(
           postRequestedFor(urlEqualTo("/users"))
               .withRequestBody(equalTo(gson.toJson(new UserDTO("someUser")))));
       assertThat(baos.toString()).contains("Something went wrong:").contains("Error!");

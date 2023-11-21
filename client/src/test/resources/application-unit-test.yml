@@ -1,0 +1,6 @@
+client-urls:
+  vm:
+    videos: http://localhost:3000/videos
+    users: http://localhost:3000/users
+  thm:
+    trending-hashtags: http://localhost:3001/trending-hashtags

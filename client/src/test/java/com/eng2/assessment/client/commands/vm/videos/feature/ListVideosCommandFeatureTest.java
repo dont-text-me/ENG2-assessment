@@ -22,7 +22,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testcontainers.shaded.org.apache.commons.lang3.StringUtils;
 
-@Order(1)
 @MicronautTest
 @Tag("feature-test")
 @ExtendWith(FeatureTestExtension.class)

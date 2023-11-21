@@ -23,7 +23,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 public class TrendingHashtagsCommandUnitTest {
   @RegisterExtension
   static WireMockExtension wireMock =
-      WireMockExtension.newInstance().options(wireMockConfig().port(8081)).build();
+      WireMockExtension.newInstance().options(wireMockConfig().port(3001)).build();
 
   private ByteArrayOutputStream baos;
 
@@ -37,7 +37,7 @@ public class TrendingHashtagsCommandUnitTest {
 
   @Test
   public void happyPathTestWithoutFilters() {
-    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.get("/trending-hashtags/latest")
               .willReturn(
@@ -58,7 +58,7 @@ public class TrendingHashtagsCommandUnitTest {
 
   @Test
   public void handlesEmptyList() {
-    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.get("/trending-hashtags/latest")
               .willReturn(

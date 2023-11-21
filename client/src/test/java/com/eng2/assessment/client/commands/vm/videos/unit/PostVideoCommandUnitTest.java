@@ -24,7 +24,7 @@ public class PostVideoCommandUnitTest {
 
   @RegisterExtension
   static WireMockExtension wireMock =
-      WireMockExtension.newInstance().options(wireMockConfig().port(8080)).build();
+      WireMockExtension.newInstance().options(wireMockConfig().port(3000)).build();
 
   private ByteArrayOutputStream baos;
 
@@ -38,7 +38,7 @@ public class PostVideoCommandUnitTest {
 
   @Test
   public void happyPathTest() {
-    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.post("/videos")
               .willReturn(
@@ -56,7 +56,7 @@ public class PostVideoCommandUnitTest {
   @ParameterizedTest
   @ValueSource(ints = {404, 400})
   public void handlesRequestFailure(int statusCode) {
-    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.post("/videos")
               .willReturn(
