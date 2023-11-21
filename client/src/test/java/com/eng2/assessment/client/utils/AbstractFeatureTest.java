@@ -12,7 +12,7 @@ import org.testcontainers.containers.ComposeContainer;
  * the `resources` folder. This running container is shared between all test suites that inherit
  * this class. Approach taken from TestContainers docs (see section on Singleton containers)
  *
- * <p>Note: In order to cut down on test flakiness in CI, the test container is not started and the
+ * <p>Note: In order to cut down on test flakiness in CI (github actions), the test container is not started and the
  * compose file in the resources folder is ran manually instead.
  *
  * @link <a href =
