@@ -127,4 +127,42 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
           .contains("Could not find video with id " + unknownId);
     }
   }
+
+  @ParameterizedTest
+  @DisplayName("Limits likes and dislikes to 1 each per user")
+  @EnumSource(
+      value = InteractWithVideoCommand.VideoInteractionType.class,
+      mode = EnumSource.Mode.EXCLUDE,
+      names = {"WATCH"})
+  public void canLikeAndDislikeOnlyOnce(InteractWithVideoCommand.VideoInteractionType type) {
+    String userName = "AnimalPlanet";
+    String videoTitle = "Elephant sighting";
+    usersClient.registerUser(new UserDTO(userName));
+    String postVideoResponseBody =
+        videosClient
+            .publish(new VideoDTO(videoTitle, userName, List.of("Elephant", "Awesome", "Safari")))
+            .body();
+    UUID videoId =
+        UUID.fromString(
+            postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
+
+    // make it so that the user has already liked/disliked the video prior to running the command
+    if (type.equals(InteractWithVideoCommand.VideoInteractionType.LIKE)) {
+      videosClient.likeVideo(videoId, userName);
+    } else if (type.equals(InteractWithVideoCommand.VideoInteractionType.DISLIKE)) {
+      videosClient.dislikeVideo(videoId, userName);
+    }
+
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+      String[] args =
+          new String[] {"-v", videoId.toString(), "-t", type.toString(), "-u", userName};
+      PicocliRunner.run(sut, ctx, args);
+      assertThat(baos.toString())
+          .contains("Something went wrong: ")
+          .contains(
+              String.format(
+                  "User %s has already %sd the video with title %s",
+                  userName, type.toString().toLowerCase(), videoTitle));
+    }
+  }
 }

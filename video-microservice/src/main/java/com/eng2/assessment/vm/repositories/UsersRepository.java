@@ -12,12 +12,16 @@ import java.util.UUID;
 public interface UsersRepository extends CrudRepository<User, UUID> {
   @Join(value = "publishedVideos", type = Join.Type.LEFT_FETCH)
   @Join(value = "viewedVideos", type = Join.Type.LEFT_FETCH)
+  @Join(value = "likedVideos", type = Join.Type.LEFT_FETCH)
+  @Join(value = "dislikedVideos", type = Join.Type.LEFT_FETCH)
   @Override
   Optional<User> findById(@Nonnull UUID id);
 
   /** Find by username (exact match) */
   @Join(value = "publishedVideos", type = Join.Type.LEFT_FETCH)
   @Join(value = "viewedVideos", type = Join.Type.LEFT_FETCH)
+  @Join(value = "likedVideos", type = Join.Type.LEFT_FETCH)
+  @Join(value = "dislikedVideos", type = Join.Type.LEFT_FETCH)
   Optional<User> findByUsernameEqual(@Nonnull String username);
 
   Boolean existsByUsernameEqual(String username);

@@ -12,6 +12,9 @@ import org.testcontainers.containers.ComposeContainer;
  * the `resources` folder. This running container is shared between all test suites that inherit
  * this class. Approach taken from TestContainers docs (see section on Singleton containers)
  *
+ * <p>Note: In order to cut down on test flakiness in CI (github actions), the test container is not started and the
+ * compose file in the resources folder is ran manually instead.
+ *
  * @link <a href =
  *     "https://java.testcontainers.org/test_framework_integration/manual_lifecycle_control/#singleton-containers">TestContainers
  *     Docs</a>
@@ -25,6 +28,10 @@ public abstract class AbstractFeatureTest {
             .withStartupTimeout(Duration.ofMinutes(10))
             .withExposedService(VM_NAME, VM_PORT)
             .withLocalCompose(true);
-    ENV.start();
+
+    if (System.getenv().get("DO_NOT_START_TESTCONTAINER") == null
+        || System.getenv().get("DO_NOT_START_TESTCONTAINER").equals("false")) {
+      ENV.start();
+    }
   }
 }

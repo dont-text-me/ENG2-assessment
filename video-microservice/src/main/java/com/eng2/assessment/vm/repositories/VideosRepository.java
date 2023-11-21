@@ -14,6 +14,8 @@ public interface VideosRepository extends CrudRepository<Video, UUID> {
 
   @Join(value = "author", type = Join.Type.LEFT_FETCH)
   @Join(value = "viewers", type = Join.Type.LEFT_FETCH)
+  @Join(value = "likers", type = Join.Type.LEFT_FETCH)
+  @Join(value = "dislikers", type = Join.Type.LEFT_FETCH)
   @Join(value = "hashtags", type = Join.Type.LEFT_FETCH)
   @Override
   Optional<Video> findById(@Nonnull UUID id);

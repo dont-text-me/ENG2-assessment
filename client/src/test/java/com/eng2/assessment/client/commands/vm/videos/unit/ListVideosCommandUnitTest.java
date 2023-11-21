@@ -1,12 +1,12 @@
 package com.eng2.assessment.client.commands.vm.videos.unit;
 
-import static com.eng2.assessment.client.commands.vm.utils.mockResponses.MockResponses.getVideoList;
+import static com.eng2.assessment.client.utils.mockResponses.MockResponses.getVideoList;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.eng2.assessment.client.commands.vm.utils.mockResponses.MinifiedVideoDetails;
 import com.eng2.assessment.client.commands.vm.videos.ListVideosCommand;
+import com.eng2.assessment.client.utils.mockResponses.MinifiedVideoDetails;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;

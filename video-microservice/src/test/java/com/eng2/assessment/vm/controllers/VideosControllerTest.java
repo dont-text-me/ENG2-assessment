@@ -1,7 +1,6 @@
 package com.eng2.assessment.vm.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
@@ -20,7 +19,6 @@ import com.eng2.assessment.vm.utils.VideosClient;
 import io.micronaut.context.annotation.Replaces;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
-import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -400,9 +398,10 @@ public class VideosControllerTest {
       userRepo.save(author);
       VideoDTO details = new VideoDTO("Me at the zoo", author.getUsername(), badHashtags);
 
-      assertThatExceptionOfType(HttpClientResponseException.class)
-          .isThrownBy(() -> client.publish(details))
-          .withMessageContaining("Bad Request");
+      HttpResponse<String> response = client.publish(details);
+      assertEquals(response.getStatus(), HttpStatus.BAD_REQUEST);
+
+      assertThat(response.body()).contains("Please specify one or more hashtags for your video");
     }
   }
 
@@ -437,6 +436,31 @@ public class VideosControllerTest {
 
       Video videoAfterLike = videoRepo.findById(video.getId()).get();
       assert (videoAfterLike.getLikeCount() - video.getLikeCount() == 1);
+    }
+
+    @Test
+    public void cannotLikeVideoTwice() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
+
+      Video video = new Video();
+      video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
+      videoRepo.save(video);
+
+      User author = new User();
+      author.setUsername("ZooLover");
+      author.setLikedVideos(Set.of(video));
+      userRepo.save(author);
+
+      HttpResponse<String> response = client.likeVideo(video.getId(), author.getUsername());
+
+      assertEquals(response.getStatus(), HttpStatus.BAD_REQUEST);
+      assertThat(response.body()).contains("has already liked");
+
+      // check that the producer has not been called with the correct data
+      verifyNoInteractions(mockProducer);
     }
 
     @Test
@@ -498,6 +522,31 @@ public class VideosControllerTest {
 
       Video videoAfterDislike = videoRepo.findById(video.getId()).get();
       assertThat(videoAfterDislike.getDislikeCount() - video.getDislikeCount()).isOne();
+    }
+
+    @Test
+    public void cannotDislikeVideoTwice() {
+      Hashtag hashtag = new Hashtag();
+      hashtag.setId("Zoo");
+      hashtagRepo.save(hashtag);
+
+      Video video = new Video();
+      video.setTitle("Me at the zoo");
+      video.setHashtags(Set.of(hashtag));
+      videoRepo.save(video);
+
+      User author = new User();
+      author.setUsername("ZooLover");
+      author.setDislikedVideos(Set.of(video));
+      userRepo.save(author);
+
+      HttpResponse<String> response = client.dislikeVideo(video.getId(), author.getUsername());
+
+      assertEquals(response.getStatus(), HttpStatus.BAD_REQUEST);
+      assertThat(response.body()).contains("has already disliked");
+
+      // check that the producer has not been called with the correct data
+      verifyNoInteractions(mockProducer);
     }
 
     @Test
