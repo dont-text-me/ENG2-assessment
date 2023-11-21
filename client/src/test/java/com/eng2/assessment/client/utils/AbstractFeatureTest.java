@@ -25,6 +25,10 @@ public abstract class AbstractFeatureTest {
             .withStartupTimeout(Duration.ofMinutes(10))
             .withExposedService(VM_NAME, VM_PORT)
             .withLocalCompose(true);
-    ENV.start();
+
+    if (System.getenv().get("DO_NOT_START_TESTCONTAINER") == null
+        || System.getenv().get("DO_NOT_START_TESTCONTAINER").equals("false")) {
+      ENV.start();
+    }
   }
 }
