@@ -58,7 +58,7 @@ public class TrendingHashtagsCommandFeatureTest extends AbstractFeatureTest {
 
       String postVideoResponseBody =
           videosClient
-              .publish(new VideoDTO("Video " + i, "User-" + i, List.of("Hashtag " + i)))
+              .publish(new VideoDTO("Video " + i, "User-" + i, List.of("Hashtag" + i)))
               .body();
       UUID videoId =
           UUID.fromString(
@@ -78,7 +78,7 @@ public class TrendingHashtagsCommandFeatureTest extends AbstractFeatureTest {
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
       PicocliRunner.run(sut, ctx);
       for (int i = 1; i < 10; i++) { // Note: no one liked video 0
-        assertThat(baos.toString()).contains(String.format("Hashtag %s (%s likes)", i, i));
+        assertThat(baos.toString()).contains(String.format("Hashtag%s (%s likes)", i, i));
       }
     }
   }

@@ -403,6 +403,29 @@ public class VideosControllerTest {
 
       assertThat(response.body()).contains("Please specify one or more hashtags for your video");
     }
+
+    @Test
+    public void handlesUnsafeHashtags() {
+      User author = new User();
+      author.setUsername("ZooLover");
+      userRepo.save(author);
+      VideoDTO details =
+          new VideoDTO(
+              "Me at the zoo",
+              author.getUsername(),
+              List.of("GoodHashtag", "Bad hashtag", "Wow!BadHashtag", "", "?*12`'"));
+
+      HttpResponse<String> response = client.publish(details);
+      assertEquals(response.getStatus(), HttpStatus.BAD_REQUEST);
+
+      assertThat(response.body())
+          .contains("One or more hashtags contained unsafe characters")
+          .contains("Offending hashtags are:")
+          .contains("Bad hashtag,")
+          .contains("Wow!BadHashtag,")
+          .contains(" ,")
+          .contains("?*12`'");
+    }
   }
 
   @Nested

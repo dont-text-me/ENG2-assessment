@@ -87,6 +87,20 @@ public class VideosController {
     if (videoDetails.hashtagNames() == null || videoDetails.hashtagNames().isEmpty()) {
       return HttpResponse.badRequest("Please specify one or more hashtags for your video");
     }
+
+    List<String> unsafeHashtags =
+        videoDetails.hashtagNames().stream()
+            .filter(it -> !it.matches("^[a-zA-Z0-9]+$"))
+            .toList(); // filter out hashtags that are empty strings or contain unsafe
+    // (non-alphanumeric) characters
+
+    if (!unsafeHashtags.isEmpty()) {
+      return HttpResponse.badRequest(
+          String.format(
+              "One or more hashtags contained unsafe characters. Offending hashtags are: %s",
+              unsafeHashtags));
+    }
+
     // Check if any hashtags in the video DTO are missing from the database and add
     Set<Hashtag> hashtagsToCreate =
         videoDetails.hashtagNames().stream()
