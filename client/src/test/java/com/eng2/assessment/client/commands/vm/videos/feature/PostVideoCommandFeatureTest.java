@@ -52,6 +52,24 @@ public class PostVideoCommandFeatureTest extends AbstractFeatureTest {
   }
 
   @Test
+  @DisplayName("When provided hashtags contain unsafe characters")
+  public void whenBadHashtags() {
+    usersClient.registerUser(new UserDTO("someAuthor"));
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+      String[] args =
+          new String[] {"-a", "someAuthor", "-t", "me at the zoo", "-h", "omg!, no way!, ???"};
+      PicocliRunner.run(sut, ctx, args);
+      assertThat(baos.toString())
+          .contains("Something went wrong:")
+          .contains("One or more hashtags contained unsafe characters")
+          .contains("Offending hashtags are")
+          .contains("omg!")
+          .contains("no way!")
+          .contains("???");
+    }
+  }
+
+  @Test
   @DisplayName("Happy path test")
   public void happyPath() {
     usersClient.registerUser(new UserDTO("someAuthor"));
