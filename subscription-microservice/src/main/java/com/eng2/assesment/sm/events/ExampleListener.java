@@ -1,16 +1,14 @@
-package com.eng2.assesment.sm;
+package com.eng2.assesment.sm.events;
 
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.Topic;
 
-/**
- * kafka-streams requires at least one listener
- */
+/** kafka-streams requires at least one listener */
 @KafkaListener(groupId = "ExampleListener")
 public class ExampleListener {
 
-    @Topic("example")
-    void example() {
-        System.out.println("example");
-    }
+  @Topic("example")
+  void example() {
+    System.out.println("example");
+  }
 }

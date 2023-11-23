@@ -9,6 +9,19 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/client" />
+            <option value="$PROJECT_DIR$/subscription-microservice" />
+            <option value="$PROJECT_DIR$/trending-hashtag-microservice" />
+            <option value="$PROJECT_DIR$/video-microservice" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/subscription-microservice" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/client" />
+            <option value="$PROJECT_DIR$/subscription-microservice" />
             <option value="$PROJECT_DIR$/trending-hashtag-microservice" />
             <option value="$PROJECT_DIR$/video-microservice" />
           </set>
