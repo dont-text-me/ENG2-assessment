@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Serdeable
@@ -16,4 +17,32 @@ public class User {
 
   @ManyToMany(mappedBy = "viewers")
   private Set<Video> viewedVideos;
+
+  public boolean hasWatchedVideo(UUID videoId) {
+    return this.viewedVideos.stream().anyMatch(it -> it.getId().equals(videoId));
+  }
+
+  public String getUserName() {
+    return userName;
+  }
+
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
+
+  public Set<Hashtag> getSubscriptions() {
+    return subscriptions;
+  }
+
+  public void setSubscriptions(Set<Hashtag> subscriptions) {
+    this.subscriptions = subscriptions;
+  }
+
+  public Set<Video> getViewedVideos() {
+    return viewedVideos;
+  }
+
+  public void setViewedVideos(Set<Video> viewedVideos) {
+    this.viewedVideos = viewedVideos;
+  }
 }

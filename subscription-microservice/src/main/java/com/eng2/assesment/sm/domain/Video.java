@@ -16,6 +16,21 @@ public class Video {
   @Column(nullable = false)
   private String title;
 
+  @Column(nullable = false)
+  private Long viewCount;
+
+  public Long getViewCount() {
+    return viewCount;
+  }
+
+  public void incrementViewCount() {
+    viewCount++;
+  }
+
+  public void setViewCount(Long viewCount) {
+    this.viewCount = viewCount;
+  }
+
   @ManyToMany private Set<User> viewers;
 
   public UUID getId() {
@@ -48,6 +63,10 @@ public class Video {
 
   public void setHashtags(Set<Hashtag> hashtags) {
     this.hashtags = hashtags;
+  }
+
+  public void addViewer(User viewer) {
+    this.viewers.add(viewer);
   }
 
   @ManyToMany(mappedBy = "taggedVideos")
