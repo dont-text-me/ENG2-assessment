@@ -1,0 +1,24 @@
+micronaut:
+  http:
+    client:
+      exception-on-error-status: false
+      connect-timeout: 1m
+
+datasources:
+  default:
+    driver-class-name: org.mariadb.jdbc.Driver
+    db-type: mariadb
+    dialect: MYSQL
+jpa:
+  default:
+    entity-scan:
+      packages:
+        - com.eng2.assessment.sm.domain
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+netty:
+  default:
+    allocator:
+      max-order: 3
