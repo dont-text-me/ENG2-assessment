@@ -354,6 +354,12 @@ public class VideosControllerTest {
       assertEquals(createdVideo.getDislikeCount(), 0);
       assertEquals(createdVideo.getViewCount(), 0);
       assert (Duration.between(createdVideo.getPublishedAt(), justAfterUpdate).toSeconds() <= 1);
+
+      verify(mockProducer)
+          .postVideo(
+              createdVideo.getId(),
+              new VideoInteractionDetailsDTO(
+                  author.getUsername(), createdVideo.getHashtagIds(), createdVideo.getTitle()));
     }
 
     @Test
@@ -455,7 +461,8 @@ public class VideosControllerTest {
       verify(mockProducer)
           .likeVideo(
               video.getId(),
-              new VideoInteractionDetailsDTO(author.getUsername(), List.of(hashtag.getId())));
+              new VideoInteractionDetailsDTO(
+                  author.getUsername(), List.of(hashtag.getId()), video.getTitle()));
 
       Video videoAfterLike = videoRepo.findById(video.getId()).get();
       assert (videoAfterLike.getLikeCount() - video.getLikeCount() == 1);
@@ -541,7 +548,8 @@ public class VideosControllerTest {
       verify(mockProducer)
           .dislikeVideo(
               video.getId(),
-              new VideoInteractionDetailsDTO(user.getUsername(), List.of(hashtag.getId())));
+              new VideoInteractionDetailsDTO(
+                  user.getUsername(), List.of(hashtag.getId()), video.getTitle()));
 
       Video videoAfterDislike = videoRepo.findById(video.getId()).get();
       assertThat(videoAfterDislike.getDislikeCount() - video.getDislikeCount()).isOne();
@@ -629,7 +637,8 @@ public class VideosControllerTest {
       verify(mockProducer)
           .viewVideo(
               video.getId(),
-              new VideoInteractionDetailsDTO(user.getUsername(), List.of(hashtag.getId())));
+              new VideoInteractionDetailsDTO(
+                  user.getUsername(), List.of(hashtag.getId()), video.getTitle()));
       assert (videoAfterView.getViewCount() - video.getViewCount() == 1);
 
       assertEquals(videoAfterView.getViewers().size(), 1);

@@ -129,6 +129,10 @@ public class VideosController {
     newVideo.setHashtags(allHashtags);
 
     videoRepo.save(newVideo);
+    producer.postVideo(
+        newVideo.getId(),
+        new VideoInteractionDetailsDTO(
+            author.getUsername(), newVideo.getHashtagIds(), newVideo.getTitle()));
 
     return HttpResponse.created(URI.create("/videos/" + newVideo.getId()))
         .body(String.format("Created video with ID " + newVideo.getId()));
@@ -160,7 +164,8 @@ public class VideosController {
     videoRepo.update(video);
     userRepo.update(user);
     producer.likeVideo(
-        video.getId(), new VideoInteractionDetailsDTO(userName, video.getHashtagIds()));
+        video.getId(),
+        new VideoInteractionDetailsDTO(userName, video.getHashtagIds(), video.getTitle()));
     return HttpResponse.ok(String.format("Video with title %s liked", video.getTitle()));
   }
 
@@ -191,7 +196,8 @@ public class VideosController {
     videoRepo.update(video);
     userRepo.update(user);
     producer.dislikeVideo(
-        video.getId(), new VideoInteractionDetailsDTO(userName, video.getHashtagIds()));
+        video.getId(),
+        new VideoInteractionDetailsDTO(userName, video.getHashtagIds(), video.getTitle()));
     return HttpResponse.ok(String.format("Video with title %s disliked", video.getTitle()));
   }
 
@@ -225,7 +231,8 @@ public class VideosController {
         String.format("User %s viewed the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
     producer.viewVideo(
-        video.getId(), new VideoInteractionDetailsDTO(userName, video.getHashtagIds()));
+        video.getId(),
+        new VideoInteractionDetailsDTO(userName, video.getHashtagIds(), video.getTitle()));
     return HttpResponse.ok(String.format("Video with title %s viewed", video.getTitle()));
   }
 }
