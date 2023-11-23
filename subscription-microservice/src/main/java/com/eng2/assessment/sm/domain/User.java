@@ -12,11 +12,9 @@ import java.util.UUID;
 public class User {
   @Id private String userName;
 
-  @ManyToMany
-  private Set<Hashtag> subscriptions;
+  @ManyToMany private Set<Hashtag> subscriptions;
 
-  @ManyToMany(mappedBy = "viewers")
-  private Set<Video> viewedVideos;
+  @ManyToMany private Set<Video> viewedVideos;
 
   public boolean hasWatchedVideo(UUID videoId) {
     return this.viewedVideos.stream().anyMatch(it -> it.getId().equals(videoId));
@@ -32,6 +30,10 @@ public class User {
 
   public void addSubscription(Hashtag newHashtag) {
     this.subscriptions.add(newHashtag);
+  }
+
+  public void addViewedVideo(Video video) {
+    this.viewedVideos.add(video);
   }
 
   public void removeSubscription(Hashtag hashtag) {

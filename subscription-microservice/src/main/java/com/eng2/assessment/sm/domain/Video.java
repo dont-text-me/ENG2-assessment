@@ -32,7 +32,9 @@ public class Video {
     this.viewCount = viewCount;
   }
 
-  @ManyToMany @JsonIgnore private Set<User> viewers;
+  @ManyToMany(mappedBy = "viewedVideos")
+  @JsonIgnore
+  private Set<User> viewers;
 
   public UUID getId() {
     return id;

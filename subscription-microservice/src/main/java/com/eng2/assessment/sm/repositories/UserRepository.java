@@ -11,5 +11,6 @@ public interface UserRepository extends CrudRepository<User, String> {
   Boolean existsByUserNameEqual(String userName);
 
   @Join(value = "subscriptions", type = Join.Type.LEFT_FETCH)
+  @Join(value = "viewedVideos", type = Join.Type.LEFT_FETCH)
   Optional<User> findByUserNameEqual(String userName);
 }

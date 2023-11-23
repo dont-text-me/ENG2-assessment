@@ -66,7 +66,8 @@ public class SubscriptionsControllerTest {
       verify(mockProducer).userSubscribed("VlogEnjoyer", "Vlog");
       User userPostUpdate = userRepo.findByUserNameEqual("VlogEnjoyer").get();
       assertThat(userPostUpdate.getSubscriptions()).hasSize(1);
-      assertThat(userPostUpdate.getSubscriptions().iterator().next()).matches(it -> it.getName().equals("Vlog"));
+      assertThat(userPostUpdate.getSubscriptions().iterator().next())
+          .matches(it -> it.getName().equals("Vlog"));
     }
 
     @Test
@@ -130,7 +131,7 @@ public class SubscriptionsControllerTest {
 
       HttpResponse<String> result = client.unsubscribe("VlogEnjoyer", "Vlog");
 
-      //assertThat(result.status().getCode()).isEqualTo(HttpStatus.OK.getCode());
+      // assertThat(result.status().getCode()).isEqualTo(HttpStatus.OK.getCode());
       assertThat(result.body()).contains("User VlogEnjoyer unsubscribed from hashtag Vlog");
       verify(mockProducer).userUnsubscribed("VlogEnjoyer", "Vlog");
       User userPostUpdate = userRepo.findByUserNameEqual("VlogEnjoyer").get();

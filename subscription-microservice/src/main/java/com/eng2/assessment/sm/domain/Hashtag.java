@@ -11,7 +11,8 @@ import java.util.Set;
 public class Hashtag {
   @Id private String name;
 
-  @ManyToMany(mappedBy = "subscriptions") private Set<User> subscribers;
+  @ManyToMany(mappedBy = "subscriptions")
+  private Set<User> subscribers;
 
   @ManyToMany private Set<Video> taggedVideos;
 

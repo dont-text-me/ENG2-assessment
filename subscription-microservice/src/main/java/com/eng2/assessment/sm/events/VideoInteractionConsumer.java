@@ -45,12 +45,13 @@ public class VideoInteractionConsumer {
     createMissingEntities(videoId, details);
 
     Video video = videoRepository.findById(videoId).get();
-    User user = userRepository.findById(details.userName()).get();
+    User user = userRepository.findByUserNameEqual(details.userName()).get();
     if (!user.hasWatchedVideo(videoId)) {
-      video.addViewer(user);
+      user.addViewedVideo(video);
     }
     video.incrementViewCount();
     videoRepository.update(video);
+    userRepository.update(user);
   }
 
   /**
@@ -67,6 +68,7 @@ public class VideoInteractionConsumer {
       logger.info("Creating user with username " + details.userName());
       User newUser = new User();
       newUser.setUserName(details.userName());
+      newUser.setViewedVideos(new HashSet<>());
       userRepository.save(newUser);
     }
 
@@ -91,6 +93,7 @@ public class VideoInteractionConsumer {
       Video video = new Video();
       video.setId(videoId);
       video.setHashtags(allHashtags);
+      video.setViewCount(0L);
       video.setTitle(details.videoTitle());
       videoRepository.save(video);
     }
