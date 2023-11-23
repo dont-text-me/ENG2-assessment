@@ -45,7 +45,8 @@ public class TrendingHashtagTestDoubleStreamTest {
               serdeRegistry.getDeserializer(WindowedHashtagWIthLikeCount.class));
 
       inputTopic.pipeInput(
-          UUID.randomUUID(), new VideoInteractionDetailsDTO("Animal planet", List.of("Zoo")));
+          UUID.randomUUID(),
+          new VideoInteractionDetailsDTO("Animal planet", List.of("Zoo"), "Me at the zoo"));
 
       assertThat(outputTopic.readKeyValuesToList()).isNotEmpty();
     }
@@ -71,7 +72,8 @@ public class TrendingHashtagTestDoubleStreamTest {
               serdeRegistry.getDeserializer(WindowedHashtagWIthLikeCount.class));
 
       inputTopic.pipeInput(
-          UUID.randomUUID(), new VideoInteractionDetailsDTO("Animal planet", expectedHashtags));
+          UUID.randomUUID(),
+          new VideoInteractionDetailsDTO("Animal planet", expectedHashtags, "Me at the zoo"));
 
       assertThat(outputTopic.readKeyValuesToList().stream().map(it -> it.value.hashtagName()))
           .hasSameElementsAs(expectedHashtags);
@@ -99,10 +101,12 @@ public class TrendingHashtagTestDoubleStreamTest {
               serdeRegistry.getDeserializer(WindowedHashtagWIthLikeCount.class));
 
       inputTopic.pipeInput(
-          UUID.randomUUID(), new VideoInteractionDetailsDTO("AnimalPlanet", animalHashtags));
+          UUID.randomUUID(),
+          new VideoInteractionDetailsDTO("AnimalPlanet", animalHashtags, "Me at the zoo"));
       assertThat(outputTopic.readKeyValuesToList()).hasSize(3);
       inputTopic.pipeInput(
-          UUID.randomUUID(), new VideoInteractionDetailsDTO("TravelVlogs", vlogHashtags));
+          UUID.randomUUID(),
+          new VideoInteractionDetailsDTO("TravelVlogs", vlogHashtags, "A day in italy"));
       assertThat(outputTopic.readKeyValuesToMap().get("Funny").likeCount()).isEqualTo(2);
     }
   }
