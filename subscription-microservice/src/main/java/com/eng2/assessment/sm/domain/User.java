@@ -1,4 +1,4 @@
-package com.eng2.assesment.sm.domain;
+package com.eng2.assessment.sm.domain;
 
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.persistence.Entity;
@@ -12,7 +12,7 @@ import java.util.UUID;
 public class User {
   @Id private String userName;
 
-  @ManyToMany(mappedBy = "subscribers")
+  @ManyToMany
   private Set<Hashtag> subscriptions;
 
   @ManyToMany(mappedBy = "viewers")

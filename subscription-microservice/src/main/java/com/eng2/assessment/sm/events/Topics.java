@@ -1,4 +1,4 @@
-package com.eng2.assesment.sm.events;
+package com.eng2.assessment.sm.events;
 
 public class Topics {
   public static final String TOPIC_USER_SUBSCRIBED = "user-subscribed";

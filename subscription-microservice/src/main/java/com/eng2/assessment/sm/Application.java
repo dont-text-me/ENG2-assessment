@@ -1,4 +1,4 @@
-package com.eng2.assesment.sm;
+package com.eng2.assessment.sm;
 
 import io.micronaut.runtime.Micronaut;
 

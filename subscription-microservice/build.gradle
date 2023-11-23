@@ -5,7 +5,7 @@ plugins {
 }
 
 version = "0.1"
-group = "com.eng2.assesment.sm"
+group = "com.eng2.assessment.sm"
 
 repositories {
 	mavenCentral()
@@ -25,12 +25,17 @@ dependencies {
 	compileOnly("io.micronaut:micronaut-http-client")
 	runtimeOnly("ch.qos.logback:logback-classic")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+	runtimeOnly("org.yaml:snakeyaml")
 	testImplementation("io.micronaut:micronaut-http-client")
+	testImplementation("org.assertj:assertj-core:3.24.2")
+	testImplementation("org.mockito:mockito-core:5.6.0")
+	testImplementation("org.mockito:mockito-junit-jupiter:5.6.0")
+	testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
 }
 
 
 application {
-	mainClass.set("com.eng2.assesment.sm.Application")
+	mainClass.set("com.eng2.assessment.sm.Application")
 }
 
 graalvmNative.toolchainDetection = false
@@ -39,7 +44,7 @@ micronaut {
 	testRuntime("junit5")
 	processing {
 		incremental(true)
-		annotations("com.eng2.assesment.sm.*")
+		annotations("com.eng2.assessment.sm.*")
 	}
 	aot {
 		// Please review carefully the optimizations enabled below

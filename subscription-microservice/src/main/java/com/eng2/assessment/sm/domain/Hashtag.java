@@ -1,4 +1,4 @@
-package com.eng2.assesment.sm.domain;
+package com.eng2.assessment.sm.domain;
 
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.persistence.Entity;
@@ -11,7 +11,7 @@ import java.util.Set;
 public class Hashtag {
   @Id private String name;
 
-  @ManyToMany private Set<User> subscribers;
+  @ManyToMany(mappedBy = "subscriptions") private Set<User> subscribers;
 
   @ManyToMany private Set<Video> taggedVideos;
 

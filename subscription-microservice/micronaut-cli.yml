@@ -1,5 +1,5 @@
 applicationType: default
-defaultPackage: com.eng2.assesment.sm
+defaultPackage: com.eng2.assessment.sm
 testFramework: junit
 sourceLanguage: java
 buildTool: gradle

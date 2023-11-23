@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.persistence.*;
 import java.util.Set;
+
 /**
  * Hashtag entity. Hashtag names have to be unique to be able to correctly identify videos,
  * therefore its name is its identifier in the database.

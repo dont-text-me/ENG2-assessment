@@ -1,14 +1,14 @@
-package com.eng2.assesment.sm.events;
+package com.eng2.assessment.sm.events;
 
 import static com.eng2.assessment.vm.events.Topics.TOPIC_VIDEO_POSTED;
 import static com.eng2.assessment.vm.events.Topics.TOPIC_VIDEO_VIEWED;
 
-import com.eng2.assesment.sm.domain.Hashtag;
-import com.eng2.assesment.sm.domain.User;
-import com.eng2.assesment.sm.domain.Video;
-import com.eng2.assesment.sm.repositories.HashtagRepository;
-import com.eng2.assesment.sm.repositories.UserRepository;
-import com.eng2.assesment.sm.repositories.VideoRepository;
+import com.eng2.assessment.sm.domain.Hashtag;
+import com.eng2.assessment.sm.domain.User;
+import com.eng2.assessment.sm.domain.Video;
+import com.eng2.assessment.sm.repositories.HashtagRepository;
+import com.eng2.assessment.sm.repositories.UserRepository;
+import com.eng2.assessment.sm.repositories.VideoRepository;
 import com.eng2.assessment.vm.dto.VideoInteractionDetailsDTO;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
@@ -53,6 +53,14 @@ public class VideoInteractionConsumer {
     videoRepository.update(video);
   }
 
+  /**
+   * Process a received message and create any entities that are not in the database. Checks that
+   * there are database records for any users, hashtags and videos mentioned in the message and
+   * creates new records for missing values.
+   *
+   * <p>Note: Does not perform any validation as messages are coming from VM, which validates the
+   * initial records.
+   */
   private void createMissingEntities(UUID videoId, VideoInteractionDetailsDTO details) {
     // Check user exists
     if (!userRepository.existsByUserNameEqual(details.userName())) {

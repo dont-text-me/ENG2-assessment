@@ -1,5 +1,6 @@
-package com.eng2.assesment.sm.domain;
+package com.eng2.assessment.sm.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,7 +32,7 @@ public class Video {
     this.viewCount = viewCount;
   }
 
-  @ManyToMany private Set<User> viewers;
+  @ManyToMany @JsonIgnore private Set<User> viewers;
 
   public UUID getId() {
     return id;
