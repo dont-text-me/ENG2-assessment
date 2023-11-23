@@ -41,7 +41,7 @@ services:
       MARIADB_ROOT_PASSWORD: iamroot
       MARIADB_DATABASE: &smdbname subscriptions
     volumes:
-      - mariadb_thm_data:/var/lib/mysql
+      - mariadb_sm_data:/var/lib/mysql
     healthcheck:
       test: [ 'CMD', 'healthcheck.sh', '--su=mysql', '--connect', '--innodb_initialized' ]
       timeout: 10s
@@ -217,6 +217,7 @@ services:
 volumes:
   mariadb_vm_data:
   mariadb_thm_data:
+  mariadb_sm_data:
   kafka_0_data:
   kafka_1_data:
   kafka_2_data:
