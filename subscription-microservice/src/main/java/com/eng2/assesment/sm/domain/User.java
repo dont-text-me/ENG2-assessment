@@ -30,6 +30,14 @@ public class User {
     this.userName = userName;
   }
 
+  public void addSubscription(Hashtag newHashtag) {
+    this.subscriptions.add(newHashtag);
+  }
+
+  public void removeSubscription(Hashtag hashtag) {
+    this.subscriptions.removeIf(it -> it.getName().equals(hashtag.getName()));
+  }
+
   public Set<Hashtag> getSubscriptions() {
     return subscriptions;
   }
