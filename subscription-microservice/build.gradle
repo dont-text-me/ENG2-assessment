@@ -63,7 +63,7 @@ run{
 	systemProperties([
 		'datasources.default.url': 'jdbc:mariadb://localhost:3308/subscriptions',
 		'datasources.default.username': 'subscriptions',
-		'datasources.default.password': 'subscriptionsSecret',
+		'datasources.default.password': 'subscriptionSecret',
 		'kafka.bootstrap.servers': 'localhost:9094,localhost:9095,localhost:9096',
 		'micronaut.server.port': '8083',
 

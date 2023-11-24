@@ -11,9 +11,13 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.QueryValue;
 import jakarta.inject.Inject;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller("/recommendations")
 public class RecommendationsController {
+
+  private static final Logger logger = LoggerFactory.getLogger(SubscriptionsController.class);
 
   @Inject VideoRepository videoRepository;
 
@@ -23,7 +27,7 @@ public class RecommendationsController {
   @Get("/{userName}")
   public List<Video> getRecommendations(String userName, @QueryValue String hashtagName) {
     User user = userRepository.findByUserNameEqual(userName).orElse(null);
-    Hashtag hashtag = hashtagRepository.findById(hashtagName).orElse(null);
+    Hashtag hashtag = hashtagRepository.findByNameEqual(hashtagName).orElse(null);
 
     if (user == null) {
       return null;
@@ -33,6 +37,9 @@ public class RecommendationsController {
       return null;
     }
 
-    return videoRepository.findRecommendations(hashtag, user);
+    return videoRepository.findByHashtagsNameEqualOrderByViewCountDesc(hashtagName).stream()
+        .filter(it -> !it.getViewerUserNames().contains(userName))
+        .limit(10)
+        .toList();
   }
 }

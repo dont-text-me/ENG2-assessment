@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,6 +21,10 @@ public class Video {
   @Column(nullable = false)
   private Long viewCount;
 
+  @ManyToMany private Set<Hashtag> hashtags;
+
+  @ManyToMany @JsonIgnore private Set<User> viewers;
+
   public Long getViewCount() {
     return viewCount;
   }
@@ -31,10 +36,6 @@ public class Video {
   public void setViewCount(Long viewCount) {
     this.viewCount = viewCount;
   }
-
-  @ManyToMany(mappedBy = "viewedVideos")
-  @JsonIgnore
-  private Set<User> viewers;
 
   public UUID getId() {
     return id;
@@ -72,6 +73,28 @@ public class Video {
     this.viewers.add(viewer);
   }
 
-  @ManyToMany(mappedBy = "taggedVideos")
-  private Set<Hashtag> hashtags;
+  public List<String> getHashtagNames() {
+    return this.hashtags.stream().map(Hashtag::getName).toList();
+  }
+
+  public List<String> getViewerUserNames() {
+    return this.viewers.stream().map(User::getUserName).toList();
+  }
+
+  @Override
+  public String toString() {
+    return "Video{"
+        + "id="
+        + id
+        + ", title='"
+        + title
+        + '\''
+        + ", viewCount="
+        + viewCount
+        + ", hashtags="
+        + hashtags
+        + ", viewers="
+        + viewers
+        + '}';
+  }
 }

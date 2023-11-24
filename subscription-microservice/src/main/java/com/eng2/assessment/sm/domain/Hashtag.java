@@ -1,5 +1,6 @@
 package com.eng2.assessment.sm.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,9 +13,12 @@ public class Hashtag {
   @Id private String name;
 
   @ManyToMany(mappedBy = "subscriptions")
+  @JsonIgnore
   private Set<User> subscribers;
 
-  @ManyToMany private Set<Video> taggedVideos;
+  @ManyToMany(mappedBy = "hashtags")
+  @JsonIgnore
+  private Set<Video> taggedVideos;
 
   public String getName() {
     return name;
@@ -38,5 +42,10 @@ public class Hashtag {
 
   public void setTaggedVideos(Set<Video> taggedVideos) {
     this.taggedVideos = taggedVideos;
+  }
+
+  @Override
+  public String toString() {
+    return "Hashtag{" + "name='" + name + '\'' + '}';
   }
 }

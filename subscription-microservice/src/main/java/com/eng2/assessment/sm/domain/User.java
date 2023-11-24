@@ -1,5 +1,6 @@
 package com.eng2.assessment.sm.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -14,7 +15,9 @@ public class User {
 
   @ManyToMany private Set<Hashtag> subscriptions;
 
-  @ManyToMany private Set<Video> viewedVideos;
+  @ManyToMany(mappedBy = "viewers")
+  @JsonIgnore
+  private Set<Video> viewedVideos;
 
   public boolean hasWatchedVideo(UUID videoId) {
     return this.viewedVideos.stream().anyMatch(it -> it.getId().equals(videoId));
@@ -54,5 +57,10 @@ public class User {
 
   public void setViewedVideos(Set<Video> viewedVideos) {
     this.viewedVideos = viewedVideos;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" + "userName='" + userName + '\'' + '}';
   }
 }
