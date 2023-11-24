@@ -64,7 +64,7 @@ public class RecommendationsControllerTest {
         .isNotNull()
         .hasSize(10)
         .isSortedAccordingTo(Comparator.comparing(Video::getViewCount).reversed())
-        .allMatch(it -> it.getHashtagNames().contains("Zoo"));
+        .allMatch(it -> it.hashtagNames().contains("Zoo"));
   }
 
   @Test
@@ -112,7 +112,7 @@ public class RecommendationsControllerTest {
         .isNotNull()
         .hasSize(8)
         .isSortedAccordingTo(Comparator.comparing(Video::getViewCount).reversed())
-        .allMatch(it -> it.getHashtagNames().contains("Zoo"))
+        .allMatch(it -> it.hashtagNames().contains("Zoo"))
         .noneMatch(
             it ->
                 Integer.parseInt(it.getTitle().split(" ")[1])
@@ -157,7 +157,7 @@ public class RecommendationsControllerTest {
         .isNotNull()
         .hasSize(8)
         .isSortedAccordingTo(Comparator.comparing(Video::getViewCount).reversed())
-        .allMatch(it -> it.getHashtagNames().contains("Zoo"))
+        .allMatch(it -> it.hashtagNames().contains("Zoo"))
         .noneMatch(
             it ->
                 Integer.parseInt(it.getTitle().split(" ")[1])

@@ -73,11 +73,11 @@ public class Video {
     this.viewers.add(viewer);
   }
 
-  public List<String> getHashtagNames() {
+  public List<String> hashtagNames() {
     return this.hashtags.stream().map(Hashtag::getName).toList();
   }
 
-  public List<String> getViewerUserNames() {
+  public List<String> viewerUserNames() {
     return this.viewers.stream().map(User::getUserName).toList();
   }
 

@@ -27,6 +27,10 @@ public class User {
     return userName;
   }
 
+  public boolean isSubscribedTo(String hashtagName) {
+    return this.subscriptions.stream().anyMatch(it -> it.getName().equals(hashtagName));
+  }
+
   public void setUserName(String userName) {
     this.userName = userName;
   }

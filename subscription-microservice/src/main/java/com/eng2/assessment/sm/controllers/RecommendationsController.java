@@ -38,7 +38,7 @@ public class RecommendationsController {
     }
 
     return videoRepository.findByHashtagsNameEqualOrderByViewCountDesc(hashtagName).stream()
-        .filter(it -> !it.getViewerUserNames().contains(userName))
+        .filter(it -> !it.viewerUserNames().contains(userName))
         .limit(10)
         .toList();
   }
