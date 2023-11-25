@@ -4,3 +4,6 @@ client-urls:
     users: http://localhost:3000/users
   thm:
     trending-hashtags: http://localhost:3001/trending-hashtags
+  sm:
+    subscriptions: http://localhost:3002/subscriptions
+    recommendations: http://localhost:3002/recommendations

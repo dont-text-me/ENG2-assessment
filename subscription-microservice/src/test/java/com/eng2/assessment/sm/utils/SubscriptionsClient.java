@@ -6,7 +6,7 @@ import io.micronaut.http.annotation.Put;
 import io.micronaut.http.client.annotation.Client;
 
 @Client(
-    value = "${subscriptions.url: `http://localhost:8083/subscriptions`}",
+    value = "${subscriptions.url: `http://localhost:8082/subscriptions`}",
     errorType = String.class)
 public interface SubscriptionsClient {
 
