@@ -14,6 +14,7 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -48,6 +49,7 @@ public class VideoInteractionConsumerTest {
 
       assertThat(userRepo.findAll()).hasSize(1);
       assertThat(userRepo.findAll().get(0).getUserName()).isEqualTo(userName);
+      assertThat(userRepo.findAll().get(0).getViewedVideos()).hasSize(1);
 
       assertThat(videoRepo.findAll()).hasSize(1);
       assertThat(videoRepo.findAll().get(0).getTitle()).isEqualTo(videoTitle);
@@ -126,6 +128,34 @@ public class VideoInteractionConsumerTest {
       assertThat(videoRepo.findAll().get(0).getTitle()).isEqualTo(videoTitle);
       assertThat(videoRepo.findAll().get(0).getId()).isEqualTo(videoId);
       assertThat(videoRepo.findAll().get(0).getViewCount()).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName("Handles several views for same video")
+    public void handlesSeveralViews() {
+      UUID videoId = UUID.randomUUID();
+      List<String> hashtagNames = List.of("Elephant", "Lion", "Tiger");
+      String videoTitle = "Safari trip";
+
+      // 10 views total: 6 by different users, the remaining 4 by a user called RepeatedViewer
+
+      IntStream.range(0, 10)
+          .forEach(
+              it ->
+                  sut.processViewed(
+                      videoId,
+                      new VideoInteractionDetailsDTO(
+                          it <= 5 ? "User-" + it : "RepeatedViewer", hashtagNames, videoTitle)));
+
+      assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
+          .hasSize(3)
+          .containsExactlyElementsOf(hashtagNames);
+
+      assertThat(videoRepo.findAll()).hasSize(1);
+      assertThat(videoRepo.findAll().get(0).getTitle()).isEqualTo(videoTitle);
+      assertThat(videoRepo.findAll().get(0).getId()).isEqualTo(videoId);
+      assertThat(videoRepo.findAll().get(0).getViewCount()).isEqualTo(10L);
+      assertThat(videoRepo.findAll().get(0).getViewers()).hasSize(7);
     }
   }
 

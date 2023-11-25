@@ -47,11 +47,14 @@ public class VideoInteractionConsumer {
     Video video = videoRepository.findById(videoId).get();
     User user = userRepository.findByUserNameEqual(details.userName()).get();
     if (!user.hasWatchedVideo(videoId)) {
-      user.addViewedVideo(video);
+      logger.info(
+          String.format(
+              "User %s has watched video %s for the first time. Adding new link to database",
+              details.userName(), details.videoTitle()));
+      video.addViewer(user);
     }
     video.incrementViewCount();
     videoRepository.update(video);
-    userRepository.update(user);
   }
 
   /**
@@ -94,6 +97,7 @@ public class VideoInteractionConsumer {
       video.setId(videoId);
       video.setHashtags(allHashtags);
       video.setViewCount(0L);
+      video.setViewers(new HashSet<>());
       video.setTitle(details.videoTitle());
       videoRepository.save(video);
     }

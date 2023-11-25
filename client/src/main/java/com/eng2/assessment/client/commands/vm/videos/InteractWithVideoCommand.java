@@ -27,7 +27,7 @@ public class InteractWithVideoCommand implements Runnable {
   @CommandLine.Option(
       names = {"-t", "--type"},
       required = true,
-      description = "The type of interaction (LIKE, DISLIKE, VIEW)")
+      description = "The type of interaction (LIKE, DISLIKE, WATCH)")
   private VideoInteractionType interactionType;
 
   @CommandLine.Option(

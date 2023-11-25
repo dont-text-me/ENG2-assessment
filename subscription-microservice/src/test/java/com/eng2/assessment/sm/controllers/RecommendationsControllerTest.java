@@ -5,11 +5,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.eng2.assessment.sm.domain.Hashtag;
 import com.eng2.assessment.sm.domain.User;
 import com.eng2.assessment.sm.domain.Video;
+import com.eng2.assessment.sm.dto.VideoRecommendationDTO;
 import com.eng2.assessment.sm.repositories.HashtagRepository;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import com.eng2.assessment.sm.repositories.VideoRepository;
 import com.eng2.assessment.sm.utils.DbCleanupExtension;
 import com.eng2.assessment.sm.utils.RecommendationsClient;
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.HttpStatus;
+import io.micronaut.serde.ObjectMapper;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.util.*;
@@ -25,6 +29,7 @@ public class RecommendationsControllerTest {
   @Inject VideoRepository videoRepo;
   @Inject HashtagRepository hashtagRepo;
   @Inject RecommendationsClient client;
+  @Inject ObjectMapper objectMapper;
 
   @Test
   public void givesRecommendations() {
@@ -58,9 +63,13 @@ public class RecommendationsControllerTest {
     user.setSubscriptions(Set.of(hashtag));
     userRepo.save(user);
 
-    List<Video> result = client.getRecommendations("ZooLover", "Zoo");
+    HttpResponse<VideoRecommendationDTO> result = client.getRecommendations("ZooLover", "Zoo");
 
-    assertThat(result)
+    assertThat(result.getStatus().getCode()).isEqualTo(HttpStatus.OK.getCode());
+
+    List<Video> videos = result.body().result();
+
+    assertThat(videos)
         .isNotNull()
         .hasSize(10)
         .isSortedAccordingTo(Comparator.comparing(Video::getViewCount).reversed())
@@ -89,7 +98,7 @@ public class RecommendationsControllerTest {
     otherUser.setSubscriptions(Set.of(hashtag));
     userRepo.save(otherUser);
 
-    List<Video> videos =
+    List<Video> videosToSave =
         IntStream.range(0, 15)
             .mapToObj(
                 it -> {
@@ -104,11 +113,15 @@ public class RecommendationsControllerTest {
                 })
             .toList();
 
-    videoRepo.saveAll(videos);
+    videoRepo.saveAll(videosToSave);
 
-    List<Video> result = client.getRecommendations("ZooLover", "Zoo");
+    HttpResponse<VideoRecommendationDTO> result = client.getRecommendations("ZooLover", "Zoo");
 
-    assertThat(result)
+    assertThat(result.getStatus().getCode()).isEqualTo(HttpStatus.OK.getCode());
+
+    List<Video> videos = result.body().result();
+
+    assertThat(videos)
         .isNotNull()
         .hasSize(8)
         .isSortedAccordingTo(Comparator.comparing(Video::getViewCount).reversed())
@@ -135,7 +148,7 @@ public class RecommendationsControllerTest {
     user.setSubscriptions(Set.of(hashtag));
     userRepo.save(user);
 
-    List<Video> videos =
+    List<Video> videosToSave =
         IntStream.range(0, 15)
             .mapToObj(
                 it -> {
@@ -149,11 +162,15 @@ public class RecommendationsControllerTest {
                 })
             .toList();
 
-    videoRepo.saveAll(videos);
+    videoRepo.saveAll(videosToSave);
 
-    List<Video> result = client.getRecommendations("ZooLover", "Zoo");
+    HttpResponse<VideoRecommendationDTO> result = client.getRecommendations("ZooLover", "Zoo");
 
-    assertThat(result)
+    assertThat(result.getStatus().getCode()).isEqualTo(HttpStatus.OK.getCode());
+
+    List<Video> videos = result.body().result();
+
+    assertThat(videos)
         .isNotNull()
         .hasSize(8)
         .isSortedAccordingTo(Comparator.comparing(Video::getViewCount).reversed())
@@ -162,5 +179,50 @@ public class RecommendationsControllerTest {
             it ->
                 Integer.parseInt(it.getTitle().split(" ")[1])
                     > 7); // Video 8 onwards are tagged with #Other
+  }
+
+  @Test
+  public void handlesUnknownUser() {
+    Hashtag hashtag = new Hashtag();
+    hashtag.setName("Zoo");
+    hashtagRepo.save(hashtag);
+
+    HttpResponse<VideoRecommendationDTO> result = client.getRecommendations("UnknownUser", "Zoo");
+
+    assertThat(result.getStatus().getCode()).isEqualTo(HttpStatus.NOT_FOUND.getCode());
+    assertThat(result.body().errorMessage()).isNotNull().contains("Could not find user");
+  }
+
+  @Test
+  public void handlesUnknownHashtag() {
+    User user = new User();
+    user.setUserName("ZooLover");
+    user.setSubscriptions(Collections.emptySet());
+    userRepo.save(user);
+
+    HttpResponse<VideoRecommendationDTO> result =
+        client.getRecommendations("ZooLover", "UnknownHashtag");
+
+    assertThat(result.getStatus().getCode()).isEqualTo(HttpStatus.NOT_FOUND.getCode());
+    assertThat(result.body().errorMessage()).isNotNull().contains("Could not find hashtag");
+  }
+
+  @Test
+  public void handlesUserNotSubscribed() {
+    Hashtag hashtag = new Hashtag();
+    hashtag.setName("Zoo");
+    hashtagRepo.save(hashtag);
+
+    User user = new User();
+    user.setUserName("ZooLover");
+    user.setSubscriptions(Collections.emptySet());
+    userRepo.save(user);
+
+    HttpResponse<VideoRecommendationDTO> result = client.getRecommendations("ZooLover", "Zoo");
+
+    assertThat(result.getStatus().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
+    assertThat(result.body().errorMessage())
+        .isNotNull()
+        .contains("User", "is not subscribed to hashtag");
   }
 }

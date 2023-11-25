@@ -17,5 +17,12 @@ public interface VideoRepository extends CrudRepository<Video, UUID> {
   List<Video> findByHashtagsNameEqualOrderByViewCountDesc(String hashtags_name);
 
   @Override
+  @Join(value = "viewers", type = Join.Type.LEFT_FETCH)
+  @Join(value = "hashtags", type = Join.Type.LEFT_FETCH)
   Optional<Video> findById(UUID id);
+
+  @Override
+  @Join(value = "viewers", type = Join.Type.LEFT_FETCH)
+  @Join(value = "hashtags", type = Join.Type.LEFT_FETCH)
+  List<Video> findAll();
 }

@@ -212,7 +212,7 @@ services:
     depends_on:
       kafka-0:
         condition: service_started
-    command: kafka-topics.sh --bootstrap-server kafka-0:9092 --topic video-liked --create --if-not-exists; kafka-topics.sh --bootstrap-server kafka-0:9092 --topic trending-hashtags --create --if-not-exists
+    command: kafka-topics.sh --bootstrap-server kafka-0:9092 --topic video-liked --create --if-not-exists && kafka-topics.sh --bootstrap-server kafka-0:9092 --topic video-viewed --create --if-not-exists && kafka-topics.sh --bootstrap-server kafka-0:9092 --topic video-posted --create --if-not-exists
 
 volumes:
   mariadb_vm_data:
