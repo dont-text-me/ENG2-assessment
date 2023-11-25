@@ -7,7 +7,7 @@ public class TrendingHashtagFormatter {
     return String.format(
         "\t%s (%s %s)%n",
         hashtag.getHashtagName(),
-        hashtag.getLikeCount().equals(1L) ? "like" : "likes",
-        hashtag.getLikeCount());
+        hashtag.getLikeCount(),
+        hashtag.getLikeCount().equals(1L) ? "like" : "likes");
   }
 }
