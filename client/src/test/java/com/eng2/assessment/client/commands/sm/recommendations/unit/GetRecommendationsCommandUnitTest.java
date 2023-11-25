@@ -52,7 +52,7 @@ public class GetRecommendationsCommandUnitTest {
                               new MinifiedVideoRecommendationDetails("Video 1", 10, List.of("Zoo")),
                               new MinifiedVideoRecommendationDetails("Video 2", 6, List.of("Zoo")),
                               new MinifiedVideoRecommendationDetails(
-                                  "Video 3", 3, List.of("Zoo"))))));
+                                  "Video 3", 1, List.of("Zoo"))))));
       String[] args = new String[] {"-h", "Zoo", "-u", "ZooLover"};
       PicocliRunner.run(sut, ctx, args);
       wireMock.verify(getRequestedFor(urlEqualTo("/recommendations/ZooLover?hashtagName=Zoo")));
@@ -64,7 +64,8 @@ public class GetRecommendationsCommandUnitTest {
               "Video 2 (6 views)",
               "Hashtags: Zoo",
               "------",
-              "Video 3 (3 views)",
+              "Video 3 (1 view)", // Tests that the plural/singular is correct for videos with 1
+              // view
               "Hashtags: Zoo",
               "------");
     }
