@@ -56,24 +56,24 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
     String videoAuthorUserName = "VideoAuthor";
     String videoViewerUserName = "VideoViewer";
     String hashtagName = "Zoo";
+    String videoNamePrefix = "Star trek episode ";
     vmUsersClient.registerUser(new UserDTO(videoAuthorUserName));
     vmUsersClient.registerUser(new UserDTO(videoViewerUserName));
 
     for (int i = 0; i < 10; i++) {
       String postVideoResponseBody =
           vmVideosClient
-              .publish(new VideoDTO("Video " + i, videoAuthorUserName, List.of(hashtagName)))
+              .publish(new VideoDTO(videoNamePrefix + i, videoAuthorUserName, List.of(hashtagName)))
               .body();
       UUID videoId =
           UUID.fromString(
               postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
-      Thread.sleep(500L);
+      Thread.sleep(2000L);
       if (i < 5) {
         vmVideosClient.watchVideo(videoId, videoViewerUserName);
-        Thread.sleep(500L);
       }
     }
-    Thread.sleep(3000L); // Pause for all the messages to be fully processed
+    Thread.sleep(5000L); // Pause for all the messages to be fully processed
     seedSubscription(videoViewerUserName, hashtagName);
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI)) {
@@ -81,11 +81,10 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
       PicocliRunner.run(sut, ctx, args);
       assertThat(baos.toString())
           .doesNotContain(
-              "Video 0", "Video 1", "Video 2", "Video 3",
-              "Video 4") // VideoViewer has already seen these so they should be omitted
+              IntStream.range(0, 5).mapToObj(it -> videoNamePrefix + it).toList()) // VideoViewer has already seen these so they should be omitted
           .contains(
               IntStream.range(5, 10)
-                  .mapToObj(it -> String.format("Video %s (0 views)", it))
+                  .mapToObj(it -> String.format("%s%s (0 views)",videoNamePrefix, it))
                   .toList());
     }
   }
