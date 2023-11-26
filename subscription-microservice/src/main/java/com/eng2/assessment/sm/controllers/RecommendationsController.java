@@ -47,8 +47,6 @@ public class RecommendationsController {
     }
 
     return HttpResponse.ok(
-        new VideoRecommendationDTO(
-            videoRepository.findRecs(hashtagName, userName),
-            null));
+        new VideoRecommendationDTO(videoRepository.findRecs(hashtagName, userName), null));
   }
 }
