@@ -51,6 +51,7 @@ public class ManageSubscriptionsCommandFeatureTest extends AbstractFeatureTest {
   }
 
   @Test
+  @DisplayName("User is able to unsubscribe but can do so only once")
   public void canUnSubscribe() throws SQLException {
     seedUser("ZooLover");
     seedHashtag("Zoo");
@@ -75,6 +76,7 @@ public class ManageSubscriptionsCommandFeatureTest extends AbstractFeatureTest {
   }
 
   @Test
+  @DisplayName("User is able to subscribe but can do so only once")
   public void canSubscribe() throws SQLException {
     seedUser("ZooLover");
     seedHashtag("Zoo");

@@ -51,6 +51,7 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
   }
 
   @Test
+  @DisplayName("Returns recommendations for a user and omits videos that the user has already seen")
   public void returnsRecommendations() throws InterruptedException, SQLException {
     String videoAuthorUserName = "VideoAuthor";
     String videoViewerUserName = "VideoViewer";
@@ -72,7 +73,7 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
         Thread.sleep(100L);
       }
     }
-    Thread.sleep(1000L);
+    Thread.sleep(2000L); // Pause for all the messages to be fully processed
     seedSubscription(videoViewerUserName, hashtagName);
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI)) {
@@ -90,6 +91,7 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
   }
 
   @Test
+  @DisplayName("Handles user not being subscribed to the hashtag")
   public void handlesUserNotSubscribed() throws InterruptedException {
     String videoAuthorUserName = "VideoAuthor";
     String videoViewerUserName = "VideoViewer";
