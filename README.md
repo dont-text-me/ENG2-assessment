@@ -19,12 +19,22 @@ Build docker images
 ./gradlew dockerBuild
 ```
 ### Step 2
+Build client jar
+```shell
+./gradlew client:shadowJar
+```
+### Step 3
 Start the kafka cluster, microservices and databases
 ```shell
 docker compose up
 ```
-### Step 3
-Use CLI to interact with the apps. From the `client` directory:
+### Step 4
+Use CLI to interact with the apps. 
+```shell
+./video-services.sh your-command
+```
+
+Alternatively, from the `client` directory:
 ```shell
 ./gradlew run --args="your commmand"
 ```
