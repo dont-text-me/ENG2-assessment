@@ -2,6 +2,7 @@ package com.eng2.assessment.vm.repositories;
 
 import com.eng2.assessment.vm.domain.Video;
 import io.micronaut.data.annotation.Join;
+import io.micronaut.data.annotation.Query;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import jakarta.annotation.Nonnull;
@@ -42,11 +43,15 @@ public interface VideosRepository extends CrudRepository<Video, UUID> {
   @Join(value = "author", type = Join.Type.LEFT_FETCH)
   List<Video> findAllByAuthorUsernameEquals(String authorUsername);
 
-  @Join(value = "hashtags", type = Join.Type.LEFT_FETCH)
-  @Join(value = "author", type = Join.Type.LEFT_FETCH)
-  List<Video> findAllByHashtagsId(String hashtagsId);
+  @Query("select v from Video v " +
+          "left join fetch v.hashtags " +
+          "left join fetch v.author " +
+          "where exists(select 1 from v.hashtags hs where hs.id = :hashtagId)")
+  List<Video> filterByHashtag(String hashtagId);
 
-  @Join(value = "hashtags", type = Join.Type.LEFT_FETCH)
-  @Join(value = "author", type = Join.Type.LEFT_FETCH)
-  List<Video> findAllByAuthorUsernameEqualsAndHashtagsId(String authorUsername, String hashtagId);
+  @Query("select v from Video v " +
+          "left join fetch v.hashtags " +
+          "left join fetch v.author " +
+          "where exists(select 1 from v.hashtags hs where hs.id = :hashtagId) and v.author.username = :authorUsername")
+  List<Video> filterByAuthorAndHashtag(String authorUsername, String hashtagId);
 }
