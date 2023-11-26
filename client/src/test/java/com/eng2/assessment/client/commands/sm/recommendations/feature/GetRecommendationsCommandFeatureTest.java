@@ -56,7 +56,7 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
     String videoAuthorUserName = "VideoAuthor";
     String videoViewerUserName = "VideoViewer";
     String hashtagName = "Zoo";
-    String videoNamePrefix = "Star trek episode ";
+    String videoNamePrefix = "Video ";
     vmUsersClient.registerUser(new UserDTO(videoAuthorUserName));
     vmUsersClient.registerUser(new UserDTO(videoViewerUserName));
 
