@@ -7,6 +7,11 @@
   * Sends messages to their corresponding kafka topics
 * trending-hashtag-microservice
   * Subscribes to events from the video microservice and reports the top 10 most liked hashtags within the last hour
+* subscriptions-microservice
+  * Subscribes to events from the video microservice and:
+    * Tracks users' subscriptions to hashtags
+    * Provides a list of the top 10 recommended videos for each combination of user and hashtag
+    * Sends messages about users subscribing/unsubscribing to the cluster
 * client
   * Contains CLI commands that enable interaction with other microservices
 
@@ -29,7 +34,7 @@ Start the kafka cluster, microservices and databases
 docker compose up
 ```
 ### Step 4
-Use CLI to interact with the apps. 
+Use CLI to interact with the apps. (UNIX/git bash/WSL) 
 ```shell
 ./video-services.sh your-command
 ```
@@ -38,4 +43,4 @@ Alternatively, from the `client` directory:
 ```shell
 ./gradlew run --args="your commmand"
 ```
-For the full list of commands, please consult [the client's README](client/README.md)
+For the full list of commands as well as feature testing instructions, please consult [the client's README](client/README.md)
