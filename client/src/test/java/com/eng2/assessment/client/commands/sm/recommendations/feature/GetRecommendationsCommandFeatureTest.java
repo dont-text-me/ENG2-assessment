@@ -67,13 +67,13 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
       UUID videoId =
           UUID.fromString(
               postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
-      Thread.sleep(100L);
+      Thread.sleep(500L);
       if (i < 5) {
         vmVideosClient.watchVideo(videoId, videoViewerUserName);
-        Thread.sleep(100L);
+        Thread.sleep(500L);
       }
     }
-    Thread.sleep(2000L); // Pause for all the messages to be fully processed
+    Thread.sleep(3000L); // Pause for all the messages to be fully processed
     seedSubscription(videoViewerUserName, hashtagName);
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI)) {
