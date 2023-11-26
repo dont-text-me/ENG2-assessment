@@ -81,10 +81,12 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
       PicocliRunner.run(sut, ctx, args);
       assertThat(baos.toString())
           .doesNotContain(
-              IntStream.range(0, 5).mapToObj(it -> videoNamePrefix + it).toList()) // VideoViewer has already seen these so they should be omitted
+              IntStream.range(0, 5)
+                  .mapToObj(it -> videoNamePrefix + it)
+                  .toList()) // VideoViewer has already seen these so they should be omitted
           .contains(
               IntStream.range(5, 10)
-                  .mapToObj(it -> String.format("%s%s (0 views)",videoNamePrefix, it))
+                  .mapToObj(it -> String.format("%s%s (0 views)", videoNamePrefix, it))
                   .toList());
     }
   }

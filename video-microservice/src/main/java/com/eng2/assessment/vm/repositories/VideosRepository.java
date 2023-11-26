@@ -43,15 +43,17 @@ public interface VideosRepository extends CrudRepository<Video, UUID> {
   @Join(value = "author", type = Join.Type.LEFT_FETCH)
   List<Video> findAllByAuthorUsernameEquals(String authorUsername);
 
-  @Query("select v from Video v " +
-          "left join fetch v.hashtags " +
-          "left join fetch v.author " +
-          "where exists(select 1 from v.hashtags hs where hs.id = :hashtagId)")
+  @Query(
+      "select v from Video v "
+          + "left join fetch v.hashtags "
+          + "left join fetch v.author "
+          + "where exists(select 1 from v.hashtags hs where hs.id = :hashtagId)")
   List<Video> filterByHashtag(String hashtagId);
 
-  @Query("select v from Video v " +
-          "left join fetch v.hashtags " +
-          "left join fetch v.author " +
-          "where exists(select 1 from v.hashtags hs where hs.id = :hashtagId) and v.author.username = :authorUsername")
+  @Query(
+      "select v from Video v "
+          + "left join fetch v.hashtags "
+          + "left join fetch v.author "
+          + "where exists(select 1 from v.hashtags hs where hs.id = :hashtagId) and v.author.username = :authorUsername")
   List<Video> filterByAuthorAndHashtag(String authorUsername, String hashtagId);
 }
