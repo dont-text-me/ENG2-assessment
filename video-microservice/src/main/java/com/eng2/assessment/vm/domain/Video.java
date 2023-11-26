@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@Entity
-@Serdeable
 /**
  * Video entity. Videos keep track of users that have viewed them. Even though a user can view a
  * video multiple times (updating the view count), they can only be entered as a viewer once.
  */
+@Entity
+@Serdeable
 public class Video {
   @Id @GeneratedValue private UUID id;
 

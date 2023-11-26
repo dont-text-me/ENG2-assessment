@@ -5,12 +5,12 @@ import io.micronaut.serde.annotation.Serdeable;
 import jakarta.persistence.*;
 import java.util.Set;
 
-@Entity
-@Serdeable
 /**
  * Hashtag entity. Hashtag names have to be unique to be able to correctly identify videos,
  * therefore its name is its identifier in the database.
  */
+@Entity
+@Serdeable
 public class Hashtag {
   @Id private String id;
 

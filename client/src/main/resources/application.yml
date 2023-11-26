@@ -11,3 +11,6 @@ client-urls:
     users: http://localhost:8080/users
   thm:
     trending-hashtags: http://localhost:8081/trending-hashtags
+  sm:
+    subscriptions: http://localhost:8082/subscriptions
+    recommendations: http://localhost:8082/recommendations

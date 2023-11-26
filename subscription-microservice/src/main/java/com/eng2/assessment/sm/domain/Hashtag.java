@@ -1,0 +1,51 @@
+package com.eng2.assessment.sm.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.micronaut.serde.annotation.Serdeable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import java.util.Set;
+
+@Entity
+@Serdeable
+public class Hashtag {
+  @Id private String name;
+
+  @ManyToMany(mappedBy = "subscriptions")
+  @JsonIgnore
+  private Set<User> subscribers;
+
+  @ManyToMany(mappedBy = "hashtags")
+  @JsonIgnore
+  private Set<Video> taggedVideos;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Set<User> getSubscribers() {
+    return subscribers;
+  }
+
+  public void setSubscribers(Set<User> subscribers) {
+    this.subscribers = subscribers;
+  }
+
+  public Set<Video> getTaggedVideos() {
+    return taggedVideos;
+  }
+
+  public void setTaggedVideos(Set<Video> taggedVideos) {
+    this.taggedVideos = taggedVideos;
+  }
+
+  @Override
+  public String toString() {
+    return "Hashtag{" + "name='" + name + '\'' + '}';
+  }
+}

@@ -32,6 +32,22 @@ services:
       retries: 3
     ports:
       - 3307:3306
+  sm-db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_USER: &smdbuser subscriptions
+      MARIADB_PASSWORD: &smdbpass featureTestSubscriptionSecret
+      MARIADB_ROOT_PASSWORD: iamroot
+      MARIADB_DATABASE: &smdbname subscriptions
+    volumes:
+      - mariadb_sm_data:/var/lib/mysql
+    healthcheck:
+      test: [ 'CMD', 'healthcheck.sh', '--su=mysql', '--connect', '--innodb_initialized' ]
+      timeout: 10s
+      retries: 3
+    ports:
+      - 3308:3306
   vm:
     image: video-microservice:latest
     restart: unless-stopped
@@ -53,6 +69,8 @@ services:
         condition: service_healthy
       kafka-0:
         condition: service_healthy
+      create-topics:
+        condition: service_completed_successfully
   thm:
     image: trending-hashtag-microservice:latest
     restart: unless-stopped
@@ -67,6 +85,30 @@ services:
       - 8081:8080
     healthcheck:
       test: curl -s http://thm:8080/health | grep -q '"status":"UP"' || exit 1
+      timeout: 10s
+      retries: 3
+    depends_on:
+      thm-db:
+        condition: service_healthy
+      kafka-0:
+        condition: service_healthy
+      create-topics:
+        condition: service_completed_successfully
+
+  sm:
+    image: subscription-microservice:latest
+    restart: unless-stopped
+    environment:
+      DB_USER: *smdbuser
+      DB_PASSWORD: *smdbpass
+      DB_HOST: sm-db
+      DB_NAME: *smdbname
+      KAFKA_BOOTSTRAP_SERVERS: kafka-0:9092,kafka-1:9092,kafka-2:9092
+      MICRONAUT_ENVIRONMENTS: prod
+    ports:
+      - 8082:8080
+    healthcheck:
+      test: curl -s http://sm:8080/health | grep -q '"status":"UP"' || exit 1
       timeout: 10s
       retries: 3
     depends_on:
@@ -176,12 +218,15 @@ services:
     depends_on:
       kafka-0:
         condition: service_started
-    command: kafka-topics.sh --bootstrap-server kafka-0:9092 --topic video-liked --create --if-not-exists; kafka-topics.sh --bootstrap-server kafka-0:9092 --topic trending-hashtags --create --if-not-exists
+    command: "bash -c 'kafka-topics.sh --bootstrap-server kafka-0:9092 --create --topic video-viewed --if-not-exists && \
+                       kafka-topics.sh --bootstrap-server kafka-0:9092 --create --topic video-posted --if-not-exists && \
+                       kafka-topics.sh --bootstrap-server kafka-0:9092 --create --topic video-liked --if-not-exists'"
 
 
 volumes:
   mariadb_vm_data:
   mariadb_thm_data:
+  mariadb_sm_data:
   kafka_0_data:
   kafka_1_data:
   kafka_2_data:

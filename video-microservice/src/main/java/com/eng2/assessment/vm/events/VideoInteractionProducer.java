@@ -18,4 +18,7 @@ public interface VideoInteractionProducer {
 
   @Topic(TOPIC_VIDEO_VIEWED)
   void viewVideo(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details);
+
+  @Topic(TOPIC_VIDEO_POSTED)
+  void postVideo(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details);
 }

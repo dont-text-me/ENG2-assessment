@@ -1,5 +1,7 @@
 package com.eng2.assessment.client;
 
+import com.eng2.assessment.client.commands.sm.recommendations.GetRecommendationsCommand;
+import com.eng2.assessment.client.commands.sm.subscriptions.ManageSubscriptionsCommand;
 import com.eng2.assessment.client.commands.thm.ListTrendingHashtagsCommand;
 import com.eng2.assessment.client.commands.vm.users.RegisterUserCommand;
 import com.eng2.assessment.client.commands.vm.videos.*;
@@ -16,7 +18,9 @@ import picocli.CommandLine.Command;
       PostVideoCommand.class,
       InteractWithVideoCommand.class,
       ListVideosCommand.class,
-      ListTrendingHashtagsCommand.class
+      ListTrendingHashtagsCommand.class,
+      ManageSubscriptionsCommand.class,
+      GetRecommendationsCommand.class
     })
 public class ClientCommand implements Runnable {
   public static void main(String[] args) {

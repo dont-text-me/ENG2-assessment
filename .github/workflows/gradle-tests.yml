@@ -21,9 +21,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Build docker images
-        run: ./gradlew video-microservice:dockerBuild trending-hashtag-microservice:dockerBuild
+        run: ./gradlew video-microservice:dockerBuild trending-hashtag-microservice:dockerBuild subscription-microservice:dockerBuild
       - name: Run unit/integration tests
-        run: ./gradlew client:unitTests video-microservice:test trending-hashtag-microservice:test --continue
+        run: ./gradlew client:unitTests --continue video-microservice:test --continue trending-hashtag-microservice:test --continue subscription-microservice:test --continue
       - name: Start feature test Docker environment
         run: docker compose -f client/src/test/resources/compose-feature-tests.yml up --quiet-pull -d --wait
       - name: Run feature tests

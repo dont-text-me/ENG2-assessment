@@ -9,6 +9,9 @@ import java.util.List;
  * @param userName the username of a user making the interaction
  * @param hashtagNames the hashtags of the video being interacted with. Used by THM to report
  *     trending hashtags.
+ * @param videoTitle the title of the video (Note: cannot be used as message key as titles are not
+ *     required to be unique)
  */
 @Serdeable
-public record VideoInteractionDetailsDTO(String userName, List<String> hashtagNames) {}
+public record VideoInteractionDetailsDTO(
+    String userName, List<String> hashtagNames, String videoTitle) {}

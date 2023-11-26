@@ -1,5 +1,6 @@
 package com.eng2.assessment.client.utils.mockResponses;
 
+import com.eng2.assessment.sm.dto.VideoRecommendationDTO;
 import com.eng2.assessment.thm.domain.TrendingHashtag;
 import com.eng2.assessment.vm.domain.Hashtag;
 import com.eng2.assessment.vm.domain.User;
@@ -10,6 +11,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import jakarta.annotation.Nullable;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
@@ -99,5 +101,38 @@ public class MockResponses {
                 })
             .toList();
     return gson.toJson(trendingHashtags, new TypeToken<List<TrendingHashtag>>() {}.getType());
+  }
+
+  public static String getRecommendationsList(
+      @Nullable String error, MinifiedVideoRecommendationDetails... details) {
+    Gson gson = new GsonBuilder().create();
+    List<com.eng2.assessment.sm.domain.Video> recs =
+        Arrays.stream(details)
+            .map(
+                it -> {
+                  com.eng2.assessment.sm.domain.Video v = new com.eng2.assessment.sm.domain.Video();
+                  v.setId(UUID.randomUUID());
+                  v.setTitle(it.title());
+                  v.setViewCount(Long.valueOf(it.viewCount()));
+
+                  Set<com.eng2.assessment.sm.domain.Hashtag> hashtags =
+                      it.hashtagIds().stream()
+                          .map(
+                              name -> {
+                                com.eng2.assessment.sm.domain.Hashtag h =
+                                    new com.eng2.assessment.sm.domain.Hashtag();
+                                h.setName(name);
+                                return h;
+                              })
+                          .collect(Collectors.toSet());
+
+                  v.setHashtags(hashtags);
+                  return v;
+                })
+            .toList();
+
+    VideoRecommendationDTO result = new VideoRecommendationDTO(recs, error);
+
+    return gson.toJson(result, new TypeToken<VideoRecommendationDTO>() {}.getType());
   }
 }
