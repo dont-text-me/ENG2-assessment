@@ -1,0 +1,1 @@
+java -jar client/build/libs/client-0.1-all.jar "$@"

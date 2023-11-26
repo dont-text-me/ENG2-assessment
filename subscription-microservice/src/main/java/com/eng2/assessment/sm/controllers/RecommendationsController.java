@@ -47,11 +47,6 @@ public class RecommendationsController {
     }
 
     return HttpResponse.ok(
-        new VideoRecommendationDTO(
-            videoRepository.findByHashtagsNameEqualOrderByViewCountDesc(hashtagName).stream()
-                .filter(it -> !it.viewerUserNames().contains(userName))
-                .limit(10)
-                .toList(),
-            null));
+        new VideoRecommendationDTO(videoRepository.findRecs(hashtagName, userName), null));
   }
 }

@@ -38,9 +38,9 @@ public class VideosController {
     if (author != null && hashtag == null) {
       return videoRepo.findAllByAuthorUsernameEquals(author);
     } else if (author == null && hashtag != null) {
-      return videoRepo.findAllByHashtagsId(hashtag);
+      return videoRepo.filterByHashtag(hashtag);
     } else if (author != null && hashtag != null) {
-      return videoRepo.findAllByAuthorUsernameEqualsAndHashtagsId(author, hashtag);
+      return videoRepo.filterByAuthorAndHashtag(author, hashtag);
     } else {
       return videoRepo.findAll();
     }
