@@ -69,6 +69,8 @@ services:
         condition: service_healthy
       kafka-0:
         condition: service_healthy
+      create-topics:
+        condition: service_completed_successfully
   thm:
     image: trending-hashtag-microservice:latest
     restart: unless-stopped
@@ -90,6 +92,8 @@ services:
         condition: service_healthy
       kafka-0:
         condition: service_healthy
+      create-topics:
+        condition: service_completed_successfully
 
   sm:
     image: subscription-microservice:latest
@@ -112,6 +116,8 @@ services:
         condition: service_healthy
       kafka-0:
         condition: service_healthy
+      create-topics:
+        condition: service_completed_successfully
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
