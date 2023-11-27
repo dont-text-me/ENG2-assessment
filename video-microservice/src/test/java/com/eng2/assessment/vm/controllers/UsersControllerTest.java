@@ -16,6 +16,7 @@ import io.micronaut.http.HttpStatus;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,7 @@ public class UsersControllerTest {
       User createdUser = userRepo.findAll().get(0);
 
       assertThat(createdUser.getUsername()).isEqualTo("FirstUser");
-      verify(mockProducer).userRegistered("FirstUser");
+      verify(mockProducer).userRegistered(eq("FirstUser"), any(UUID.class));
     }
 
     @Test

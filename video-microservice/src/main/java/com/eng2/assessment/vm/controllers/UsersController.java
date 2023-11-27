@@ -26,7 +26,7 @@ public class UsersController {
           "User with username " + userDetails.username() + " already exists.");
     }
     repo.save(newUser);
-    producer.userRegistered(newUser.getUsername());
+    producer.userRegistered(newUser.getUsername(), newUser.getId());
     return HttpResponse.created(URI.create("/users/" + newUser.getId()))
         .body(String.format("Created user with username " + newUser.getUsername()));
   }

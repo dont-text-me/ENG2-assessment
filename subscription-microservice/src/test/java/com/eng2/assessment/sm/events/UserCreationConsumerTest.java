@@ -9,6 +9,7 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +23,7 @@ public class UserCreationConsumerTest {
 
   @Test
   public void handlesNewUser() {
-    sut.processUserRegistered("NewUser");
+    sut.processUserRegistered("NewUser", UUID.randomUUID());
 
     User result = userRepo.findByUserNameEqual("NewUser").orElse(null);
 
@@ -42,7 +43,7 @@ public class UserCreationConsumerTest {
     user.setViewedVideos(Collections.emptySet());
     userRepo.save(user);
 
-    sut.processUserRegistered("ExistingUser");
+    sut.processUserRegistered("ExistingUser", UUID.randomUUID());
 
     List<User> result = userRepo.findAll();
 

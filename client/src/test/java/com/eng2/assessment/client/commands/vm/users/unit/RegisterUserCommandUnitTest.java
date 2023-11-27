@@ -1,9 +1,10 @@
-package com.eng2.assessment.client.commands.vm.users;
+package com.eng2.assessment.client.commands.vm.users.unit;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.eng2.assessment.client.commands.vm.users.RegisterUserCommand;
 import com.eng2.assessment.vm.dto.UserDTO;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;

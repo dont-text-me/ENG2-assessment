@@ -10,6 +10,7 @@ import io.micronaut.configuration.kafka.annotation.Topic;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.util.HashSet;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,11 @@ public class UserCreationConsumer {
 
   @Topic(TOPIC_USER_REGISTERED)
   @Transactional
-  void processUserRegistered(@KafkaKey String userName) {
+  void processUserRegistered(
+      @KafkaKey String userName,
+      UUID
+          userId) { // Note: the UUID parameter is not used here, it is a workaround of messages not
+    // being allowed to not have a body
     if (!userRepository.existsByUserNameEqual(userName)) {
       logger.info("Creating new user with username " + userName);
       User newUser = new User();
