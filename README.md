@@ -15,6 +15,20 @@
 * client
   * Contains CLI commands that enable interaction with other microservices
 
+---
+
+## C4 container model
+
+![Container model](docs/structurizr/container-diagram.svg)
+
+---
+
+## Class diagrams
+### [Subscription microservice](docs/domain-models/subscription-microservice.md)
+
+### [Video microservice](docs/domain-models/video-microservice.md)
+
+### [Trending hashtags microservice](docs/domain-models/trending-hashtag-microservice.md)
 
 ## Running the services locally
 

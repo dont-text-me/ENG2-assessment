@@ -223,6 +223,14 @@ services:
                        kafka-topics.sh --bootstrap-server kafka-0:9092 --create --topic user-registered --if-not-exists && \
                        kafka-topics.sh --bootstrap-server kafka-0:9092 --create --topic video-liked --if-not-exists'"
 
+  # Web-based viewer of C4 models using the Structurizr DSL
+  structurizr:
+    image: structurizr/lite:latest
+    ports:
+      - 3000:8080
+    volumes:
+      - ./docs/structurizr:/usr/local/structurizr
+
 volumes:
   mariadb_vm_data:
   mariadb_thm_data:
