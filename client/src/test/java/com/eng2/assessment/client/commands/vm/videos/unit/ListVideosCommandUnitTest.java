@@ -121,4 +121,21 @@ public class ListVideosCommandUnitTest {
           .contains("No videos available. Please try again later or post a video");
     }
   }
+
+  @Test
+  public void handlesEmptyListWithFilters() {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
+      wireMock.stubFor(
+          WireMock.get(urlMatching("/videos"))
+              .willReturn(
+                  ResponseDefinitionBuilder.responseDefinition()
+                      .withStatus(HttpStatus.OK.getCode())
+                      .withHeader("Content-Type", MediaType.APPLICATION_JSON)));
+      String[] args = new String[] {"-h", "someHashtag", "-a", "SomeUser"};
+
+      PicocliRunner.run(sut, ctx, args);
+      wireMock.verify(getRequestedFor(urlEqualTo("/videos?author=SomeUser&hashtag=someHashtag")));
+      assertThat(baos.toString()).contains("No videos matching the filter criteria found");
+    }
+  }
 }

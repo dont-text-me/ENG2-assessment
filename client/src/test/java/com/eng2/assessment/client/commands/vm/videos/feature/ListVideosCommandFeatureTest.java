@@ -52,6 +52,16 @@ public class ListVideosCommandFeatureTest extends AbstractFeatureTest {
   }
 
   @Test
+  @DisplayName("When no videos match filter criteria")
+  public void whenNoVideosMatchFilter() {
+    try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
+      String[] args = new String[] {"-a", "AnimalPlanet", "-h", "Zoo"};
+      PicocliRunner.run(sut, ctx, args);
+      assertThat(baos.toString()).contains("No videos matching the filter criteria found");
+    }
+  }
+
+  @Test
   @DisplayName("Happy path (videos are available, no filter)")
   public void canListVideos() {
     usersClient.registerUser(new UserDTO("AnimalPlanet"));
