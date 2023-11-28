@@ -2,10 +2,12 @@ package com.eng2.assessment.client.commands.sm.recommendations;
 
 import com.eng2.assessment.client.clients.sm.RecommendationsClient;
 import com.eng2.assessment.client.utils.formatters.VideoRecommendationFormatter;
+import com.eng2.assessment.sm.domain.Video;
 import com.eng2.assessment.sm.dto.VideoRecommendationDTO;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
+import java.util.List;
 import java.util.stream.Collectors;
 import picocli.CommandLine;
 
@@ -30,10 +32,15 @@ public class GetRecommendationsCommand implements Runnable {
   public void run() {
     HttpResponse<VideoRecommendationDTO> result = client.getRecommendations(userName, hashtagName);
     if (result.status().equals(HttpStatus.OK)) {
-      System.out.println(
-          result.body().result().stream()
-              .map(VideoRecommendationFormatter::prettyPrintRecommendation)
-              .collect(Collectors.joining("--------------------------\n")));
+      List<Video> videoResult = result.body().result();
+      if (videoResult == null || videoResult.isEmpty()) {
+        System.out.println("No recommendations available. Please try again later");
+      } else {
+        System.out.println(
+            videoResult.stream()
+                .map(VideoRecommendationFormatter::prettyPrintRecommendation)
+                .collect(Collectors.joining("--------------------------\n")));
+      }
     } else {
       System.out.println("Something went wrong: " + result.body().errorMessage());
     }
