@@ -12,6 +12,7 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.QueryValue;
 import jakarta.inject.Inject;
 import java.util.Collections;
+import java.util.Objects;
 
 @Controller("/recommendations")
 public class RecommendationsController {
@@ -47,6 +48,9 @@ public class RecommendationsController {
     }
 
     return HttpResponse.ok(
-        new VideoRecommendationDTO(videoRepository.findRecs(hashtagName, userName), null));
+        new VideoRecommendationDTO(
+            Objects.requireNonNullElse(
+                videoRepository.findRecs(hashtagName, userName), Collections.emptyList()),
+            null));
   }
 }

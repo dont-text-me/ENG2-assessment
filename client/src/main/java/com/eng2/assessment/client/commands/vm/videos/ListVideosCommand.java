@@ -28,7 +28,11 @@ public class ListVideosCommand implements Runnable {
   public void run() {
     List<Video> result = client.list(authorUsername, hashtagName);
     if (result.isEmpty()) {
-      System.out.println("No videos available. Please try again later or post a video");
+      if (authorUsername != null || hashtagName != null) {
+        System.out.println("No videos matching the filter criteria found");
+      } else {
+        System.out.println("No videos available. Please try again later or post a video");
+      }
     } else {
       System.out.println(
           result.stream()
