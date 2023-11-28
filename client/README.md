@@ -11,7 +11,7 @@
   * Requires the following parameters:
     * `-a`, the username of the author (must be a valid user)
     * `-t`, the title of the video
-    * `h`, the comma-separated list of hashtags
+    * `-h`, the comma-separated list of hashtags
 * `interact-with-video`
   * Records an interaction with a given video
   * Requires the following parameters:
