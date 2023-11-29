@@ -16,8 +16,8 @@ import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Random;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -33,6 +33,7 @@ public class InteractWithVideoCommandUnitTest {
       WireMockExtension.newInstance().options(wireMockConfig().port(3000)).build();
 
   private ByteArrayOutputStream baos;
+  private final Random r = new Random();
 
   private final Class<InteractWithVideoCommand> sut = InteractWithVideoCommand.class;
 
@@ -45,7 +46,7 @@ public class InteractWithVideoCommandUnitTest {
   @ParameterizedTest
   @EnumSource(InteractWithVideoCommand.VideoInteractionType.class)
   public void canInteractWithVideo(InteractWithVideoCommand.VideoInteractionType type) {
-    UUID videoId = UUID.randomUUID();
+    Long videoId = r.nextLong();
     String userName = "Some-user";
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
@@ -82,7 +83,7 @@ public class InteractWithVideoCommandUnitTest {
   @ParameterizedTest
   @MethodSource("interactionTypeXErrorCode")
   public void handlesError(InteractWithVideoCommand.VideoInteractionType type, Integer status) {
-    UUID videoId = UUID.randomUUID();
+    Long videoId = r.nextLong();
     String userName = "Some-user";
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {

@@ -7,16 +7,15 @@ import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface VideoRepository extends CrudRepository<Video, UUID> {
-  Boolean existsByIdEqual(UUID id);
+public interface VideoRepository extends CrudRepository<Video, Long> {
+  Boolean existsByIdEqual(Long id);
 
   @Override
   @Join(value = "viewers", type = Join.Type.LEFT_FETCH)
   @Join(value = "hashtags", type = Join.Type.LEFT_FETCH)
-  Optional<Video> findById(UUID id);
+  Optional<Video> findById(Long id);
 
   @Override
   @Join(value = "viewers", type = Join.Type.LEFT_FETCH)

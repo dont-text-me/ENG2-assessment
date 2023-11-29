@@ -4,12 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.persistence.*;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Serdeable
 public class User {
-  @Id @GeneratedValue private UUID id;
+  @Id @GeneratedValue private Long id;
 
   @Column(nullable = false, unique = true)
   private String username;
@@ -30,11 +29,11 @@ public class User {
   @JoinTable(name = "user_video_dislikes")
   private Set<Video> dislikedVideos;
 
-  public UUID getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(UUID id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -76,15 +75,15 @@ public class User {
     return this;
   }
 
-  public boolean hasWatchedVideo(UUID videoId) {
+  public boolean hasWatchedVideo(Long videoId) {
     return viewedVideos.stream().anyMatch(it -> it.getId().equals(videoId));
   }
 
-  public boolean hasLikedVideo(UUID videoId) {
+  public boolean hasLikedVideo(Long videoId) {
     return likedVideos.stream().anyMatch(it -> it.getId().equals(videoId));
   }
 
-  public boolean hasDislikedVideo(UUID videoId) {
+  public boolean hasDislikedVideo(Long videoId) {
     return dislikedVideos.stream().anyMatch(it -> it.getId().equals(videoId));
   }
 

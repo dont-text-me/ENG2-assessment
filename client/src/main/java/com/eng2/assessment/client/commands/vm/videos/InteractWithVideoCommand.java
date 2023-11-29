@@ -4,7 +4,6 @@ import com.eng2.assessment.client.clients.vm.VideosClient;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
-import java.util.UUID;
 import picocli.CommandLine;
 
 @CommandLine.Command(name = "interact-with-video", mixinStandardHelpOptions = true)
@@ -21,8 +20,8 @@ public class InteractWithVideoCommand implements Runnable {
   @CommandLine.Option(
       names = {"-v", "--video-id"},
       required = true,
-      description = "The ID (UUID) of the video to be interacted with")
-  private UUID videoId;
+      description = "The ID (Long) of the video to be interacted with")
+  private Long videoId;
 
   @CommandLine.Option(
       names = {"-t", "--type"},

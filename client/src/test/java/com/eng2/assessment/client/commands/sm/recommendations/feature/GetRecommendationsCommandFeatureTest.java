@@ -23,7 +23,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -65,9 +64,8 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
           vmVideosClient
               .publish(new VideoDTO(videoNamePrefix + i, videoAuthorUserName, List.of(hashtagName)))
               .body();
-      UUID videoId =
-          UUID.fromString(
-              postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
+      Long videoId =
+          Long.valueOf(postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
       Thread.sleep(2000L);
       if (i < 5) {
         vmVideosClient.watchVideo(videoId, videoViewerUserName);
@@ -104,9 +102,8 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
             .publish(new VideoDTO("My video", videoAuthorUserName, List.of(hashtagName)))
             .body();
     Thread.sleep(500L);
-    UUID videoId =
-        UUID.fromString(
-            postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
+    Long videoId =
+        Long.valueOf(postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
 
     vmVideosClient.watchVideo(videoId, videoViewerUserName);
     Thread.sleep(500L);

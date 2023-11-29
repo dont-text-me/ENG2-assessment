@@ -6,7 +6,7 @@ class trending_hashtag {
    Long like_count
     Long window_end
     Long window_start
-   UUID id
+   Long id
 }
 ```
 [Main README](../../README.md)

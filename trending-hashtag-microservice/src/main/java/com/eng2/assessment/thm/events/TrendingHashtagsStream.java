@@ -49,7 +49,7 @@ public class TrendingHashtagsStream {
         serdeRegistry.getSerde(VideoInteractionDetailsDTO.class);
 
     KStream<String, WindowedHashtagWIthLikeCount> stream =
-        builder.stream(TOPIC_VIDEO_LIKED, Consumed.with(Serdes.UUID(), valueSerde))
+        builder.stream(TOPIC_VIDEO_LIKED, Consumed.with(Serdes.Long(), valueSerde))
             .flatMapValues(VideoInteractionDetailsDTO::hashtagNames)
             .selectKey((k, v) -> v)
             .groupByKey(Grouped.with(Serdes.String(), Serdes.String()))

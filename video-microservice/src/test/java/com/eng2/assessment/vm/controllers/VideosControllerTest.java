@@ -1,5 +1,6 @@
 package com.eng2.assessment.vm.controllers;
 
+import static com.eng2.assessment.vm.utils.Utils.getRandomLong;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -26,7 +27,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,7 +65,7 @@ public class VideosControllerTest {
   class GetVideoTest {
     @Test
     public void whenNoVideo() {
-      Video result = client.getVideo(UUID.randomUUID(), null, null);
+      Video result = client.getVideo(getRandomLong(), null, null);
       assertThat(result).isNull();
     }
 
@@ -342,7 +342,7 @@ public class VideosControllerTest {
       assertEquals(response.getStatus(), HttpStatus.CREATED);
       String newId = response.getBody().get().substring(response.body().lastIndexOf(" ") + 1);
 
-      Video createdVideo = videoRepo.findById(UUID.fromString(newId)).get();
+      Video createdVideo = videoRepo.findById(Long.valueOf(newId)).get();
 
       assertNotNull(createdVideo);
       assertEquals(createdVideo.getTitle(), "Me at the zoo");
@@ -374,7 +374,7 @@ public class VideosControllerTest {
 
       assertEquals(response.getStatus(), HttpStatus.CREATED);
       String newId = response.getBody().get().substring(response.body().lastIndexOf(" ") + 1);
-      Video createdVideo = videoRepo.findById(UUID.fromString(newId)).get();
+      Video createdVideo = videoRepo.findById(Long.valueOf(newId)).get();
 
       Hashtag createdHashtag = hashtagRepo.findById("Zoo").orElse(null);
 
@@ -515,7 +515,7 @@ public class VideosControllerTest {
       author.setUsername("ZooLover");
       userRepo.save(author);
 
-      HttpResponse<String> response = client.likeVideo(UUID.randomUUID(), author.getUsername());
+      HttpResponse<String> response = client.likeVideo(getRandomLong(), author.getUsername());
 
       assertEquals(response.getStatus(), HttpStatus.NOT_FOUND);
       assert (response.getBody().get().contains("Could not find video"));
@@ -603,7 +603,7 @@ public class VideosControllerTest {
       author.setUsername("ZooLover");
       userRepo.save(author);
 
-      HttpResponse<String> response = client.dislikeVideo(UUID.randomUUID(), author.getUsername());
+      HttpResponse<String> response = client.dislikeVideo(getRandomLong(), author.getUsername());
 
       assertEquals(response.getStatus(), HttpStatus.NOT_FOUND);
       assert (response.getBody().get().contains("Could not find video"));
@@ -708,7 +708,7 @@ public class VideosControllerTest {
       user.setUsername("ZooLover");
       userRepo.save(user);
 
-      HttpResponse<String> response = client.watchVideo(UUID.randomUUID(), user.getUsername());
+      HttpResponse<String> response = client.watchVideo(getRandomLong(), user.getUsername());
 
       assertEquals(response.getStatus(), HttpStatus.NOT_FOUND);
       assert (response.getBody().get().contains("Could not find video"));

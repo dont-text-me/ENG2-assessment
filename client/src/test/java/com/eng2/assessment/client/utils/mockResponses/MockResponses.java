@@ -45,7 +45,7 @@ public class MockResponses {
             it -> {
               User u = new User();
               u.setUsername(it.authorUsername());
-              u.setId(UUID.randomUUID());
+              u.setId(r.nextLong());
 
               Set<Hashtag> hashtags =
                   it.hashtagIds().stream()
@@ -58,7 +58,7 @@ public class MockResponses {
                       .collect(Collectors.toSet());
 
               Video v = new Video();
-              v.setId(UUID.randomUUID());
+              v.setId(r.nextLong());
               v.setTitle(it.title());
               v.setLikeCount(it.likeCount());
               v.setDislikeCount(it.dislikeCount());
@@ -72,13 +72,14 @@ public class MockResponses {
   }
 
   public static String getUserList(String... userNames) {
+    Random r = new Random();
     Gson gson = new GsonBuilder().create();
     List<User> users =
         Arrays.stream(userNames)
             .map(
                 it -> {
                   User u = new User();
-                  u.setId(UUID.randomUUID());
+                  u.setId(r.nextLong());
                   u.setUsername(it);
                   return u;
                 })
@@ -105,13 +106,14 @@ public class MockResponses {
 
   public static String getRecommendationsList(
       @Nullable String error, MinifiedVideoRecommendationDetails... details) {
+    Random r = new Random();
     Gson gson = new GsonBuilder().create();
     List<com.eng2.assessment.sm.domain.Video> recs =
         Arrays.stream(details)
             .map(
                 it -> {
                   com.eng2.assessment.sm.domain.Video v = new com.eng2.assessment.sm.domain.Video();
-                  v.setId(UUID.randomUUID());
+                  v.setId(r.nextLong());
                   v.setTitle(it.title());
                   v.setViewCount(Long.valueOf(it.viewCount()));
 

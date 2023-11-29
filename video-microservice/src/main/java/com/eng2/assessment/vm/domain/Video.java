@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * Video entity. Videos keep track of users that have viewed them. Even though a user can view a
@@ -15,7 +14,7 @@ import java.util.UUID;
 @Entity
 @Serdeable
 public class Video {
-  @Id @GeneratedValue private UUID id;
+  @Id @GeneratedValue private Long id;
 
   @Column(nullable = false)
   private String title;
@@ -62,11 +61,11 @@ public class Video {
 
   @ManyToMany private Set<Hashtag> hashtags;
 
-  public UUID getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(UUID id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

@@ -17,7 +17,6 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,13 +34,13 @@ public class VideoInteractionConsumer {
 
   @Topic(TOPIC_VIDEO_POSTED)
   @Transactional
-  void processPosted(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
+  void processPosted(@KafkaKey Long videoId, VideoInteractionDetailsDTO details) {
     createMissingEntities(videoId, details);
   }
 
   @Topic(TOPIC_VIDEO_VIEWED)
   @Transactional
-  void processViewed(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
+  void processViewed(@KafkaKey Long videoId, VideoInteractionDetailsDTO details) {
     createMissingEntities(videoId, details);
 
     Video video = videoRepository.findById(videoId).get();
@@ -65,7 +64,7 @@ public class VideoInteractionConsumer {
    * <p>Note: Does not perform any validation as messages are coming from VM, which validates the
    * initial records.
    */
-  private void createMissingEntities(UUID videoId, VideoInteractionDetailsDTO details) {
+  private void createMissingEntities(Long videoId, VideoInteractionDetailsDTO details) {
     // Check user exists
     if (!userRepository.existsByUserNameEqual(details.userName())) {
       logger.info("Creating user with username " + details.userName());

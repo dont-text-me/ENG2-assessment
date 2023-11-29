@@ -12,9 +12,9 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
+import java.util.Random;
+import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.apache.kafka.common.serialization.UUIDSerializer;
 import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.TopologyTestDriver;
@@ -25,6 +25,7 @@ public class TrendingHashtagTestDoubleStreamTest {
 
   @Inject private CompositeSerdeRegistry serdeRegistry;
   @Inject private TrendingHashtagsStream stream;
+  private final Random r = new Random();
 
   @Test
   public void smokeTest() {
@@ -33,10 +34,10 @@ public class TrendingHashtagTestDoubleStreamTest {
     stream.hashtagSummary(builder);
 
     try (TopologyTestDriver testDriver = new TopologyTestDriver(builder.build())) {
-      TestInputTopic<UUID, VideoInteractionDetailsDTO> inputTopic =
+      TestInputTopic<Long, VideoInteractionDetailsDTO> inputTopic =
           testDriver.createInputTopic(
               TOPIC_VIDEO_LIKED,
-              new UUIDSerializer(),
+              new LongSerializer(),
               serdeRegistry.getSerializer(VideoInteractionDetailsDTO.class));
       TestOutputTopic<String, WindowedHashtagWIthLikeCount> outputTopic =
           testDriver.createOutputTopic(
@@ -45,7 +46,7 @@ public class TrendingHashtagTestDoubleStreamTest {
               serdeRegistry.getDeserializer(WindowedHashtagWIthLikeCount.class));
 
       inputTopic.pipeInput(
-          UUID.randomUUID(),
+          r.nextLong(),
           new VideoInteractionDetailsDTO("Animal planet", List.of("Zoo"), "Me at the zoo"));
 
       assertThat(outputTopic.readKeyValuesToList()).isNotEmpty();
@@ -60,10 +61,10 @@ public class TrendingHashtagTestDoubleStreamTest {
     stream.hashtagSummary(builder);
 
     try (TopologyTestDriver testDriver = new TopologyTestDriver(builder.build())) {
-      TestInputTopic<UUID, VideoInteractionDetailsDTO> inputTopic =
+      TestInputTopic<Long, VideoInteractionDetailsDTO> inputTopic =
           testDriver.createInputTopic(
               TOPIC_VIDEO_LIKED,
-              new UUIDSerializer(),
+              new LongSerializer(),
               serdeRegistry.getSerializer(VideoInteractionDetailsDTO.class));
       TestOutputTopic<String, WindowedHashtagWIthLikeCount> outputTopic =
           testDriver.createOutputTopic(
@@ -72,7 +73,7 @@ public class TrendingHashtagTestDoubleStreamTest {
               serdeRegistry.getDeserializer(WindowedHashtagWIthLikeCount.class));
 
       inputTopic.pipeInput(
-          UUID.randomUUID(),
+          r.nextLong(),
           new VideoInteractionDetailsDTO("Animal planet", expectedHashtags, "Me at the zoo"));
 
       assertThat(outputTopic.readKeyValuesToList().stream().map(it -> it.value.hashtagName()))
@@ -89,10 +90,10 @@ public class TrendingHashtagTestDoubleStreamTest {
     stream.hashtagSummary(builder);
 
     try (TopologyTestDriver testDriver = new TopologyTestDriver(builder.build())) {
-      TestInputTopic<UUID, VideoInteractionDetailsDTO> inputTopic =
+      TestInputTopic<Long, VideoInteractionDetailsDTO> inputTopic =
           testDriver.createInputTopic(
               TOPIC_VIDEO_LIKED,
-              new UUIDSerializer(),
+              new LongSerializer(),
               serdeRegistry.getSerializer(VideoInteractionDetailsDTO.class));
       TestOutputTopic<String, WindowedHashtagWIthLikeCount> outputTopic =
           testDriver.createOutputTopic(
@@ -101,11 +102,11 @@ public class TrendingHashtagTestDoubleStreamTest {
               serdeRegistry.getDeserializer(WindowedHashtagWIthLikeCount.class));
 
       inputTopic.pipeInput(
-          UUID.randomUUID(),
+          r.nextLong(),
           new VideoInteractionDetailsDTO("AnimalPlanet", animalHashtags, "Me at the zoo"));
       assertThat(outputTopic.readKeyValuesToList()).hasSize(3);
       inputTopic.pipeInput(
-          UUID.randomUUID(),
+          r.nextLong(),
           new VideoInteractionDetailsDTO("TravelVlogs", vlogHashtags, "A day in italy"));
       assertThat(outputTopic.readKeyValuesToMap().get("Funny").likeCount()).isEqualTo(2);
     }

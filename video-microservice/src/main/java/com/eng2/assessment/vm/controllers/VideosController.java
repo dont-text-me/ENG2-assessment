@@ -48,7 +48,7 @@ public class VideosController {
 
   @Get("/{id}")
   public Video getVideo(
-      UUID id, @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag) {
+      Long id, @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag) {
     Optional<Video> result;
     if (author != null && hashtag == null) {
       result = videoRepo.findByIdAndAuthorUsernameEquals(id, author);
@@ -141,7 +141,7 @@ public class VideosController {
   /** Like a video with a given ID Updates the like count */
   @Put("/{id}/like")
   @Transactional
-  public HttpResponse<String> likeVideo(UUID id, @Body String userName) {
+  public HttpResponse<String> likeVideo(Long id, @Body String userName) {
     User user = userRepo.findByUsernameEqual(userName).orElse(null);
     if (user == null) {
       return HttpResponse.notFound("Could not find user with username " + userName);
@@ -172,7 +172,7 @@ public class VideosController {
   /** Dislike a video with a given ID Updates the like count */
   @Put("/{id}/dislike")
   @Transactional
-  public HttpResponse<String> dislikeVideo(UUID id, @Body String userName) {
+  public HttpResponse<String> dislikeVideo(Long id, @Body String userName) {
     User user = userRepo.findByUsernameEqual(userName).orElse(null);
     if (user == null) {
       return HttpResponse.notFound("Could not find user with username " + userName);
@@ -207,7 +207,7 @@ public class VideosController {
    */
   @Put("/{id}/watch")
   @Transactional
-  public HttpResponse<String> watchVideo(UUID id, @Body String userName) {
+  public HttpResponse<String> watchVideo(Long id, @Body String userName) {
     User user = userRepo.findByUsernameEqual(userName).orElse(null);
     if (user == null) {
       return HttpResponse.notFound("Could not find user with username " + userName);

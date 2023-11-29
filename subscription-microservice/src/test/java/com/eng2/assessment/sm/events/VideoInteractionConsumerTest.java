@@ -13,7 +13,7 @@ import com.eng2.assessment.vm.dto.VideoInteractionDetailsDTO;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -27,6 +27,7 @@ public class VideoInteractionConsumerTest {
   @Inject UserRepository userRepo;
   @Inject VideoRepository videoRepo;
   @Inject HashtagRepository hashtagRepo;
+  private final Random r = new Random();
 
   @Nested
   @DisplayName("Receiving a 'video-viewed' message")
@@ -35,7 +36,7 @@ public class VideoInteractionConsumerTest {
     @DisplayName(
         "Handles case when no entities in message exist in the database and increments view count")
     public void handlesNewEntities() {
-      UUID videoId = UUID.randomUUID();
+      Long videoId = r.nextLong();
       String userName = "AnimalPlanet";
       List<String> hashtagNames = List.of("Elephant", "Lion", "Tiger");
       String videoTitle = "Safari trip";
@@ -60,7 +61,7 @@ public class VideoInteractionConsumerTest {
     @Test
     @DisplayName("Handles case when some entities already exist and increments view count")
     public void handlesExistingEntities() {
-      UUID videoId = UUID.randomUUID();
+      Long videoId = r.nextLong();
       String userName = "AnimalPlanet";
       List<String> hashtagNames = List.of("Elephant", "Lion", "Tiger");
       String videoTitle = "Safari trip";
@@ -92,7 +93,7 @@ public class VideoInteractionConsumerTest {
     @Test
     @DisplayName("Handles case when all entities already exist and increments view count")
     public void handlesAllEntitiesExisting() {
-      UUID videoId = UUID.randomUUID();
+      Long videoId = r.nextLong();
       String userName = "AnimalPlanet";
       List<String> hashtagNames = List.of("Elephant", "Lion", "Tiger");
       String videoTitle = "Safari trip";
@@ -133,7 +134,7 @@ public class VideoInteractionConsumerTest {
     @Test
     @DisplayName("Handles several views for same video")
     public void handlesSeveralViews() {
-      UUID videoId = UUID.randomUUID();
+      Long videoId = r.nextLong();
       List<String> hashtagNames = List.of("Elephant", "Lion", "Tiger");
       String videoTitle = "Safari trip";
 
@@ -165,7 +166,7 @@ public class VideoInteractionConsumerTest {
     @Test
     @DisplayName("Handles case when no entities in message exist in the database")
     public void handlesNewEntities() {
-      UUID videoId = UUID.randomUUID();
+      Long videoId = r.nextLong();
       String userName = "AnimalPlanet";
       List<String> hashtagNames = List.of("Elephant", "Lion", "Tiger");
       String videoTitle = "Safari trip";
@@ -188,7 +189,7 @@ public class VideoInteractionConsumerTest {
     @Test
     @DisplayName("Handles case when some entities already exist")
     public void handlesExistingEntities() {
-      UUID videoId = UUID.randomUUID();
+      Long videoId = r.nextLong();
       String userName = "AnimalPlanet";
       List<String> hashtagNames = List.of("Elephant", "Lion", "Tiger");
       String videoTitle = "Safari trip";
@@ -219,7 +220,7 @@ public class VideoInteractionConsumerTest {
     @Test
     @DisplayName("Handles case when all entities already exist")
     public void handlesAllEntitiesExisting() {
-      UUID videoId = UUID.randomUUID();
+      Long videoId = r.nextLong();
       String userName = "AnimalPlanet";
       List<String> hashtagNames = List.of("Elephant", "Lion", "Tiger");
       String videoTitle = "Safari trip";

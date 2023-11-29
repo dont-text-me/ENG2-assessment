@@ -1,6 +1,5 @@
 package com.eng2.assessment.client.commands.vm.videos.feature;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.eng2.assessment.client.clients.vm.UsersClient;
@@ -19,7 +18,7 @@ import jakarta.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -36,6 +35,7 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
 
   @Inject VideosClient videosClient;
   @Inject UsersClient usersClient;
+  private final Random r = new Random();
 
   private final Class<InteractWithVideoCommand> sut = InteractWithVideoCommand.class;
 
@@ -56,9 +56,8 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
         videosClient
             .publish(new VideoDTO(videoTitle, userName, List.of("Elephant", "Awesome", "Safari")))
             .body();
-    UUID videoId =
-        UUID.fromString(
-            postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
+    Long videoId =
+        Long.valueOf(postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
       String[] args =
@@ -97,9 +96,8 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
         videosClient
             .publish(new VideoDTO(videoTitle, userName, List.of("Elephant", "Awesome", "Safari")))
             .body();
-    UUID videoId =
-        UUID.fromString(
-            postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
+    Long videoId =
+        Long.valueOf(postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
       String[] args =
@@ -117,7 +115,7 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
   public void handlesUnknownVideo(InteractWithVideoCommand.VideoInteractionType type) {
     String userName = "AnimalPlanet";
     usersClient.registerUser(new UserDTO(userName));
-    String unknownId = UUID.randomUUID().toString();
+    String unknownId = String.valueOf(r.nextLong());
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
       String[] args = new String[] {"-v", unknownId, "-t", type.toString(), "-u", userName};
@@ -142,9 +140,8 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
         videosClient
             .publish(new VideoDTO(videoTitle, userName, List.of("Elephant", "Awesome", "Safari")))
             .body();
-    UUID videoId =
-        UUID.fromString(
-            postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
+    Long videoId =
+        Long.valueOf(postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
 
     // make it so that the user has already liked/disliked the video prior to running the command
     if (type.equals(InteractWithVideoCommand.VideoInteractionType.LIKE)) {

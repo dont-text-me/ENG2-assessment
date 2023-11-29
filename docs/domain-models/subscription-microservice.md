@@ -14,14 +14,14 @@ classDiagram
     class video {
         String title
         Long view_count
-        UUID id
+        Long id
     }
     class video_hashtag {
-        UUID tagged_videos_id
+        Long tagged_videos_id
         String hashtags_name
     }
     class video_user {
-        UUID viewed_videos_id
+        Long viewed_videos_id
         String viewers_user_name
     }
     

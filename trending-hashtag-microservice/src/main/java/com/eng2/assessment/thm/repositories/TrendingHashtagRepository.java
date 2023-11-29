@@ -5,10 +5,9 @@ import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface TrendingHashtagRepository extends CrudRepository<TrendingHashtag, UUID> {
+public interface TrendingHashtagRepository extends CrudRepository<TrendingHashtag, Long> {
   Optional<Long> findMaxWindowEnd();
 
   List<TrendingHashtag> findByWindowEndLessThanEqualsAndWindowEndGreaterThanOrderByLikeCountDesc(

@@ -13,7 +13,7 @@ import io.micronaut.context.env.Environment;
 import io.micronaut.http.HttpStatus;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.UUID;
+import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -28,6 +28,7 @@ public class PostVideoCommandUnitTest {
 
   private ByteArrayOutputStream baos;
 
+  private final Random r = new Random();
   private final Class<PostVideoCommand> sut = PostVideoCommand.class;
 
   @BeforeEach
@@ -44,7 +45,7 @@ public class PostVideoCommandUnitTest {
               .willReturn(
                   ResponseDefinitionBuilder.responseDefinition()
                       .withStatus(HttpStatus.CREATED.getCode())
-                      .withBody("Created video with ID " + UUID.randomUUID())));
+                      .withBody("Created video with ID " + r.nextLong())));
 
       String[] args =
           new String[] {"-a", "someAuthor", "-t", "me at the zoo", "-h", "tiger, lion, giraffe"};

@@ -5,12 +5,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import java.util.UUID;
 
 @Entity
 @Serdeable
 public class TrendingHashtag {
-  @Id @GeneratedValue UUID id;
+  @Id @GeneratedValue Long id;
 
   @Column(nullable = false)
   private String hashtagName;
@@ -41,11 +40,11 @@ public class TrendingHashtag {
         + '}';
   }
 
-  public UUID getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(UUID id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

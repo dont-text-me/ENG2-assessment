@@ -30,6 +30,7 @@ public class RecommendationsControllerTest {
   @Inject HashtagRepository hashtagRepo;
   @Inject RecommendationsClient client;
   @Inject ObjectMapper objectMapper;
+  private final Random r = new Random();
 
   @Test
   public void givesRecommendations() {
@@ -50,7 +51,7 @@ public class RecommendationsControllerTest {
         .forEach(
             it -> {
               Video video = new Video();
-              video.setId(UUID.randomUUID());
+              video.setId(r.nextLong());
               video.setTitle("Video " + it);
               video.setViewCount((long) it);
               video.setHashtags(Set.of(hashtag, otherHashtag));
@@ -103,7 +104,7 @@ public class RecommendationsControllerTest {
             .mapToObj(
                 it -> {
                   Video video = new Video();
-                  video.setId(UUID.randomUUID());
+                  video.setId(r.nextLong());
                   video.setTitle("Video " + it);
                   video.setViewCount((long) it);
                   video.setHashtags(Set.of(hashtag));
@@ -153,7 +154,7 @@ public class RecommendationsControllerTest {
             .mapToObj(
                 it -> {
                   Video video = new Video();
-                  video.setId(UUID.randomUUID());
+                  video.setId(r.nextLong());
                   video.setTitle("Video " + it);
                   video.setViewCount((long) it);
                   video.setHashtags(Set.of(it > 7 ? otherHashtag : hashtag));

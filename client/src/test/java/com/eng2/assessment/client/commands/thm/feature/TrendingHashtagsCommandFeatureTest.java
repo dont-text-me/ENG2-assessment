@@ -18,7 +18,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -52,7 +51,7 @@ public class TrendingHashtagsCommandFeatureTest extends AbstractFeatureTest {
   @Test
   @DisplayName("Calculates and displays top 10 trending hashtags")
   public void canDisplayTrendingHashtags() throws InterruptedException {
-    ArrayList<UUID> videoIds = new ArrayList<>();
+    ArrayList<Long> videoIds = new ArrayList<>();
     for (int i = 0; i < 10; i++) {
       usersClient.registerUser(new UserDTO("User-" + i));
 
@@ -60,9 +59,8 @@ public class TrendingHashtagsCommandFeatureTest extends AbstractFeatureTest {
           videosClient
               .publish(new VideoDTO("Video " + i, "User-" + i, List.of("Hashtag" + i)))
               .body();
-      UUID videoId =
-          UUID.fromString(
-              postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
+      Long videoId =
+          Long.valueOf(postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
       videoIds.add(videoId);
     }
 

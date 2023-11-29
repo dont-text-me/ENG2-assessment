@@ -8,12 +8,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Serdeable
 public class Video {
-  @Id private UUID id;
+  @Id private Long id;
 
   @Column(nullable = false)
   private String title;
@@ -37,11 +36,11 @@ public class Video {
     this.viewCount = viewCount;
   }
 
-  public UUID getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(UUID id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

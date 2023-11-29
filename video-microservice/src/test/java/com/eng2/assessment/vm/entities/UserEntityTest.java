@@ -1,17 +1,17 @@
 package com.eng2.assessment.vm.entities;
 
+import static com.eng2.assessment.vm.utils.Utils.getRandomLong;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.eng2.assessment.vm.domain.User;
 import com.eng2.assessment.vm.domain.Video;
 import java.util.Set;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 public class UserEntityTest {
   @Test
   public void determinesWhetherUserHasWatchedVideo() {
-    UUID videoId1 = UUID.randomUUID(), videoId2 = UUID.randomUUID();
+    Long videoId1 = getRandomLong(), videoId2 = getRandomLong();
 
     Video video1 = new Video();
     video1.setId(videoId1);
@@ -24,6 +24,6 @@ public class UserEntityTest {
 
     assertThat(user.hasWatchedVideo(videoId1)).isTrue();
     assertThat(user.hasWatchedVideo(videoId2)).isTrue();
-    assertThat(user.hasWatchedVideo(UUID.randomUUID())).isFalse();
+    assertThat(user.hasWatchedVideo(getRandomLong())).isFalse();
   }
 }

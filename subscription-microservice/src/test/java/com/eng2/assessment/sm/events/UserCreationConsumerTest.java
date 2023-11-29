@@ -9,7 +9,7 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,10 +20,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 public class UserCreationConsumerTest {
   @Inject UserCreationConsumer sut;
   @Inject UserRepository userRepo;
+  private final Random r = new Random();
 
   @Test
   public void handlesNewUser() {
-    sut.processUserRegistered("NewUser", UUID.randomUUID());
+    sut.processUserRegistered("NewUser", r.nextLong());
 
     User result = userRepo.findByUserNameEqual("NewUser").orElse(null);
 
@@ -43,7 +44,7 @@ public class UserCreationConsumerTest {
     user.setViewedVideos(Collections.emptySet());
     userRepo.save(user);
 
-    sut.processUserRegistered("ExistingUser", UUID.randomUUID());
+    sut.processUserRegistered("ExistingUser", r.nextLong());
 
     List<User> result = userRepo.findAll();
 
