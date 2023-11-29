@@ -6,8 +6,9 @@ import java.time.ZoneOffset;
 public class VideoFormatter {
   public static String prettyPrintVideo(Video video) {
     return String.format(
-        "%s%nPosted at: %s%nAuthor: %s%nLikes: %s%nDislikes: %s%nHashtags: %s%n",
+        "%s%nID: %s%nPosted at: %s%nAuthor: %s%nLikes: %s%nDislikes: %s%nHashtags: %s%n",
         video.getTitle(),
+        video.getId(),
         video.getPublishedAt().atOffset(ZoneOffset.UTC),
         video.getAuthor().getUsername(),
         video.getLikeCount(),
