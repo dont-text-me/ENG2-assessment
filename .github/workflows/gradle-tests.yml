@@ -23,7 +23,7 @@ jobs:
       - name: Build docker images
         run: ./gradlew microservices:video-microservice:dockerBuild microservices:trending-hashtag-microservice:dockerBuild microservices:subscription-microservice:dockerBuild
       - name: Run unit/integration tests
-        run: ./gradlew client:unitTests --continue microservices:video-microservice:test --continue microservices:trending-hashtag-microservice:test --continue microservices:subscription-microservice:test --continue
+        run: ./gradlew microservices:client:unitTests --continue microservices:video-microservice:test --continue microservices:trending-hashtag-microservice:test --continue microservices:subscription-microservice:test --continue
       - name: Start feature test Docker environment
         run: docker compose -f microservices/client/src/test/resources/compose-feature-tests.yml up --quiet-pull -d --wait
       - name: Run feature tests
