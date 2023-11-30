@@ -44,4 +44,4 @@ classDiagram
     video_hashtag  -->  hashtag
     video_hashtag  -->  video
 ```
-[Main README](../../README.md)
+[Main README](../../../README.md)

@@ -21,7 +21,7 @@ dependencies {
 	implementation("io.micronaut.serde:micronaut-serde-jackson")
 	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
 	implementation("io.micronaut:micronaut-management")
-	implementation(project(":video-microservice"))
+	implementation(project(":microservices:video-microservice"))
 	compileOnly("io.micronaut:micronaut-http-client")
 	runtimeOnly("ch.qos.logback:logback-classic")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")

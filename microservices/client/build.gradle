@@ -10,17 +10,17 @@ repositories {
 	mavenCentral()
 }
 // Do not run the dependency microservices, they are only needed to import their classes
-gradle.startParameter.excludedTaskNames.add(":video-microservice:run")
-gradle.startParameter.excludedTaskNames.add(":trending-hashtag-microservice:run")
-gradle.startParameter.excludedTaskNames.add(":subscription-microservice:run")
+gradle.startParameter.excludedTaskNames.add(":microservices:video-microservice:run")
+gradle.startParameter.excludedTaskNames.add(":microservices:trending-hashtag-microservice:run")
+gradle.startParameter.excludedTaskNames.add(":microservices:subscription-microservice:run")
 
 dependencies {
 	annotationProcessor("info.picocli:picocli-codegen")
 	annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
 	implementation("info.picocli:picocli")
-	implementation(project(":trending-hashtag-microservice"))
-	implementation(project(":video-microservice"))
-	implementation(project(":subscription-microservice"))
+	implementation(project(":microservices:trending-hashtag-microservice"))
+	implementation(project(":microservices:video-microservice"))
+	implementation(project(":microservices:subscription-microservice"))
 	implementation("io.micronaut.picocli:micronaut-picocli")
 	implementation("io.micronaut.serde:micronaut-serde-jackson")
 	implementation("io.micronaut:micronaut-http-client")

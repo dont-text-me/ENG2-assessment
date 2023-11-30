@@ -1,3 +1,6 @@
 rootProject.name = 'assessment'
-include 'video-microservice', 'client', 'trending-hashtag-microservice', 'subscription-microservice'
-
+include 'microservices:video-microservice',
+        'microservices:client',
+        'microservices:trending-hashtag-microservice',
+        'microservices:subscription-microservice',
+        'microservices'
