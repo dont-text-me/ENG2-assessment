@@ -13,6 +13,8 @@
             <option value="$PROJECT_DIR$/microservices/subscription-microservice" />
             <option value="$PROJECT_DIR$/microservices/trending-hashtag-microservice" />
             <option value="$PROJECT_DIR$/microservices/video-microservice" />
+            <option value="$PROJECT_DIR$/modelling" />
+            <option value="$PROJECT_DIR$/modelling/m2t" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -1,0 +1,11 @@
+public class Topics {
+  [%for (topic in s.topics){%]
+  	public static final String TOPIC_[%=topic.name.kebabCaseToCapitalSnakeCase()%] = "[%=topic.name%]";
+  [%}%]
+}
+
+[%
+operation String kebabCaseToCapitalSnakeCase(){
+	return self.split("-").collect(it | it.toUpperCase()).concat("_");
+}
+%]

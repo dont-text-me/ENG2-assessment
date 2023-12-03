@@ -1,0 +1,47 @@
+rule DTOtoJava 
+	transform d : DTO {
+
+	template : "dto2java.egl"
+
+	parameters : Map{
+		"m" = d.eContainer()
+	}
+
+	target : "../../microservices/build/egxResults/" + d.eContainer.name.toLowerCase() + "/dto/" + d.name.ftuc() + ".java"
+}
+
+rule KafkaProducerToJava 
+	transform kp : KafkaProducer {
+
+	template : "kafkaProducer2java.egl"
+
+	parameters : Map{
+		"m" = kp.eContainer()
+	}
+
+	target : "../../microservices/build/egxResults/" + kp.eContainer.name.toLowerCase() + "/events/" + kp.name.ftuc() + ".java"
+}
+
+rule KafkaTopicsToJava 
+	transform s : System {
+
+	template : "systemTopics2java.egl"
+
+	parameters : Map{
+		"m" = s.eContainer()
+	}
+
+	target : "../../microservices/build/egxResults/shared/topics.java"
+}
+
+rule EntityToJava 
+	transform e : Entity {
+
+	template : "entity2java.egl"
+
+	parameters : Map{
+		"m" = e.eContainer()
+	}
+
+	target : "../../microservices/build/egxResults/" + e.eContainer.name.toLowerCase() + "/domain/" + e.name.ftuc() + ".java"
+}
