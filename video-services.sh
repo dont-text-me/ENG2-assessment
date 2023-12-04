@@ -1,1 +1,1 @@
-java -jar client/build/libs/client-0.1-all.jar "$@"
+java -jar microservices/client/build/libs/client-0.1-all.jar "$@"

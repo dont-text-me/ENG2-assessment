@@ -1,0 +1,9 @@
+package [%=packageName%];
+import io.micronaut.serde.annotation.Serdeable;
+import java.util.List;
+
+
+@Serdeable
+public record [%=d.name.ftuc()%](
+    [%=d.fields.collect(it | it.type + " " + it.name).concat(", ")%]
+    ) {}

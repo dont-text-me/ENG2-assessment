@@ -1,3 +1,10 @@
 rootProject.name = 'assessment'
-include 'video-microservice', 'client', 'trending-hashtag-microservice', 'subscription-microservice'
+include 'microservices:video-microservice',
+        'microservices:client',
+        'microservices:trending-hashtag-microservice',
+        'microservices:subscription-microservice',
+        'microservices',
+        'modelling',
+        'modelling:m2t'
+findProject(':modelling:m2t')?.name = 'm2t'
 

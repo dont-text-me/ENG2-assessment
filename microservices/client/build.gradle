@@ -1,0 +1,63 @@
+plugins {
+	id("io.micronaut.application") version "4.0.4"
+	id("com.github.johnrengelman.shadow") version "8.1.1"
+}
+
+version = "0.1"
+group = "com.eng2.assessment.client"
+
+repositories {
+	mavenCentral()
+}
+// Do not run the dependency microservices, they are only needed to import their classes
+gradle.startParameter.excludedTaskNames.add(":microservices:video-microservice:run")
+gradle.startParameter.excludedTaskNames.add(":microservices:trending-hashtag-microservice:run")
+gradle.startParameter.excludedTaskNames.add(":microservices:subscription-microservice:run")
+
+dependencies {
+	annotationProcessor("info.picocli:picocli-codegen")
+	annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+	implementation("info.picocli:picocli")
+	implementation(project(":microservices:trending-hashtag-microservice"))
+	implementation(project(":microservices:video-microservice"))
+	implementation(project(":microservices:subscription-microservice"))
+	implementation("io.micronaut.picocli:micronaut-picocli")
+	implementation("io.micronaut.serde:micronaut-serde-jackson")
+	implementation("io.micronaut:micronaut-http-client")
+	runtimeOnly("ch.qos.logback:logback-classic")
+
+	testImplementation("io.micronaut:micronaut-http-client")
+	testImplementation("org.assertj:assertj-core:3.24.2")
+	testImplementation("org.wiremock:wiremock-standalone:3.0.4")
+	testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
+	testImplementation("com.google.code.gson:gson:2.10.1")
+	testImplementation("com.google.guava:guava:32.1.2-jre")
+	testImplementation("org.testcontainers:testcontainers:1.19.1")
+	testImplementation("org.testcontainers:junit-jupiter:1.19.1")
+}
+
+
+application {
+	mainClass.set("com.eng2.assessment.client.ClientCommand")
+}
+
+micronaut {
+	testRuntime("junit5")
+	processing {
+		incremental(true)
+		annotations("com.eng2.assessment.client.*")
+	}
+}
+
+tasks.register('unitTests', Test) {
+	useJUnitPlatform {
+		excludeTags "feature-test"
+	}
+}
+
+tasks.register('featureTests', Test){
+	useJUnitPlatform{
+		includeTags "feature-test"
+	}
+}
+tasks.register("prepareKotlinBuildScriptModel"){}
