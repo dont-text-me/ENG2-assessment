@@ -4,10 +4,11 @@ rule DTOtoJava
 	template : "dto2java.egl"
 
 	parameters : Map{
-		"m" = d.eContainer()
+		"m" = d.eContainer(),
+		"packageName" =  d.eContainer.name.getMicroserviceAcronym() + ".dto"
 	}
 
-	target : "../../microservices/build/egxResults/" + d.eContainer.name.toLowerCase() + "/dto/" + d.name.ftuc() + ".java"
+	target : "../../microservices/build/generated/egx/" + d.eContainer.name.getMicroserviceAcronym() + "/dto/" + d.name.ftuc() + ".java"
 }
 
 rule KafkaProducerToJava 
@@ -16,10 +17,11 @@ rule KafkaProducerToJava
 	template : "kafkaProducer2java.egl"
 
 	parameters : Map{
-		"m" = kp.eContainer()
+		"m" = kp.eContainer(),
+		"packageName" =  kp.eContainer.name.getMicroserviceAcronym() + ".events"
 	}
 
-	target : "../../microservices/build/egxResults/" + kp.eContainer.name.toLowerCase() + "/events/" + kp.name.ftuc() + ".java"
+	target : "../../microservices/build/generated/egx/"  + kp.eContainer.name.getMicroserviceAcronym() + "/events/" + kp.name.ftuc() + ".java"
 }
 
 rule KafkaTopicsToJava 
@@ -31,7 +33,7 @@ rule KafkaTopicsToJava
 		"m" = s.eContainer()
 	}
 
-	target : "../../microservices/build/egxResults/shared/topics.java"
+	target : "../../microservices/build/generated/egx/shared/Topics.java"
 }
 
 rule EntityToJava 
@@ -40,8 +42,13 @@ rule EntityToJava
 	template : "entity2java.egl"
 
 	parameters : Map{
-		"m" = e.eContainer()
+		"m" = e.eContainer(),
+		"packageName" =  e.eContainer.name.getMicroserviceAcronym() + ".domain"
 	}
 
-	target : "../../microservices/build/egxResults/" + e.eContainer.name.toLowerCase() + "/domain/" + e.name.ftuc() + ".java"
+	target : "../../microservices/build/generated/egx/"  + e.eContainer.name.getMicroserviceAcronym() + "/domain/" + e.name.ftuc() + ".java"
+}
+
+operation String getMicroserviceAcronym(){
+    return self.split("-").collect(it | it.characterAt(0)).concat();
 }

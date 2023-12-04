@@ -42,11 +42,11 @@
       <toField name="likers" type="Set&lt;User>"/>
       <fromField name="likedVideos" type="Set&lt;Video>"/>
     </relationships>
-    <relationships joinTableName="user_video_dislikes" description="User dislikes videos" to="//@services.0/@entities.0" from="//@services.0/@entities.2">
+    <relationships type="MANY_TO_MANY" joinTableName="user_video_dislikes" description="User dislikes videos" to="//@services.0/@entities.0" from="//@services.0/@entities.2">
       <toField name="dislikers" type="Set&lt;User>"/>
       <fromField name="dislikedVideos" type="Set&lt;Video>"/>
     </relationships>
-    <relationships joinTableName="" description="User views videos" to="//@services.0/@entities.0" from="//@services.0/@entities.2">
+    <relationships type="MANY_TO_MANY" joinTableName="" description="User views videos" to="//@services.0/@entities.0" from="//@services.0/@entities.2">
       <toField name="viewers" type="Set&lt;User>"/>
       <fromField name="viewedVideos" type="Set&lt;Video>"/>
     </relationships>

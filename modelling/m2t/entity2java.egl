@@ -1,3 +1,4 @@
+package [%=packageName%];
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.micronaut.serde.annotation.Serdeable;
 import java.time.Instant;
@@ -37,7 +38,7 @@ public class [%=e.name%] {
 	[%if (incomingRel.isJsonIgnoreTo){%]
 	@JsonIgnore
 	[%}%]
-	[%=incomingRel.type.toString().toAnnotationString()%](mappedBy = "[%=incomingRel.fromField.name%]")
+	[%=incomingRel.type.toString().toAnnotationString(false)%](mappedBy = "[%=incomingRel.fromField.name%]")
 	private [%=incomingRel.toField.type%] [%=incomingRel.toField.name%];
 	
 	public [%=incomingRel.toField.type%] get[%=incomingRel.toField.name.ftuc()%](){return this.[%=incomingRel.toField.name%];}
@@ -50,12 +51,12 @@ public class [%=e.name%] {
 	
 	[%for (outgoingRel in e.outgoing){%]
 		[%if (outgoingRel.fromField?.name != null){%]
-	[%=outgoingRel.type.toString().toAnnotationString()%]
+	[%=outgoingRel.type.toString().toAnnotationString(true)%]
 	[%if (outgoingRel.isJsonIgnoreFrom){%]
 	@JsonIgnore
 	[%}%]
 	[%if(outgoingRel.joinTableName != null and outgoingRel.joinTableName != ""){%]
-	@JoinTable(name = [%=outgoingRel.joinTableName%])
+	@JoinTable(name = "[%=outgoingRel.joinTableName%]")
 	[%}%]
 	private [%=outgoingRel.fromField.type%] [%=outgoingRel.fromField.name%];
 	
@@ -69,12 +70,22 @@ public class [%=e.name%] {
 
 [%
 //Convert entity relationship type to micronaut annotation
-operation String toAnnotationString(){
+operation String toAnnotationString(isFrom : Boolean){
 	if (self == "MANY_TO_ONE"){
+		if(isFrom){
 		return "@ManyToOne";
+		}
+		else{
+			return "@OneToMany";
+		}
 	}
 	if (self == "ONE_TO_MANY"){
+		if(isFrom){
 		return "@OneToMany";
+		}
+		else{
+			return "@ManyToOne";
+		}
 	}
 	else{
 		return "@ManyToMany";

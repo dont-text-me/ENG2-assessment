@@ -1,7 +1,9 @@
+package [%=packageName%];
 import io.micronaut.configuration.kafka.annotation.KafkaClient;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.Topic;
 import java.util.UUID;
+import [%=kp.eContainer.name.getMicroserviceAcronym()%].dto.*;
 
 @KafkaClient
 public interface [%=kp.name%] {
@@ -16,5 +18,9 @@ public interface [%=kp.name%] {
 [%
 operation String kebabToCamelCase(){
 	return self.split("-").collect(it | it.ftuc()).concat();
+}
+
+operation String getMicroserviceAcronym(){
+    return self.split("-").collect(it | it.characterAt(0)).concat();
 }
 %]

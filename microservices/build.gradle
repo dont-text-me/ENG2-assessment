@@ -2,14 +2,12 @@ plugins {
 	id 'java'
 	id("com.diffplug.spotless") version "6.21.0"
 	id("com.github.johnrengelman.shadow") version "8.1.1"
-	id("io.micronaut.application") version "4.0.4" apply false
+	id("io.micronaut.application") version "4.0.4"
 	id("io.micronaut.test-resources") version "4.0.4" apply false
 	id("io.micronaut.aot") version "4.0.4" apply false
 }
 
-repositories {
-	mavenCentral()
-}
+
 
 subprojects {
 	java{
@@ -17,6 +15,33 @@ subprojects {
 		targetCompatibility = JavaVersion.toVersion("17")
 	}
 }
+
+
+
+dependencies {
+	annotationProcessor("io.micronaut.data:micronaut-data-processor")
+	annotationProcessor("io.micronaut:micronaut-http-validation")
+	annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+	implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+	implementation("io.micronaut.kafka:micronaut-kafka")
+	implementation("io.micronaut.serde:micronaut-serde-jackson")
+	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+	implementation("jakarta.annotation:jakarta.annotation-api")
+	implementation("io.micronaut:micronaut-http-client")
+}
+
+repositories {
+	mavenCentral()
+}
+
+sourceSets {
+	main{
+		java{
+			srcDirs = ["build/generated/egx"]
+		}
+	}
+}
+
 spotless{
 	java{
 		target '**/**.java'
