@@ -4,13 +4,9 @@ import static com.eng2.assessment.client.utils.TestContainerServicesInfo.*;
 import static com.eng2.assessment.client.utils.TestContainerServicesInfo.SM_DB_PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.eng2.assessment.client.clients.vm.UsersClient;
-import com.eng2.assessment.client.clients.vm.VideosClient;
 import com.eng2.assessment.client.commands.sm.recommendations.GetRecommendationsCommand;
 import com.eng2.assessment.client.utils.AbstractFeatureTest;
 import com.eng2.assessment.client.utils.FeatureTestExtension;
-import com.eng2.assessment.vm.dto.UserDTO;
-import com.eng2.assessment.vm.dto.VideoDTO;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
@@ -30,6 +26,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import vm.api.UsersClient;
+import vm.api.VideosClient;
+import vm.dto.UserDTO;
+import vm.dto.VideoDTO;
 
 @MicronautTest
 @Tag("feature-test")
@@ -63,7 +63,7 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
     for (int i = 0; i < 10; i++) {
       String postVideoResponseBody =
           vmVideosClient
-              .publish(new VideoDTO(videoNamePrefix + i, videoAuthorUserName, List.of(hashtagName)))
+              .publish(new VideoDTO(videoAuthorUserName, List.of(hashtagName), videoNamePrefix + i))
               .body();
       UUID videoId =
           UUID.fromString(
@@ -101,7 +101,7 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
     vmUsersClient.registerUser(new UserDTO(videoViewerUserName));
     String postVideoResponseBody =
         vmVideosClient
-            .publish(new VideoDTO("My video", videoAuthorUserName, List.of(hashtagName)))
+            .publish(new VideoDTO(videoAuthorUserName, List.of(hashtagName), "My video"))
             .body();
     Thread.sleep(500L);
     UUID videoId =

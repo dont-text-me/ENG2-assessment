@@ -1,7 +1,5 @@
 package com.eng2.assessment.client.commands.vm.videos;
 
-import com.eng2.assessment.client.clients.vm.VideosClient;
-import com.eng2.assessment.vm.dto.VideoDTO;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
@@ -10,6 +8,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
+import vm.api.VideosClient;
+import vm.dto.VideoDTO;
 
 @CommandLine.Command(name = "post-video", mixinStandardHelpOptions = true)
 public class PostVideoCommand implements Runnable {
@@ -40,7 +40,7 @@ public class PostVideoCommand implements Runnable {
   @Override
   public void run() {
     List<String> hashtags = Arrays.stream(hashtagsList.split(",")).map(String::trim).toList();
-    VideoDTO detais = new VideoDTO(title, authorUsername, hashtags);
+    VideoDTO detais = new VideoDTO(authorUsername, hashtags, title);
     logger.info("Attempting to create a video with these details: " + detais);
 
     HttpResponse<String> result = client.publish(detais);

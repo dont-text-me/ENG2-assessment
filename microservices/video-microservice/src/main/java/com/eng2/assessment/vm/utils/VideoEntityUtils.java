@@ -3,6 +3,8 @@ package com.eng2.assessment.vm.utils;
 import java.util.List;
 import vm.domain.Hashtag;
 import vm.domain.Video;
+import vm.dto.VideoResponseDTO;
+import vm.dto.VideoResultsDTO;
 
 public class VideoEntityUtils {
 
@@ -20,5 +22,22 @@ public class VideoEntityUtils {
 
   public static void incrementDislikeCount(Video video) {
     video.setDislikeCount(video.getDislikeCount() + 1);
+  }
+
+  public static VideoResultsDTO convertEntityList(List<Video> videos) {
+    return new VideoResultsDTO(
+        videos.stream()
+            .map(
+                it ->
+                    new VideoResponseDTO(
+                        it.getTitle(),
+                        it.getId(),
+                        it.getPublishedAt(),
+                        it.getAuthor().getUsername(),
+                        it.getLikeCount(),
+                        it.getDislikeCount(),
+                        it.getHashtags().stream().map(Hashtag::getId).toList(),
+                        it.getViewCount()))
+            .toList());
   }
 }

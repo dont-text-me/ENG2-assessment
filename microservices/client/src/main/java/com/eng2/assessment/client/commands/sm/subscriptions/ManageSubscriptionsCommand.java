@@ -1,10 +1,10 @@
 package com.eng2.assessment.client.commands.sm.subscriptions;
 
-import com.eng2.assessment.client.clients.sm.SubscriptionsClient;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
 import picocli.CommandLine;
+import sm.api.SubscriptionsClient;
 
 @CommandLine.Command(name = "manage-subscriptions", mixinStandardHelpOptions = true)
 public class ManageSubscriptionsCommand implements Runnable {

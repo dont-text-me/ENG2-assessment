@@ -49,7 +49,7 @@ rule EntityToJava
 	target : "../../microservices/" +  e.eContainer.name + "/build/generated/egx/"  + e.eContainer.name.getMicroserviceAcronym() + "/domain/" + e.name.ftuc() + ".java"
 }
 
-rule ClientDefinition2Java
+rule ClientDefinition2MicronautClient
 	transform cd : ClientDefinition {
 
 	template : "clientDefinition2java.egl"
@@ -61,6 +61,20 @@ rule ClientDefinition2Java
 	}
 
 	target : "../../microservices/generated-shared/build/generated/egx/" + cd.eContainer.eContainer.name.getMicroserviceAcronym() + "/api/" + cd.name.ftuc() + ".java"
+}
+
+rule ClientDefinition2APIInterface
+	transform cd : ClientDefinition {
+
+	template : "clientDefinition2APIInterface.egl"
+
+	parameters : Map{
+		"m" = cd.eContainer(),
+		"packageName" =  cd.eContainer.eContainer.name.getMicroserviceAcronym() + ".api",
+		"microserviceAcronym" = cd.eContainer.eContainer.name.getMicroserviceAcronym()
+	}
+
+	target : "../../microservices/generated-shared/build/generated/egx/" + cd.eContainer.eContainer.name.getMicroserviceAcronym() + "/api/" + "I" + cd.name.ftuc() + ".java"
 }
 
 operation String getMicroserviceAcronym(){

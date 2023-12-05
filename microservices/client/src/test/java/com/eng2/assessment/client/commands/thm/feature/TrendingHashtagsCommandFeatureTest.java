@@ -2,13 +2,9 @@ package com.eng2.assessment.client.commands.thm.feature;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.eng2.assessment.client.clients.vm.UsersClient;
-import com.eng2.assessment.client.clients.vm.VideosClient;
 import com.eng2.assessment.client.commands.thm.ListTrendingHashtagsCommand;
 import com.eng2.assessment.client.utils.AbstractFeatureTest;
 import com.eng2.assessment.client.utils.FeatureTestExtension;
-import com.eng2.assessment.vm.dto.UserDTO;
-import com.eng2.assessment.vm.dto.VideoDTO;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
@@ -21,6 +17,10 @@ import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import vm.api.UsersClient;
+import vm.api.VideosClient;
+import vm.dto.UserDTO;
+import vm.dto.VideoDTO;
 
 @MicronautTest
 @Tag("feature-test")
@@ -58,7 +58,7 @@ public class TrendingHashtagsCommandFeatureTest extends AbstractFeatureTest {
 
       String postVideoResponseBody =
           videosClient
-              .publish(new VideoDTO("Video " + i, "User-" + i, List.of("Hashtag" + i)))
+              .publish(new VideoDTO("User-" + i, List.of("Hashtag" + i), "Video " + i))
               .body();
       UUID videoId =
           UUID.fromString(

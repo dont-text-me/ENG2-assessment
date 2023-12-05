@@ -5,7 +5,7 @@ micronaut:
     client:
       exception-on-error-status: false
 
-client-urls:
+resource-urls:
   vm:
     videos: http://localhost:8080/videos
     users: http://localhost:8080/users

@@ -17,15 +17,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import vm.api.IVideosClient;
 import vm.domain.Hashtag;
 import vm.domain.User;
 import vm.domain.Video;
 import vm.dto.VideoDTO;
 import vm.dto.VideoInteractionDetailsDTO;
+import vm.dto.VideoResultsDTO;
 import vm.events.VideoInteractionProducer;
 
 @Controller("/videos")
-public class VideosController {
+public class VideosController implements IVideosClient {
   @Inject private VideosRepository videoRepo;
   @Inject private UsersRepository userRepo;
   @Inject private HashtagRepository hashtagRepo;
@@ -33,20 +35,23 @@ public class VideosController {
   private static final Logger logger = LoggerFactory.getLogger(VideosController.class);
 
   @Get("/")
-  public List<Video> list(
+  public VideoResultsDTO list(
       @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag) {
     logger.info(author);
     logger.info(hashtag);
 
+    List<Video> videos;
+
     if (author != null && hashtag == null) {
-      return videoRepo.findAllByAuthorUsernameEquals(author);
+      videos = videoRepo.findAllByAuthorUsernameEquals(author);
     } else if (author == null && hashtag != null) {
-      return videoRepo.filterByHashtag(hashtag);
+      videos = videoRepo.filterByHashtag(hashtag);
     } else if (author != null && hashtag != null) {
-      return videoRepo.filterByAuthorAndHashtag(author, hashtag);
+      videos = videoRepo.filterByAuthorAndHashtag(author, hashtag);
     } else {
-      return videoRepo.findAll();
+      videos = videoRepo.findAll();
     }
+    return convertEntityList(videos);
   }
 
   @Get("/{id}")

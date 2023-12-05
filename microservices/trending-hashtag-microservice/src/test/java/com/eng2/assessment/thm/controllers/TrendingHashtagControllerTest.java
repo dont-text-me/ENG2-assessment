@@ -5,17 +5,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import com.eng2.assessment.thm.utils.DbCleanupExtension;
-import com.eng2.assessment.thm.utils.TrendingHashtagsClient;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import thm.api.TrendingHashtagsClient;
 import thm.domain.TrendingHashtag;
+import thm.dto.TrendingHashtagResponseDTO;
+import thm.dto.WindowedHashtagWithLikeCount;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)
@@ -24,16 +25,16 @@ public class TrendingHashtagControllerTest {
 
   @Inject private TrendingHashtagRepository repo;
 
-  private final Comparator<TrendingHashtag> expectedOrdering =
-      Comparator.comparing(TrendingHashtag::getLikeCount)
+  private final Comparator<WindowedHashtagWithLikeCount> expectedOrdering =
+      Comparator.comparing(WindowedHashtagWithLikeCount::likeCount)
           .reversed()
-          .thenComparing(TrendingHashtag::getHashtagName);
+          .thenComparing(WindowedHashtagWithLikeCount::hashtagName);
 
   @Test
   public void whenNoHashtags() {
-    List<TrendingHashtag> result = client.latestStats();
+    TrendingHashtagResponseDTO result = client.latestStats();
 
-    assertThat(result).isEmpty();
+    assertThat(result.hashtags()).isEmpty();
   }
 
   @Test
@@ -51,9 +52,9 @@ public class TrendingHashtagControllerTest {
               repo.save(h);
             });
 
-    List<TrendingHashtag> result = client.latestStats();
+    TrendingHashtagResponseDTO result = client.latestStats();
 
-    assertThat(result).isNotEmpty().hasSize(5).isSortedAccordingTo(expectedOrdering);
+    assertThat(result.hashtags()).isNotEmpty().hasSize(5).isSortedAccordingTo(expectedOrdering);
   }
 
   @Test
@@ -78,16 +79,16 @@ public class TrendingHashtagControllerTest {
     duplicate.setWindowStart(windowStart);
     repo.save(duplicate);
 
-    List<TrendingHashtag> result = client.latestStats();
+    TrendingHashtagResponseDTO result = client.latestStats();
 
-    assertThat(result).isNotEmpty().hasSize(5).isSortedAccordingTo(expectedOrdering);
-    assertThat(result.get(0).getHashtagName()).isEqualTo("2");
-    assertThat(result.get(0).getLikeCount()).isEqualTo(20L);
-    assertThat(result)
+    assertThat(result.hashtags()).isNotEmpty().hasSize(5).isSortedAccordingTo(expectedOrdering);
+    assertThat(result.hashtags().get(0).hashtagName()).isEqualTo("2");
+    assertThat(result.hashtags().get(0).likeCount()).isEqualTo(20L);
+    assertThat(result.hashtags())
         .noneMatch(
             it ->
-                it.getHashtagName().equals("2")
-                    && it.getLikeCount().equals(2L)); // duplicate entry replaces old one
+                it.hashtagName().equals("2")
+                    && it.likeCount().equals(2L)); // duplicate entry replaces old one
   }
 
   @Test
@@ -105,10 +106,10 @@ public class TrendingHashtagControllerTest {
               repo.save(h);
             }); // name: 0, likeCount:0, 1, 1 and so on
 
-    List<TrendingHashtag> result = client.latestStats();
+    TrendingHashtagResponseDTO result = client.latestStats();
 
-    assertThat(result).isNotEmpty().hasSize(10).isSortedAccordingTo(expectedOrdering);
-    assertThat(result.get(result.size() - 1).getHashtagName()).isEqualTo("10");
+    assertThat(result.hashtags()).isNotEmpty().hasSize(10).isSortedAccordingTo(expectedOrdering);
+    assertThat(result.hashtags().get(result.hashtags().size() - 1).hashtagName()).isEqualTo("10");
   }
 
   @Test
@@ -140,11 +141,10 @@ public class TrendingHashtagControllerTest {
               repo.save(h);
             });
 
-    List<TrendingHashtag> result = client.latestStats();
+    TrendingHashtagResponseDTO result = client.latestStats();
 
-    assertThat(result).isNotEmpty().hasSize(5).isSortedAccordingTo(expectedOrdering);
-    assertThat(result)
-        .allMatch(
-            it -> it.getHashtagName().contains("new") && it.getWindowEnd().equals(recentWindowEnd));
+    assertThat(result.hashtags()).isNotEmpty().hasSize(5).isSortedAccordingTo(expectedOrdering);
+    assertThat(result.hashtags())
+        .allMatch(it -> it.hashtagName().contains("new") && it.windowEnd().equals(recentWindowEnd));
   }
 }

@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 
 import com.eng2.assessment.vm.repositories.UsersRepository;
 import com.eng2.assessment.vm.utils.DbCleanupExtension;
-import com.eng2.assessment.vm.utils.UsersClient;
 import io.micronaut.context.annotation.Replaces;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
@@ -17,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import vm.api.UsersClient;
 import vm.domain.User;
 import vm.dto.UserDTO;
 import vm.dto.UserRegisteredMessageValueDTO;

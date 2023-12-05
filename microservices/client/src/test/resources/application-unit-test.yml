@@ -1,4 +1,4 @@
-client-urls:
+resource-urls:
   vm:
     videos: http://localhost:3000/videos
     users: http://localhost:3000/users

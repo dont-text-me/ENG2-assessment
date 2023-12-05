@@ -3,14 +3,9 @@ package com.eng2.assessment.client.commands.vm.videos.feature;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.eng2.assessment.client.clients.vm.UsersClient;
-import com.eng2.assessment.client.clients.vm.VideosClient;
 import com.eng2.assessment.client.commands.vm.videos.InteractWithVideoCommand;
 import com.eng2.assessment.client.utils.AbstractFeatureTest;
 import com.eng2.assessment.client.utils.FeatureTestExtension;
-import com.eng2.assessment.vm.domain.Video;
-import com.eng2.assessment.vm.dto.UserDTO;
-import com.eng2.assessment.vm.dto.VideoDTO;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
@@ -26,6 +21,11 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import vm.api.UsersClient;
+import vm.api.VideosClient;
+import vm.dto.UserDTO;
+import vm.dto.VideoDTO;
+import vm.dto.VideoResponseDTO;
 
 @MicronautTest
 @Tag("feature-test")
@@ -54,7 +54,7 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
     usersClient.registerUser(new UserDTO(userName));
     String postVideoResponseBody =
         videosClient
-            .publish(new VideoDTO(videoTitle, userName, List.of("Elephant", "Awesome", "Safari")))
+            .publish(new VideoDTO(userName, List.of("Elephant", "Awesome", "Safari"), videoTitle))
             .body();
     UUID videoId =
         UUID.fromString(
@@ -74,14 +74,14 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
                       ? "liked"
                       : "disliked"));
 
-      Video videoAfterUpdate = videosClient.list(null, null).get(0);
+      VideoResponseDTO videoAfterUpdate = videosClient.list(null, null).result().get(0);
 
       if (type.equals(InteractWithVideoCommand.VideoInteractionType.LIKE)) {
-        assertThat(videoAfterUpdate.getLikeCount()).isEqualTo(1);
+        assertThat(videoAfterUpdate.likeCount()).isEqualTo(1);
       } else if (type.equals(InteractWithVideoCommand.VideoInteractionType.DISLIKE)) {
-        assertThat(videoAfterUpdate.getDislikeCount()).isEqualTo(1);
+        assertThat(videoAfterUpdate.dislikeCount()).isEqualTo(1);
       } else {
-        assertThat(videoAfterUpdate.getViewCount()).isEqualTo(1);
+        assertThat(videoAfterUpdate.viewCount()).isEqualTo(1);
       }
     }
   }
@@ -95,7 +95,7 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
     usersClient.registerUser(new UserDTO(userName));
     String postVideoResponseBody =
         videosClient
-            .publish(new VideoDTO(videoTitle, userName, List.of("Elephant", "Awesome", "Safari")))
+            .publish(new VideoDTO(userName, List.of("Elephant", "Awesome", "Safari"), videoTitle))
             .body();
     UUID videoId =
         UUID.fromString(
@@ -140,7 +140,7 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
     usersClient.registerUser(new UserDTO(userName));
     String postVideoResponseBody =
         videosClient
-            .publish(new VideoDTO(videoTitle, userName, List.of("Elephant", "Awesome", "Safari")))
+            .publish(new VideoDTO(userName, List.of("Elephant", "Awesome", "Safari"), videoTitle))
             .body();
     UUID videoId =
         UUID.fromString(

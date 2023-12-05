@@ -99,6 +99,9 @@ class APISchema {
 
 class ClientDefinition{
 	attr String name;
+	attr String urlConfigProperty;
+	attr String defaultUrl;
+	attr String errorType = "String";
 	val HttpRequest[*] requests;
 }
 

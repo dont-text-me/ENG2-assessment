@@ -1,11 +1,11 @@
 package com.eng2.assessment.client.commands.vm.users;
 
-import com.eng2.assessment.client.clients.vm.UsersClient;
-import com.eng2.assessment.vm.dto.UserDTO;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
 import picocli.CommandLine;
+import vm.api.UsersClient;
+import vm.dto.UserDTO;
 
 @CommandLine.Command(name = "register-user", mixinStandardHelpOptions = true)
 public class RegisterUserCommand implements Runnable {

@@ -1,10 +1,5 @@
 package com.eng2.assessment.client.utils.mockResponses;
 
-import com.eng2.assessment.sm.dto.VideoRecommendationDTO;
-import com.eng2.assessment.thm.domain.TrendingHashtag;
-import com.eng2.assessment.vm.domain.Hashtag;
-import com.eng2.assessment.vm.domain.User;
-import com.eng2.assessment.vm.domain.Video;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -17,6 +12,12 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
+import sm.dto.VideoDTO;
+import sm.dto.VideoRecommendationDTO;
+import thm.dto.TrendingHashtagResponseDTO;
+import thm.dto.WindowedHashtagWithLikeCount;
+import vm.dto.VideoResponseDTO;
+import vm.dto.VideoResultsDTO;
 
 public class MockResponses {
 
@@ -39,99 +40,51 @@ public class MockResponses {
                 })
             .create();
 
-    ArrayList<Video> videos = new ArrayList<>();
-    Arrays.stream(args)
-        .forEach(
-            it -> {
-              User u = new User();
-              u.setUsername(it.authorUsername());
-              u.setId(UUID.randomUUID());
-
-              Set<Hashtag> hashtags =
-                  it.hashtagIds().stream()
-                      .map(
-                          hName -> {
-                            Hashtag h = new Hashtag();
-                            h.setId(hName);
-                            return h;
-                          })
-                      .collect(Collectors.toSet());
-
-              Video v = new Video();
-              v.setId(UUID.randomUUID());
-              v.setTitle(it.title());
-              v.setLikeCount(it.likeCount());
-              v.setDislikeCount(it.dislikeCount());
-              v.setAuthor(u);
-              v.setHashtags(hashtags);
-              v.setPublishedAt(Instant.now().minus(Duration.ofMinutes(r.nextLong(60))));
-
-              videos.add(v);
-            });
-    return gson.toJson(videos, new TypeToken<List<Video>>() {}.getType());
-  }
-
-  public static String getUserList(String... userNames) {
-    Gson gson = new GsonBuilder().create();
-    List<User> users =
-        Arrays.stream(userNames)
-            .map(
-                it -> {
-                  User u = new User();
-                  u.setId(UUID.randomUUID());
-                  u.setUsername(it);
-                  return u;
-                })
-            .toList();
-    return gson.toJson(users, new TypeToken<List<User>>() {}.getType());
+    VideoResultsDTO videos = new VideoResultsDTO(
+            Arrays.stream(args).map(
+                    it -> new VideoResponseDTO(
+                            it.title(),
+                            UUID.randomUUID(),
+                            Instant.now().minus(Duration.ofMinutes(r.nextLong(60))),
+                            it.authorUsername(),
+                            it.likeCount(),
+                            it.dislikeCount(),
+                            it.hashtagIds(),
+                            r.nextInt(1000)
+                    )
+            ).toList()
+    );
+    return gson.toJson(videos, new TypeToken<VideoResultsDTO>() {}.getType());
   }
 
   public static String getTrendingHashtagsList(MinifiedTrendingHashtagDetails... hashtags) {
     Gson gson = new GsonBuilder().create();
-    List<TrendingHashtag> trendingHashtags =
-        Arrays.stream(hashtags)
-            .map(
-                it -> {
-                  TrendingHashtag t = new TrendingHashtag();
-                  t.setHashtagName(it.hashtagName());
-                  t.setLikeCount(it.likeCount());
-                  t.setWindowStart(Instant.now().minus(Duration.ofMinutes(60)).toEpochMilli());
-                  t.setWindowEnd(Instant.now().toEpochMilli());
-                  return t;
-                })
-            .toList();
-    return gson.toJson(trendingHashtags, new TypeToken<List<TrendingHashtag>>() {}.getType());
+    TrendingHashtagResponseDTO trendingHashtags =
+        new TrendingHashtagResponseDTO(
+            Arrays.stream(hashtags)
+                .map(
+                    it ->
+                        new WindowedHashtagWithLikeCount(
+                            it.hashtagName(),
+                            it.likeCount(),
+                            Instant.now().minus(Duration.ofMinutes(60)).toEpochMilli(),
+                            Instant.now().toEpochMilli()))
+                .toList());
+    return gson.toJson(trendingHashtags, new TypeToken<TrendingHashtagResponseDTO>() {}.getType());
   }
 
   public static String getRecommendationsList(
       @Nullable String error, MinifiedVideoRecommendationDetails... details) {
     Gson gson = new GsonBuilder().create();
-    List<com.eng2.assessment.sm.domain.Video> recs =
+    List<VideoDTO> recs =
         Arrays.stream(details)
             .map(
-                it -> {
-                  com.eng2.assessment.sm.domain.Video v = new com.eng2.assessment.sm.domain.Video();
-                  v.setId(UUID.randomUUID());
-                  v.setTitle(it.title());
-                  v.setViewCount(Long.valueOf(it.viewCount()));
-
-                  Set<com.eng2.assessment.sm.domain.Hashtag> hashtags =
-                      it.hashtagIds().stream()
-                          .map(
-                              name -> {
-                                com.eng2.assessment.sm.domain.Hashtag h =
-                                    new com.eng2.assessment.sm.domain.Hashtag();
-                                h.setName(name);
-                                return h;
-                              })
-                          .collect(Collectors.toSet());
-
-                  v.setHashtags(hashtags);
-                  return v;
-                })
+                it ->
+                    new VideoDTO(
+                        UUID.randomUUID(), it.title(), (long) it.viewCount(), it.hashtagIds()))
             .toList();
 
-    VideoRecommendationDTO result = new VideoRecommendationDTO(recs, error);
+    VideoRecommendationDTO result = new VideoRecommendationDTO(error, recs);
 
     return gson.toJson(result, new TypeToken<VideoRecommendationDTO>() {}.getType());
   }

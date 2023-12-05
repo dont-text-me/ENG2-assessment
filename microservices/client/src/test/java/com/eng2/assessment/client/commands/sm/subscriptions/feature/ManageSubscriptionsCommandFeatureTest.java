@@ -1,7 +1,6 @@
 package com.eng2.assessment.client.commands.sm.subscriptions.feature;
 
 import static com.eng2.assessment.client.utils.TestContainerServicesInfo.*;
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.eng2.assessment.client.commands.sm.subscriptions.ManageSubscriptionsCommand;

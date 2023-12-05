@@ -13,13 +13,14 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sm.api.ISubscriptionsClient;
 import sm.domain.Hashtag;
 import sm.domain.User;
 import sm.dto.UserSubscriptionMessageValueDTO;
 import sm.events.SubscriptionProducer;
 
 @Controller("/subscriptions")
-public class SubscriptionsController {
+public class SubscriptionsController implements ISubscriptionsClient {
 
   private static final Logger logger = LoggerFactory.getLogger(SubscriptionsController.class);
 
