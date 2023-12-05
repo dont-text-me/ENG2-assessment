@@ -3,7 +3,7 @@ package com.eng2.assessment.thm.controllers;
 import static java.lang.String.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.eng2.assessment.thm.domain.TrendingHashtag;
+import thm.domain.TrendingHashtag;
 import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import com.eng2.assessment.thm.utils.DbCleanupExtension;
 import com.eng2.assessment.thm.utils.TrendingHashtagsClient;

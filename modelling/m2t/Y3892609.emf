@@ -146,4 +146,6 @@ class QueryParamField extends Field{
 class DbColumnField extends Field{
 	attr Boolean isNullable = true;
 	attr Boolean isUnique = false;
+	attr Boolean hasDefaultValue = false;
+	attr String defaultValue;
 }

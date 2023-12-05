@@ -4,8 +4,6 @@ import static com.eng2.assessment.thm.events.TrendingHashtagsStream.TOPIC_HASHTA
 import static java.lang.String.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.eng2.assessment.thm.domain.TrendingHashtag;
-import com.eng2.assessment.thm.events.dto.WindowedHashtagWIthLikeCount;
 import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import com.eng2.assessment.thm.utils.DbCleanupExtension;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
@@ -19,6 +17,8 @@ import java.util.stream.IntStream;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import thm.dto.WindowedHashtagWithLikeCount;
+import thm.domain.TrendingHashtag;
 
 @MicronautTest
 @ExtendWith(DbCleanupExtension.class)
@@ -29,8 +29,8 @@ public class TrendingHashtagSummaryConsumerTest {
 
   @Test
   public void storesDetailsOfReceivedMessage() {
-    WindowedHashtagWIthLikeCount messageData =
-        new WindowedHashtagWIthLikeCount(
+    WindowedHashtagWithLikeCount messageData =
+        new WindowedHashtagWithLikeCount(
             "Zoo",
             10L,
             Instant.now().minus(Duration.ofMinutes(10)).toEpochMilli(),
@@ -47,7 +47,7 @@ public class TrendingHashtagSummaryConsumerTest {
 
   @Test
   public void handlesBatchedMessages() {
-    ArrayList<ConsumerRecord<String, WindowedHashtagWIthLikeCount>> records = new ArrayList<>();
+    ArrayList<ConsumerRecord<String, WindowedHashtagWithLikeCount>> records = new ArrayList<>();
     IntStream.range(0, 15)
         .forEach(
             it ->
@@ -57,7 +57,7 @@ public class TrendingHashtagSummaryConsumerTest {
                         1,
                         it,
                         valueOf(it),
-                        new WindowedHashtagWIthLikeCount(
+                        new WindowedHashtagWithLikeCount(
                             valueOf(it),
                             (long) it,
                             Instant.now().minus(Duration.ofMinutes(10)).toEpochMilli(),

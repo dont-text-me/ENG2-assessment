@@ -1,6 +1,5 @@
 package com.eng2.assessment.vm.repositories;
 
-import vm.domain.Video;
 import io.micronaut.data.annotation.Join;
 import io.micronaut.data.annotation.Query;
 import io.micronaut.data.annotation.Repository;
@@ -9,6 +8,7 @@ import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import vm.domain.Video;
 
 @Repository
 public interface VideosRepository extends CrudRepository<Video, UUID> {

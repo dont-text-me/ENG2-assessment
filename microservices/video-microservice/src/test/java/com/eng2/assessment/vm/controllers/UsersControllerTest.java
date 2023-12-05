@@ -4,9 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-import vm.domain.User;
-import vm.dto.UserDTO;
-import com.eng2.assessment.vm.events.UserCreationProducer;
 import com.eng2.assessment.vm.repositories.UsersRepository;
 import com.eng2.assessment.vm.utils.DbCleanupExtension;
 import com.eng2.assessment.vm.utils.UsersClient;
@@ -16,11 +13,14 @@ import io.micronaut.http.HttpStatus;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import vm.domain.User;
+import vm.dto.UserDTO;
+import vm.dto.UserRegisteredMessageValueDTO;
+import vm.events.UserCreationProducer;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)
@@ -48,7 +48,8 @@ public class UsersControllerTest {
       User createdUser = userRepo.findAll().get(0);
 
       assertThat(createdUser.getUsername()).isEqualTo("FirstUser");
-      verify(mockProducer).userRegistered(eq("FirstUser"), any(UUID.class));
+      verify(mockProducer)
+          .produceUserRegisteredMessage(eq("FirstUser"), any(UserRegisteredMessageValueDTO.class));
     }
 
     @Test

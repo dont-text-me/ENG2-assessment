@@ -24,7 +24,7 @@ public class [%=e.name%] {
 [* Generate entity-specific fields i.e. ones that are not part of any relationship *]
 	[%for (field in e.fields){%]
 	@Column(nullable = [%=field.isNullable%], unique = [%=field.isUnique%])
-	private [%=field.type%] [%=field.name%];
+	private [%=field.type%] [%=field.name%][%=field.hasDefaultValue ? " = " + field.defaultValue else ""%];
 	
 	public [%=field.type%] get[%=field.name.ftuc()%](){return this.[%=field.name%];}
 	

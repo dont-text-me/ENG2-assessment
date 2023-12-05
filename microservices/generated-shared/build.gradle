@@ -1,28 +1,28 @@
 plugins {
-    id 'java'
-    id("io.micronaut.library")
+	id 'java'
+	id("io.micronaut.library")
 }
 
 group = 'com.eng2.assessment.modelling'
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 dependencies {
-    implementation("io.micronaut.serde:micronaut-serde-jackson")
-    implementation("jakarta.annotation:jakarta.annotation-api")
-    implementation("io.micronaut:micronaut-http-client")
+	implementation("io.micronaut.serde:micronaut-serde-jackson")
+	implementation("jakarta.annotation:jakarta.annotation-api")
+	implementation("io.micronaut:micronaut-http-client")
 }
 
 sourceSets {
-    main{
-        java{
-            srcDirs = ["build/generated/egx"]
-        }
-    }
+	main{
+		java{
+			srcDirs = ["build/generated/egx"]
+		}
+	}
 }
 
 test {
-    useJUnitPlatform()
+	useJUnitPlatform()
 }

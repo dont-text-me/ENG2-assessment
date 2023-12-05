@@ -1,6 +1,6 @@
 package com.eng2.assessment.thm.shared;
 
-import com.eng2.assessment.thm.domain.TrendingHashtag;
+import thm.domain.TrendingHashtag;
 import java.util.Comparator;
 
 public class Utils {

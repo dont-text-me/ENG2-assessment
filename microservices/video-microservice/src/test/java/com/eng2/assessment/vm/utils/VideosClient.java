@@ -1,13 +1,13 @@
 package com.eng2.assessment.vm.utils;
 
-import vm.domain.Video;
-import vm.dto.VideoDTO;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
+import vm.domain.Video;
+import vm.dto.VideoDTO;
 
 @Client(value = "${videos.url: `http://localhost:8080/videos`}", errorType = String.class)
 public interface VideosClient {

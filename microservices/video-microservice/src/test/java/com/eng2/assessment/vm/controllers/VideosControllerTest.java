@@ -6,12 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-import vm.domain.Hashtag;
-import vm.domain.User;
-import vm.domain.Video;
-import vm.dto.VideoDTO;
-import vm.dto.VideoInteractionDetailsDTO;
-import vm.events.VideoInteractionProducer;
 import com.eng2.assessment.vm.repositories.HashtagRepository;
 import com.eng2.assessment.vm.repositories.UsersRepository;
 import com.eng2.assessment.vm.repositories.VideosRepository;
@@ -34,6 +28,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.NullSource;
+import vm.domain.Hashtag;
+import vm.domain.User;
+import vm.domain.Video;
+import vm.dto.VideoDTO;
+import vm.dto.VideoInteractionDetailsDTO;
+import vm.events.VideoInteractionProducer;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)
@@ -335,7 +335,7 @@ public class VideosControllerTest {
       hashtagRepo.save(hashtag);
 
       VideoDTO details =
-          new VideoDTO( author.getUsername(), List.of(hashtag.getId()), "Me at the zoo");
+          new VideoDTO(author.getUsername(), List.of(hashtag.getId()), "Me at the zoo");
 
       HttpResponse<String> response = client.publish(details);
       Instant justAfterUpdate = Instant.now();
@@ -360,7 +360,7 @@ public class VideosControllerTest {
           .produceVideoPostedMessage(
               createdVideo.getId(),
               new VideoInteractionDetailsDTO(
-                  author.getUsername(), getHashtagIds(createdVideo), createdVideo.getTitle()));
+                      createdVideo.getTitle(), getHashtagIds(createdVideo),  author.getUsername()));
     }
 
     @Test
@@ -388,7 +388,7 @@ public class VideosControllerTest {
 
     @Test
     public void handlesUnknownAuthor() {
-      VideoDTO details = new VideoDTO("random-user",  List.of("Zoo"),"Me at the zoo");
+      VideoDTO details = new VideoDTO("random-user", List.of("Zoo"), "Me at the zoo");
 
       HttpResponse<String> response = client.publish(details);
 
@@ -403,7 +403,7 @@ public class VideosControllerTest {
       User author = new User();
       author.setUsername("ZooLover");
       userRepo.save(author);
-      VideoDTO details = new VideoDTO(author.getUsername(),  badHashtags, "Me at the zoo");
+      VideoDTO details = new VideoDTO(author.getUsername(), badHashtags, "Me at the zoo");
 
       HttpResponse<String> response = client.publish(details);
       assertEquals(response.getStatus(), HttpStatus.BAD_REQUEST);
@@ -418,9 +418,9 @@ public class VideosControllerTest {
       userRepo.save(author);
       VideoDTO details =
           new VideoDTO(
-                  author.getUsername(),
+              author.getUsername(),
               List.of("GoodHashtag", "Bad hashtag", "Wow!BadHashtag", "", "?*12`'"),
-                  "Me at the zoo");
+              "Me at the zoo");
 
       HttpResponse<String> response = client.publish(details);
       assertEquals(response.getStatus(), HttpStatus.BAD_REQUEST);
@@ -463,7 +463,7 @@ public class VideosControllerTest {
           .produceVideoLikedMessage(
               video.getId(),
               new VideoInteractionDetailsDTO(
-                      video.getTitle(), List.of(hashtag.getId()), author.getUsername()));
+                  video.getTitle(), List.of(hashtag.getId()), author.getUsername()));
 
       Video videoAfterLike = videoRepo.findById(video.getId()).get();
       assert (videoAfterLike.getLikeCount() - video.getLikeCount() == 1);
@@ -550,7 +550,7 @@ public class VideosControllerTest {
           .produceVideoDislikedMessage(
               video.getId(),
               new VideoInteractionDetailsDTO(
-                      video.getTitle(), List.of(hashtag.getId()), user.getUsername() ));
+                  video.getTitle(), List.of(hashtag.getId()), user.getUsername()));
 
       Video videoAfterDislike = videoRepo.findById(video.getId()).get();
       assertThat(videoAfterDislike.getDislikeCount() - video.getDislikeCount()).isOne();
@@ -639,7 +639,7 @@ public class VideosControllerTest {
           .produceVideoViewedMessage(
               video.getId(),
               new VideoInteractionDetailsDTO(
-                      video.getTitle(), List.of(hashtag.getId()),user.getUsername() ));
+                  video.getTitle(), List.of(hashtag.getId()), user.getUsername()));
       assert (videoAfterView.getViewCount() - video.getViewCount() == 1);
 
       assertEquals(videoAfterView.getViewers().size(), 1);

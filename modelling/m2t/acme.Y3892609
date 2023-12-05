@@ -52,9 +52,9 @@
     </dtos>
     <entities name="Video" incoming="//@services.0/@relationships.1 //@services.0/@relationships.2 //@services.0/@relationships.3" outgoing="//@services.0/@relationships.0 //@services.0/@relationships.4">
       <idField name="id" type="UUID"/>
-      <fields name="likeCount" type="Integer"/>
-      <fields name="dislikeCount" type="Integer"/>
-      <fields name="viewCount" type="Integer"/>
+      <fields name="likeCount" type="Integer" hasDefaultValue="true" defaultValue="0"/>
+      <fields name="dislikeCount" type="Integer" hasDefaultValue="true" defaultValue="0"/>
+      <fields name="viewCount" type="Integer" hasDefaultValue="true" defaultValue="0"/>
       <fields name="publishedAt" type="Instant"/>
       <fields name="title" type="String" isNullable="false"/>
     </entities>

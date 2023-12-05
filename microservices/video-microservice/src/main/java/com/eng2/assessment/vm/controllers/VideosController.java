@@ -1,11 +1,8 @@
 package com.eng2.assessment.vm.controllers;
 
-import vm.domain.Hashtag;
-import vm.domain.User;
-import vm.domain.Video;
-import vm.dto.VideoDTO;
-import vm.dto.VideoInteractionDetailsDTO;
-import vm.events.VideoInteractionProducer;
+import static com.eng2.assessment.vm.utils.UserEntityUtils.*;
+import static com.eng2.assessment.vm.utils.VideoEntityUtils.*;
+
 import com.eng2.assessment.vm.repositories.HashtagRepository;
 import com.eng2.assessment.vm.repositories.UsersRepository;
 import com.eng2.assessment.vm.repositories.VideosRepository;
@@ -20,9 +17,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static com.eng2.assessment.vm.utils.UserEntityUtils.*;
-import static com.eng2.assessment.vm.utils.VideoEntityUtils.*;
+import vm.domain.Hashtag;
+import vm.domain.User;
+import vm.domain.Video;
+import vm.dto.VideoDTO;
+import vm.dto.VideoInteractionDetailsDTO;
+import vm.events.VideoInteractionProducer;
 
 @Controller("/videos")
 public class VideosController {
@@ -135,7 +135,7 @@ public class VideosController {
     producer.produceVideoPostedMessage(
         newVideo.getId(),
         new VideoInteractionDetailsDTO(
-                newVideo.getTitle(), getHashtagIds(newVideo),  author.getUsername()));
+            newVideo.getTitle(), getHashtagIds(newVideo), author.getUsername()));
 
     return HttpResponse.created(URI.create("/videos/" + newVideo.getId()))
         .body(String.format("Created video with ID " + newVideo.getId()));
@@ -200,7 +200,7 @@ public class VideosController {
     userRepo.update(user);
     producer.produceVideoDislikedMessage(
         video.getId(),
-            new VideoInteractionDetailsDTO(video.getTitle(), getHashtagIds(video), userName));
+        new VideoInteractionDetailsDTO(video.getTitle(), getHashtagIds(video), userName));
     return HttpResponse.ok(String.format("Video with title %s disliked", video.getTitle()));
   }
 
@@ -235,7 +235,7 @@ public class VideosController {
     videoRepo.update(video);
     producer.produceVideoViewedMessage(
         video.getId(),
-            new VideoInteractionDetailsDTO(video.getTitle(), getHashtagIds(video), userName));
+        new VideoInteractionDetailsDTO(video.getTitle(), getHashtagIds(video), userName));
     return HttpResponse.ok(String.format("Video with title %s viewed", video.getTitle()));
   }
 }

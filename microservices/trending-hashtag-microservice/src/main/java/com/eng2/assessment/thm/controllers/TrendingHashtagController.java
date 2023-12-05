@@ -2,7 +2,7 @@ package com.eng2.assessment.thm.controllers;
 
 import static com.eng2.assessment.thm.shared.Utils.trendingHashtagOrdering;
 
-import com.eng2.assessment.thm.domain.TrendingHashtag;
+import thm.domain.TrendingHashtag;
 import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.http.annotation.Controller;
