@@ -1,6 +1,6 @@
 package com.eng2.assessment.vm.utils;
 
-import com.eng2.assessment.vm.dto.UserDTO;
+import vm.dto.UserDTO;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Post;

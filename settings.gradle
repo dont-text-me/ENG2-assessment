@@ -7,4 +7,6 @@ include 'microservices:video-microservice',
         'modelling',
         'modelling:m2t'
 findProject(':modelling:m2t')?.name = 'm2t'
+include 'microservices:generated-shared'
+findProject(':microservices:generated-shared')?.name = 'generated-shared'
 

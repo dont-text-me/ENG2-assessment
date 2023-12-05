@@ -1,6 +1,6 @@
 package com.eng2.assessment.vm.events;
 
-import static com.eng2.assessment.vm.events.Topics.TOPIC_USER_REGISTERED;
+import static shared.Topics.TOPIC_USER_REGISTERED;
 
 import io.micronaut.configuration.kafka.annotation.KafkaClient;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;

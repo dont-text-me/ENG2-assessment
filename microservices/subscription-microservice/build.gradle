@@ -17,11 +17,10 @@ dependencies {
 	annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
 	implementation("io.micronaut.data:micronaut-data-hibernate-jpa:4.3.1")
 	implementation("io.micronaut.kafka:micronaut-kafka")
-	//implementation("io.micronaut.kafka:micronaut-kafka-streams")
 	implementation("io.micronaut.serde:micronaut-serde-jackson")
 	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
 	implementation("io.micronaut:micronaut-management")
-	implementation(project(":microservices:video-microservice"))
+	implementation(project(":microservices:generated-shared"))
 	compileOnly("io.micronaut:micronaut-http-client")
 	runtimeOnly("ch.qos.logback:logback-classic")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
@@ -58,6 +57,15 @@ micronaut {
 		optimizeNetty = true
 	}
 }
+
+sourceSets {
+	main{
+		java{
+			srcDir "build/generated/egx"
+		}
+	}
+}
+
 
 run{
 	systemProperties([

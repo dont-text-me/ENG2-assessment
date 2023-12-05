@@ -1,6 +1,6 @@
 package com.eng2.assessment.vm.repositories;
 
-import com.eng2.assessment.vm.domain.User;
+import vm.domain.User;
 import io.micronaut.data.annotation.Join;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;

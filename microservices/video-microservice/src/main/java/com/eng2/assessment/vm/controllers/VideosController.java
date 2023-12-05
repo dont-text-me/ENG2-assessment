@@ -1,11 +1,11 @@
 package com.eng2.assessment.vm.controllers;
 
-import com.eng2.assessment.vm.domain.Hashtag;
-import com.eng2.assessment.vm.domain.User;
-import com.eng2.assessment.vm.domain.Video;
-import com.eng2.assessment.vm.dto.VideoDTO;
-import com.eng2.assessment.vm.dto.VideoInteractionDetailsDTO;
-import com.eng2.assessment.vm.events.VideoInteractionProducer;
+import vm.domain.Hashtag;
+import vm.domain.User;
+import vm.domain.Video;
+import vm.dto.VideoDTO;
+import vm.dto.VideoInteractionDetailsDTO;
+import vm.events.VideoInteractionProducer;
 import com.eng2.assessment.vm.repositories.HashtagRepository;
 import com.eng2.assessment.vm.repositories.UsersRepository;
 import com.eng2.assessment.vm.repositories.VideosRepository;
@@ -20,6 +20,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static com.eng2.assessment.vm.utils.UserEntityUtils.*;
+import static com.eng2.assessment.vm.utils.VideoEntityUtils.*;
 
 @Controller("/videos")
 public class VideosController {
@@ -129,10 +132,10 @@ public class VideosController {
     newVideo.setHashtags(allHashtags);
 
     videoRepo.save(newVideo);
-    producer.postVideo(
+    producer.produceVideoPostedMessage(
         newVideo.getId(),
         new VideoInteractionDetailsDTO(
-            author.getUsername(), newVideo.getHashtagIds(), newVideo.getTitle()));
+                newVideo.getTitle(), getHashtagIds(newVideo),  author.getUsername()));
 
     return HttpResponse.created(URI.create("/videos/" + newVideo.getId()))
         .body(String.format("Created video with ID " + newVideo.getId()));
@@ -152,20 +155,20 @@ public class VideosController {
       return HttpResponse.notFound("Could not find video with id " + id);
     }
 
-    if (user.hasLikedVideo(id)) {
+    if (hasUserLikedVideo(user, id)) {
       return HttpResponse.badRequest(
           String.format(
               "User %s has already liked the video with title %s", userName, video.getTitle()));
     }
 
-    video.incrementLikeCount();
-    user.addLikedVideo(video);
+    incrementLikeCount(video);
+    addLikedVideo(user, video);
     logger.info(String.format("User %s liked the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
     userRepo.update(user);
-    producer.likeVideo(
+    producer.produceVideoLikedMessage(
         video.getId(),
-        new VideoInteractionDetailsDTO(userName, video.getHashtagIds(), video.getTitle()));
+        new VideoInteractionDetailsDTO(video.getTitle(), getHashtagIds(video), userName));
     return HttpResponse.ok(String.format("Video with title %s liked", video.getTitle()));
   }
 
@@ -183,21 +186,21 @@ public class VideosController {
       return HttpResponse.notFound("Could not find video with id " + id);
     }
 
-    if (user.hasDislikedVideo(id)) {
+    if (hasUserDislikedVideo(user, id)) {
       return HttpResponse.badRequest(
           String.format(
               "User %s has already disliked the video with title %s", userName, video.getTitle()));
     }
 
-    video.incrementDislikeCount();
-    user.addDislikedVideo(video);
+    incrementDislikeCount(video);
+    addDislikedVideo(user, video);
     logger.info(
         String.format("User %s disliked the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
     userRepo.update(user);
-    producer.dislikeVideo(
+    producer.produceVideoDislikedMessage(
         video.getId(),
-        new VideoInteractionDetailsDTO(userName, video.getHashtagIds(), video.getTitle()));
+            new VideoInteractionDetailsDTO(video.getTitle(), getHashtagIds(video), userName));
     return HttpResponse.ok(String.format("Video with title %s disliked", video.getTitle()));
   }
 
@@ -218,21 +221,21 @@ public class VideosController {
       return HttpResponse.notFound("Could not find video with id " + id);
     }
 
-    video.incrementViewCount();
-    if (!user.hasWatchedVideo(video.getId())) {
+    incrementViewCount(video);
+    if (!hasUserWatchedVideo(user, id)) {
       logger.info(
           String.format(
               "User with username %s has watched video with title %s for the first time. Adding link...",
               userName, video.getTitle()));
-      user.addViewedVideo(video);
+      addViewedVideo(user, video);
       userRepo.update(user);
     }
     logger.info(
         String.format("User %s viewed the video with title %s", userName, video.getTitle()));
     videoRepo.update(video);
-    producer.viewVideo(
+    producer.produceVideoViewedMessage(
         video.getId(),
-        new VideoInteractionDetailsDTO(userName, video.getHashtagIds(), video.getTitle()));
+            new VideoInteractionDetailsDTO(video.getTitle(), getHashtagIds(video), userName));
     return HttpResponse.ok(String.format("Video with title %s viewed", video.getTitle()));
   }
 }

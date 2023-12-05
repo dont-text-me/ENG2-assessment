@@ -1,7 +1,7 @@
 package com.eng2.assessment.vm.utils;
 
-import com.eng2.assessment.vm.domain.Video;
-import com.eng2.assessment.vm.dto.VideoDTO;
+import vm.domain.Video;
+import vm.dto.VideoDTO;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;

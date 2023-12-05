@@ -12,6 +12,14 @@ repositories {
 	mavenCentral()
 }
 
+sourceSets {
+	main{
+		java{
+			srcDir "build/generated/egx"
+		}
+	}
+}
+
 dependencies {
 	annotationProcessor("io.micronaut.data:micronaut-data-processor")
 	annotationProcessor("io.micronaut:micronaut-http-validation")
@@ -23,6 +31,7 @@ dependencies {
 	implementation("jakarta.annotation:jakarta.annotation-api")
 	implementation("io.micronaut:micronaut-http-client")
 	implementation("io.micronaut:micronaut-management")
+	implementation(project(":microservices:generated-shared"))
 	runtimeOnly("ch.qos.logback:logback-classic")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 	runtimeOnly("org.yaml:snakeyaml")
@@ -62,7 +71,7 @@ micronaut {
 	testRuntime("junit5")
 	processing {
 		incremental(true)
-		annotations("com.eng2.assessment.vm.*")
+		annotations("com.eng2.assessment.vm.*", "vm.*")
 	}
 	aot {
 		// Please review carefully the optimizations enabled below

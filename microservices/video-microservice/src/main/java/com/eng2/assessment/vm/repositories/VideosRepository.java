@@ -1,6 +1,6 @@
 package com.eng2.assessment.vm.repositories;
 
-import com.eng2.assessment.vm.domain.Video;
+import vm.domain.Video;
 import io.micronaut.data.annotation.Join;
 import io.micronaut.data.annotation.Query;
 import io.micronaut.data.annotation.Repository;

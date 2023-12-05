@@ -8,7 +8,7 @@ rule DTOtoJava
 		"packageName" =  d.eContainer.name.getMicroserviceAcronym() + ".dto"
 	}
 
-	target : "../../microservices/build/generated/egx/" + d.eContainer.name.getMicroserviceAcronym() + "/dto/" + d.name.ftuc() + ".java"
+	target : "../../microservices/generated-shared/build/generated/egx/" + d.eContainer.name.getMicroserviceAcronym() + "/dto/" + d.name.ftuc() + ".java"
 }
 
 rule KafkaProducerToJava 
@@ -21,7 +21,7 @@ rule KafkaProducerToJava
 		"packageName" =  kp.eContainer.name.getMicroserviceAcronym() + ".events"
 	}
 
-	target : "../../microservices/build/generated/egx/"  + kp.eContainer.name.getMicroserviceAcronym() + "/events/" + kp.name.ftuc() + ".java"
+	target : "../../microservices/" +  kp.eContainer.name + "/build/generated/egx/"   + kp.eContainer.name.getMicroserviceAcronym() + "/events/" + kp.name.ftuc() + ".java"
 }
 
 rule KafkaTopicsToJava 
@@ -33,7 +33,7 @@ rule KafkaTopicsToJava
 		"m" = s.eContainer()
 	}
 
-	target : "../../microservices/build/generated/egx/shared/Topics.java"
+	target : "../../microservices/generated-shared/build/generated/egx/shared/Topics.java"
 }
 
 rule EntityToJava 
@@ -46,7 +46,21 @@ rule EntityToJava
 		"packageName" =  e.eContainer.name.getMicroserviceAcronym() + ".domain"
 	}
 
-	target : "../../microservices/build/generated/egx/"  + e.eContainer.name.getMicroserviceAcronym() + "/domain/" + e.name.ftuc() + ".java"
+	target : "../../microservices/" +  e.eContainer.name + "/build/generated/egx/"  + e.eContainer.name.getMicroserviceAcronym() + "/domain/" + e.name.ftuc() + ".java"
+}
+
+rule ClientDefinition2Java
+	transform cd : ClientDefinition {
+
+	template : "clientDefinition2java.egl"
+
+	parameters : Map{
+		"m" = cd.eContainer(),
+		"packageName" =  cd.eContainer.eContainer.name.getMicroserviceAcronym() + ".api",
+		"microserviceAcronym" = cd.eContainer.eContainer.name.getMicroserviceAcronym()
+	}
+
+	target : "../../microservices/generated-shared/build/generated/egx/" + cd.eContainer.eContainer.name.getMicroserviceAcronym() + "/api/" + cd.name.ftuc() + ".java"
 }
 
 operation String getMicroserviceAcronym(){

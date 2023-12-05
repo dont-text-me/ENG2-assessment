@@ -1,7 +1,7 @@
 package com.eng2.assessment.vm.controllers;
 
-import com.eng2.assessment.vm.domain.User;
-import com.eng2.assessment.vm.dto.UserDTO;
+import vm.domain.User;
+import vm.dto.UserDTO;
 import com.eng2.assessment.vm.events.UserCreationProducer;
 import com.eng2.assessment.vm.repositories.UsersRepository;
 import io.micronaut.http.HttpResponse;
@@ -9,6 +9,8 @@ import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import jakarta.inject.Inject;
+import vm.api.UserAPIDefinition;
+
 import java.net.URI;
 
 @Controller("/users")
@@ -30,4 +32,5 @@ public class UsersController {
     return HttpResponse.created(URI.create("/users/" + newUser.getId()))
         .body(String.format("Created user with username " + newUser.getUsername()));
   }
+
 }

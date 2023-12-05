@@ -1,0 +1,42 @@
+package [%=packageName%];
+import io.micronaut.http.HttpResponse;
+import jakarta.annotation.Nullable;
+import io.micronaut.http.annotation.*;
+import [%=microserviceAcronym%].dto.*;
+import java.util.*;
+
+public interface [%=cd.name%] {
+
+	[%for (request: HttpGetRequest in cd.requests){%]
+	@Get("[%=request.url%]")
+	[%=request.isStringResponse ? "HttpResponse<String>" else (request.isResponseWrappedInHttpResponse ? "HttpResponse<" + request.responseBody.name + ">" else request.responseBody.name)%] [%=request.name%](
+	[%=request.urlParams.collect(it | it.type + " " + it.name).concat(", ")%][%=request.urlParams.isEmpty() ? "" else ", "%][%=request.queryParams.collect(it |(it.isNullable ? "@Nullable " else "") + "@QueryValue " + it.type + " " + it.name).concat(", ")%]
+	);
+	[%}%]
+	
+	[%for (request : HttpNonGetRequest in cd.requests){%]
+	@[%=request.type.toString().toLowerCase().ftuc()%]("[%=request.url%]")
+	[%=request.isStringResponse ? "HttpResponse<String>" else (request.isResponseWrappedInHttpResponse ? "HttpResponse<" + request.responseBody.name + ">" else request.responseBody.name)%] [%=request.name%](
+	[%=request.urlParams.collect(it | it.type + " " + it.name).concat(", ")%][%=request.urlParams.isEmpty() ? "" else ", "%]@Body [%=request.requestBody == null ? "String " + request.stringRequestBodyName else request.requestBody.name + " body"%]
+	);
+	[%}%]
+}
+
+[%
+operation Field toVarableDeclaration(){
+	return self.type + " " + self.name;
+}
+%]
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,6 @@
 package com.eng2.assessment.vm.repositories;
 
-import com.eng2.assessment.vm.domain.Hashtag;
+import vm.domain.Hashtag;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.data.annotation.Join;
 import io.micronaut.data.annotation.Repository;
