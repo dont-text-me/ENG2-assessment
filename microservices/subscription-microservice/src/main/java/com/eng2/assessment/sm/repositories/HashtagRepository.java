@@ -1,12 +1,12 @@
 package com.eng2.assessment.sm.repositories;
 
-import com.eng2.assessment.sm.domain.Hashtag;
 import io.micronaut.data.annotation.Join;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import sm.domain.Hashtag;
 
 @Repository
 public interface HashtagRepository extends CrudRepository<Hashtag, String> {

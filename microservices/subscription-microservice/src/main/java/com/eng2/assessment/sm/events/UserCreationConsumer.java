@@ -1,8 +1,7 @@
 package com.eng2.assessment.sm.events;
 
-import static com.eng2.assessment.vm.events.Topics.TOPIC_USER_REGISTERED;
+import static shared.Topics.TOPIC_USER_REGISTERED;
 
-import com.eng2.assessment.sm.domain.User;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
@@ -13,6 +12,7 @@ import java.util.HashSet;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sm.domain.User;
 
 @KafkaListener(groupId = "subscription-microservice")
 public class UserCreationConsumer {

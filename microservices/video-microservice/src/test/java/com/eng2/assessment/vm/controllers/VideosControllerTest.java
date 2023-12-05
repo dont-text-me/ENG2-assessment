@@ -360,7 +360,7 @@ public class VideosControllerTest {
           .produceVideoPostedMessage(
               createdVideo.getId(),
               new VideoInteractionDetailsDTO(
-                      createdVideo.getTitle(), getHashtagIds(createdVideo),  author.getUsername()));
+                  createdVideo.getTitle(), getHashtagIds(createdVideo), author.getUsername()));
     }
 
     @Test

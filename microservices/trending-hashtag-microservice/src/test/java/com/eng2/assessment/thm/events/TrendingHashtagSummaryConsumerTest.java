@@ -17,8 +17,8 @@ import java.util.stream.IntStream;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import thm.dto.WindowedHashtagWithLikeCount;
 import thm.domain.TrendingHashtag;
+import thm.dto.WindowedHashtagWithLikeCount;
 
 @MicronautTest
 @ExtendWith(DbCleanupExtension.class)

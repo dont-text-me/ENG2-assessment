@@ -1,7 +1,7 @@
 package com.eng2.assessment.thm.shared;
 
-import thm.domain.TrendingHashtag;
 import java.util.Comparator;
+import thm.domain.TrendingHashtag;
 
 public class Utils {
   public static Comparator<TrendingHashtag> trendingHashtagOrdering =

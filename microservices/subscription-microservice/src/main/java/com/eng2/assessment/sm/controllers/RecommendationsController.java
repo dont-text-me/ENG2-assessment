@@ -1,8 +1,8 @@
 package com.eng2.assessment.sm.controllers;
 
-import com.eng2.assessment.sm.domain.Hashtag;
-import com.eng2.assessment.sm.domain.User;
-import com.eng2.assessment.sm.dto.VideoRecommendationDTO;
+import static com.eng2.assessment.sm.utils.UserUtils.isUserSubscribedToHashtag;
+import static com.eng2.assessment.sm.utils.VideoUtils.convertEntityList;
+
 import com.eng2.assessment.sm.repositories.HashtagRepository;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import com.eng2.assessment.sm.repositories.VideoRepository;
@@ -13,6 +13,9 @@ import io.micronaut.http.annotation.QueryValue;
 import jakarta.inject.Inject;
 import java.util.Collections;
 import java.util.Objects;
+import sm.domain.Hashtag;
+import sm.domain.User;
+import sm.dto.VideoRecommendationDTO;
 
 @Controller("/recommendations")
 public class RecommendationsController {
@@ -31,26 +34,27 @@ public class RecommendationsController {
     if (user == null) {
       return HttpResponse.notFound(
           new VideoRecommendationDTO(
-              Collections.emptyList(), "Could not find user with name " + hashtagName));
+              "Could not find user with name " + hashtagName, Collections.emptyList()));
     }
 
     if (hashtag == null) {
       return HttpResponse.notFound(
           new VideoRecommendationDTO(
-              Collections.emptyList(), "Could not find hashtag with name " + hashtagName));
+              "Could not find hashtag with name " + hashtagName, Collections.emptyList()));
     }
 
-    if (!user.isSubscribedTo(hashtagName)) {
+    if (!isUserSubscribedToHashtag(user, hashtagName)) {
       return HttpResponse.badRequest(
           new VideoRecommendationDTO(
-              Collections.emptyList(),
-              String.format("User %s is not subscribed to hashtag %s", userName, hashtagName)));
+              String.format("User %s is not subscribed to hashtag %s", userName, hashtagName),
+              Collections.emptyList()));
     }
 
     return HttpResponse.ok(
         new VideoRecommendationDTO(
+            null,
             Objects.requireNonNullElse(
-                videoRepository.findRecs(hashtagName, userName), Collections.emptyList()),
-            null));
+                convertEntityList(videoRepository.findRecs(hashtagName, userName)),
+                Collections.emptyList())));
   }
 }

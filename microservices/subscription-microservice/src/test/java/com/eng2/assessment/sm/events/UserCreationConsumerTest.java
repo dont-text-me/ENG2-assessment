@@ -2,7 +2,6 @@ package com.eng2.assessment.sm.events;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.eng2.assessment.sm.domain.User;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import com.eng2.assessment.sm.utils.DbCleanupExtension;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
@@ -13,6 +12,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import sm.domain.User;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

@@ -1,11 +1,11 @@
 package com.eng2.assessment.sm.repositories;
 
-import com.eng2.assessment.sm.domain.User;
 import io.micronaut.data.annotation.Join;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
+import sm.domain.User;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, String> {

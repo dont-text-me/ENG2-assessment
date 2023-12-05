@@ -2,7 +2,6 @@ package com.eng2.assessment.thm.controllers;
 
 import static com.eng2.assessment.thm.shared.Utils.trendingHashtagOrdering;
 
-import thm.domain.TrendingHashtag;
 import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.http.annotation.Controller;
@@ -14,6 +13,7 @@ import java.util.List;
 import java.util.TreeSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import thm.domain.TrendingHashtag;
 
 @Controller("/trending-hashtags")
 public class TrendingHashtagController {

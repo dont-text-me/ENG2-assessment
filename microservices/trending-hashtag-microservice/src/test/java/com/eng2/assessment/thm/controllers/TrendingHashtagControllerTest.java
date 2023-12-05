@@ -3,7 +3,6 @@ package com.eng2.assessment.thm.controllers;
 import static java.lang.String.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import thm.domain.TrendingHashtag;
 import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import com.eng2.assessment.thm.utils.DbCleanupExtension;
 import com.eng2.assessment.thm.utils.TrendingHashtagsClient;
@@ -16,6 +15,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import thm.domain.TrendingHashtag;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

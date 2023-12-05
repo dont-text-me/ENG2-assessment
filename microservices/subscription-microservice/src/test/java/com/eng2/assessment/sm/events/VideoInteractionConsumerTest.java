@@ -2,14 +2,10 @@ package com.eng2.assessment.sm.events;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.eng2.assessment.sm.domain.Hashtag;
-import com.eng2.assessment.sm.domain.User;
-import com.eng2.assessment.sm.domain.Video;
 import com.eng2.assessment.sm.repositories.HashtagRepository;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import com.eng2.assessment.sm.repositories.VideoRepository;
 import com.eng2.assessment.sm.utils.DbCleanupExtension;
-import com.eng2.assessment.vm.dto.VideoInteractionDetailsDTO;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.util.List;
@@ -19,6 +15,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import sm.domain.Hashtag;
+import sm.domain.User;
+import sm.domain.Video;
+import vm.dto.VideoInteractionDetailsDTO;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)
@@ -41,7 +41,7 @@ public class VideoInteractionConsumerTest {
       String videoTitle = "Safari trip";
 
       sut.processViewed(
-          videoId, new VideoInteractionDetailsDTO(userName, hashtagNames, videoTitle));
+          videoId, new VideoInteractionDetailsDTO(videoTitle, hashtagNames, userName));
 
       assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
           .hasSize(3)
@@ -74,7 +74,7 @@ public class VideoInteractionConsumerTest {
       hashtagRepo.save(hashtag);
 
       sut.processViewed(
-          videoId, new VideoInteractionDetailsDTO(userName, hashtagNames, videoTitle));
+          videoId, new VideoInteractionDetailsDTO(videoTitle, hashtagNames, userName));
 
       assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
           .hasSize(3)
@@ -115,7 +115,7 @@ public class VideoInteractionConsumerTest {
       videoRepo.save(video);
 
       sut.processViewed(
-          videoId, new VideoInteractionDetailsDTO(userName, hashtagNames, videoTitle));
+          videoId, new VideoInteractionDetailsDTO(videoTitle, hashtagNames, userName));
 
       assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
           .hasSize(3)
@@ -145,7 +145,7 @@ public class VideoInteractionConsumerTest {
                   sut.processViewed(
                       videoId,
                       new VideoInteractionDetailsDTO(
-                          it <= 5 ? "User-" + it : "RepeatedViewer", hashtagNames, videoTitle)));
+                          videoTitle, hashtagNames, it <= 5 ? "User-" + it : "RepeatedViewer")));
 
       assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
           .hasSize(3)
@@ -171,7 +171,7 @@ public class VideoInteractionConsumerTest {
       String videoTitle = "Safari trip";
 
       sut.processPosted(
-          videoId, new VideoInteractionDetailsDTO(userName, hashtagNames, videoTitle));
+          videoId, new VideoInteractionDetailsDTO(videoTitle, hashtagNames, userName));
 
       assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
           .hasSize(3)
@@ -202,7 +202,7 @@ public class VideoInteractionConsumerTest {
       hashtagRepo.save(hashtag);
 
       sut.processPosted(
-          videoId, new VideoInteractionDetailsDTO(userName, hashtagNames, videoTitle));
+          videoId, new VideoInteractionDetailsDTO(videoTitle, hashtagNames, userName));
 
       assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
           .hasSize(3)
@@ -242,7 +242,7 @@ public class VideoInteractionConsumerTest {
       videoRepo.save(video);
 
       sut.processPosted(
-          videoId, new VideoInteractionDetailsDTO(userName, hashtagNames, videoTitle));
+          videoId, new VideoInteractionDetailsDTO(videoTitle, hashtagNames, userName));
 
       assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
           .hasSize(3)
