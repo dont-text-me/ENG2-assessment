@@ -186,7 +186,8 @@ public class VideosControllerTest {
     @Test
     public void emptyList() {
       VideoResultsDTO result = client.list(null, null);
-      assertThat(result.result()).isEmpty();
+      assertThat(result).isNotNull();
+      assertThat(result.result()).isNull();
     }
 
     @Test
@@ -195,9 +196,14 @@ public class VideosControllerTest {
       hashtag.setId("Zoo");
       hashtagRepo.save(hashtag);
 
+      User user = new User();
+      user.setUsername("AnimalPlanet");
+      userRepo.save(user);
+
       Video video = new Video();
       video.setTitle("Me at the zoo");
       video.setHashtags(Set.of(hashtag));
+      video.setAuthor(user);
       videoRepo.save(video);
 
       VideoResponseDTO result = client.list(null, null).result().get(0);

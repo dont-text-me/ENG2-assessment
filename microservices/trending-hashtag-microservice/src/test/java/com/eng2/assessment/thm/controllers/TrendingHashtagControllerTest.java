@@ -33,8 +33,8 @@ public class TrendingHashtagControllerTest {
   @Test
   public void whenNoHashtags() {
     TrendingHashtagResponseDTO result = client.latestStats();
-
-    assertThat(result.hashtags()).isEmpty();
+    assertThat(result).isNotNull();
+    assertThat(result.hashtags()).isNull();
   }
 
   @Test

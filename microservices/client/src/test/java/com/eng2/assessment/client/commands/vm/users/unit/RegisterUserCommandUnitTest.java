@@ -14,6 +14,7 @@ import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
 import io.micronaut.http.HttpStatus;
+import io.micronaut.http.MediaType;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,6 +47,7 @@ public class RegisterUserCommandUnitTest {
               .willReturn(
                   ResponseDefinitionBuilder.responseDefinition()
                       .withStatus(HttpStatus.CREATED.getCode())
+                      .withHeader("Content-Type", MediaType.APPLICATION_JSON)
                       .withBody("Created user with username firstUser")));
 
       String[] args = new String[] {"-u", "someUser"};
@@ -65,6 +67,7 @@ public class RegisterUserCommandUnitTest {
               .willReturn(
                   ResponseDefinitionBuilder.responseDefinition()
                       .withStatus(HttpStatus.BAD_REQUEST.getCode())
+                      .withHeader("Content-Type", MediaType.APPLICATION_JSON)
                       .withBody("Error!")));
 
       String[] args = new String[] {"-u", "someUser"};

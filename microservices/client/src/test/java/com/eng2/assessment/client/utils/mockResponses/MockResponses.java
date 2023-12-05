@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-import java.util.stream.Collectors;
 import sm.dto.VideoDTO;
 import sm.dto.VideoRecommendationDTO;
 import thm.dto.TrendingHashtagResponseDTO;
@@ -40,9 +39,12 @@ public class MockResponses {
                 })
             .create();
 
-    VideoResultsDTO videos = new VideoResultsDTO(
-            Arrays.stream(args).map(
-                    it -> new VideoResponseDTO(
+    VideoResultsDTO videos =
+        new VideoResultsDTO(
+            Arrays.stream(args)
+                .map(
+                    it ->
+                        new VideoResponseDTO(
                             it.title(),
                             UUID.randomUUID(),
                             Instant.now().minus(Duration.ofMinutes(r.nextLong(60))),
@@ -50,10 +52,8 @@ public class MockResponses {
                             it.likeCount(),
                             it.dislikeCount(),
                             it.hashtagIds(),
-                            r.nextInt(1000)
-                    )
-            ).toList()
-    );
+                            r.nextInt(1000)))
+                .toList());
     return gson.toJson(videos, new TypeToken<VideoResultsDTO>() {}.getType());
   }
 
