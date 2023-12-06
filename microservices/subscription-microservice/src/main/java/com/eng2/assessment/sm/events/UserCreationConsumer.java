@@ -12,16 +12,17 @@ import java.util.HashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sm.domain.User;
+import sm.events.IUserCreationConsumer;
 import vm.dto.UserRegisteredMessageValueDTO;
 
 @KafkaListener(groupId = "subscription-microservice")
-public class UserCreationConsumer {
+public class UserCreationConsumer implements IUserCreationConsumer {
   private static final Logger logger = LoggerFactory.getLogger(UserCreationConsumer.class);
   @Inject private UserRepository userRepository;
 
   @Topic(TOPIC_USER_REGISTERED)
   @Transactional
-  void processUserRegistered(
+  public void consumeUserRegisteredMessage(
       @KafkaKey String userName,
       UserRegisteredMessageValueDTO
           value) { // Note: the value is not used here, it is a workaround of messages not

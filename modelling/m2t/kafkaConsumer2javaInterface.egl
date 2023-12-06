@@ -1,0 +1,26 @@
+package [%=packageName%];
+import io.micronaut.configuration.kafka.annotation.KafkaClient;
+import io.micronaut.configuration.kafka.annotation.KafkaKey;
+import io.micronaut.configuration.kafka.annotation.Topic;
+import java.util.*;
+[%for (microservice in kc.eContainer.eContainer.services){%]
+import [%=microservice.name.getMicroserviceAcronym()%].dto.*;
+[%}%]
+
+public interface I[%=kc.name%] {
+  [%for (topic in kc.topicsReadFrom){%]
+  	void consume[%=topic.name.kebabToCamelCase()%]Message([%=topic.kafkaKey.type%] [%=topic.kafkaKey.name%], [%=topic.kafkaValue.name%] value);
+  [%}%]
+}
+
+
+
+[%
+operation String kebabToCamelCase(){
+	return self.split("-").collect(it | it.ftuc()).concat();
+}
+
+operation String getMicroserviceAcronym(){
+    return self.split("-").collect(it | it.characterAt(0)).concat();
+}
+%]

@@ -24,6 +24,21 @@ rule KafkaProducerToJava
 	target : "../../microservices/" +  kp.eContainer.name + "/build/generated/egx/"   + kp.eContainer.name.getMicroserviceAcronym() + "/events/" + kp.name.ftuc() + ".java"
 }
 
+rule KafkaConsumerToJavaInterface
+	transform kc : KafkaConsumer {
+
+	template : "kafkaConsumer2javaInterface.egl"
+
+	guard: kc.topicsReadFrom.none(t | t.isStreamOutputTopic)
+
+	parameters : Map{
+		"m" = kc.eContainer(),
+		"packageName" =  kc.eContainer.name.getMicroserviceAcronym() + ".events"
+	}
+
+	target : "../../microservices/" +  kc.eContainer.name + "/build/generated/egx/"   + kc.eContainer.name.getMicroserviceAcronym() + "/events/" + "I" + kc.name.ftuc() + ".java"
+}
+
 rule KafkaTopicsToJava 
 	transform s : System {
 

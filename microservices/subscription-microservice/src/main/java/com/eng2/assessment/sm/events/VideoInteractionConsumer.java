@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import sm.domain.Hashtag;
 import sm.domain.User;
 import sm.domain.Video;
+import sm.events.IVideoInteractionConsumer;
 import vm.dto.VideoInteractionDetailsDTO;
 
 /**
@@ -29,7 +30,7 @@ import vm.dto.VideoInteractionDetailsDTO;
  * hashtags, users and videos.
  */
 @KafkaListener(groupId = "subscription-microservice")
-public class VideoInteractionConsumer {
+public class VideoInteractionConsumer implements IVideoInteractionConsumer {
   private static final Logger logger = LoggerFactory.getLogger(VideoInteractionConsumer.class);
 
   @Inject private HashtagRepository hashtagRepository;
@@ -38,13 +39,13 @@ public class VideoInteractionConsumer {
 
   @Topic(TOPIC_VIDEO_POSTED)
   @Transactional
-  void processPosted(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
+  public void consumeVideoPostedMessage(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
     createMissingEntities(videoId, details);
   }
 
   @Topic(TOPIC_VIDEO_VIEWED)
   @Transactional
-  void processViewed(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
+  public void consumeVideoViewedMessage(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
     createMissingEntities(videoId, details);
 
     Video video = videoRepository.findById(videoId).get();

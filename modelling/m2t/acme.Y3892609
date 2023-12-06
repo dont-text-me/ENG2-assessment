@@ -154,7 +154,7 @@
   <services name="trending-hashtag-microservice" description="Subscribes to events from the video microservice and reports the top 10 most liked hashtags within the last hour">
     <api>
       <clients name="TrendingHashtagsClient" urlConfigProperty="resource-urls.thm.trending-hashtags" defaultUrl="http://localhost:8081/trending-hashtags">
-        <requests xsi:type="HttpGetRequest" name="lastestStats" url="/latest" responseBody="//@services.2/@dtos.1"/>
+        <requests xsi:type="HttpGetRequest" name="latestStats" url="/latest" responseBody="//@services.2/@dtos.1"/>
       </clients>
     </api>
     <dtos name="WindowedHashtagWithLikeCount">

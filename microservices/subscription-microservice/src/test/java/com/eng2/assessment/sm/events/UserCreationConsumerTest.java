@@ -24,7 +24,7 @@ public class UserCreationConsumerTest {
 
   @Test
   public void handlesNewUser() {
-    sut.processUserRegistered("NewUser", new UserRegisteredMessageValueDTO(UUID.randomUUID()));
+    sut.consumeUserRegisteredMessage("NewUser", new UserRegisteredMessageValueDTO(UUID.randomUUID()));
 
     User result = userRepo.findByUserNameEqual("NewUser").orElse(null);
 
@@ -44,7 +44,7 @@ public class UserCreationConsumerTest {
     user.setViewedVideos(Collections.emptySet());
     userRepo.save(user);
 
-    sut.processUserRegistered("ExistingUser", new UserRegisteredMessageValueDTO(UUID.randomUUID()));
+    sut.consumeUserRegisteredMessage("ExistingUser", new UserRegisteredMessageValueDTO(UUID.randomUUID()));
 
     List<User> result = userRepo.findAll();
 

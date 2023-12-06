@@ -40,7 +40,7 @@ public class VideoInteractionConsumerTest {
       List<String> hashtagNames = List.of("Elephant", "Lion", "Tiger");
       String videoTitle = "Safari trip";
 
-      sut.processViewed(
+      sut.consumeVideoViewedMessage(
           videoId, new VideoInteractionDetailsDTO(videoTitle, hashtagNames, userName));
 
       assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
@@ -73,7 +73,7 @@ public class VideoInteractionConsumerTest {
       hashtag.setName("Lion");
       hashtagRepo.save(hashtag);
 
-      sut.processViewed(
+      sut.consumeVideoViewedMessage(
           videoId, new VideoInteractionDetailsDTO(videoTitle, hashtagNames, userName));
 
       assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
@@ -114,7 +114,7 @@ public class VideoInteractionConsumerTest {
       video.setTitle(videoTitle);
       videoRepo.save(video);
 
-      sut.processViewed(
+      sut.consumeVideoViewedMessage(
           videoId, new VideoInteractionDetailsDTO(videoTitle, hashtagNames, userName));
 
       assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
@@ -142,7 +142,7 @@ public class VideoInteractionConsumerTest {
       IntStream.range(0, 10)
           .forEach(
               it ->
-                  sut.processViewed(
+                  sut.consumeVideoViewedMessage(
                       videoId,
                       new VideoInteractionDetailsDTO(
                           videoTitle, hashtagNames, it <= 5 ? "User-" + it : "RepeatedViewer")));
@@ -170,7 +170,7 @@ public class VideoInteractionConsumerTest {
       List<String> hashtagNames = List.of("Elephant", "Lion", "Tiger");
       String videoTitle = "Safari trip";
 
-      sut.processPosted(
+      sut.consumeVideoPostedMessage(
           videoId, new VideoInteractionDetailsDTO(videoTitle, hashtagNames, userName));
 
       assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
@@ -201,7 +201,7 @@ public class VideoInteractionConsumerTest {
       hashtag.setName("Lion");
       hashtagRepo.save(hashtag);
 
-      sut.processPosted(
+      sut.consumeVideoPostedMessage(
           videoId, new VideoInteractionDetailsDTO(videoTitle, hashtagNames, userName));
 
       assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
@@ -241,7 +241,7 @@ public class VideoInteractionConsumerTest {
       video.setTitle(videoTitle);
       videoRepo.save(video);
 
-      sut.processPosted(
+      sut.consumeVideoPostedMessage(
           videoId, new VideoInteractionDetailsDTO(videoTitle, hashtagNames, userName));
 
       assertThat(hashtagRepo.findAll().stream().map(Hashtag::getName))
