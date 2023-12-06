@@ -21,7 +21,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Generate code
-        run: ./gradlew modelling:m2t:run
+        run: ./gradlew modelling:codegen
       - name: Build docker images
         run: ./gradlew microservices:video-microservice:dockerBuild microservices:trending-hashtag-microservice:dockerBuild microservices:subscription-microservice:dockerBuild
       - name: Run unit/integration tests

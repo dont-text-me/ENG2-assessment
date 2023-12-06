@@ -37,7 +37,7 @@
 ### Step 1
 Run the code generator
 ```shell
-./gradlew modelling:m2t:run
+./gradlew modelling:codegen
 ```
 ### Step 2
 Build docker images

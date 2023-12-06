@@ -3,10 +3,7 @@ include 'microservices:video-microservice',
         'microservices:client',
         'microservices:trending-hashtag-microservice',
         'microservices:subscription-microservice',
+        'microservices:generated-shared',
         'microservices',
-        'modelling',
-        'modelling:m2t'
-findProject(':modelling:m2t')?.name = 'm2t'
-include 'microservices:generated-shared'
-findProject(':microservices:generated-shared')?.name = 'generated-shared'
+        'modelling'
 
