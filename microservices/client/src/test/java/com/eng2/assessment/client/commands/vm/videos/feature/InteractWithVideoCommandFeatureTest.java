@@ -23,7 +23,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import vm.api.UsersClient;
 import vm.api.VideosClient;
-import vm.dto.UserDTO;
 import vm.dto.VideoDTO;
 import vm.dto.VideoResponseDTO;
 
@@ -51,7 +50,7 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
   public void canInteractWithVideo(InteractWithVideoCommand.VideoInteractionType type) {
     String userName = "AnimalPlanet";
     String videoTitle = "Elephant sighting";
-    usersClient.registerUser(new UserDTO(userName));
+    usersClient.registerUser(userName);
     String postVideoResponseBody =
         videosClient
             .publish(new VideoDTO(userName, List.of("Elephant", "Awesome", "Safari"), videoTitle))
@@ -92,7 +91,7 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
   public void handlesUnknownUser(InteractWithVideoCommand.VideoInteractionType type) {
     String userName = "AnimalPlanet";
     String videoTitle = "Elephant sighting";
-    usersClient.registerUser(new UserDTO(userName));
+    usersClient.registerUser(userName);
     String postVideoResponseBody =
         videosClient
             .publish(new VideoDTO(userName, List.of("Elephant", "Awesome", "Safari"), videoTitle))
@@ -116,7 +115,7 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
   @EnumSource(InteractWithVideoCommand.VideoInteractionType.class)
   public void handlesUnknownVideo(InteractWithVideoCommand.VideoInteractionType type) {
     String userName = "AnimalPlanet";
-    usersClient.registerUser(new UserDTO(userName));
+    usersClient.registerUser(userName);
     String unknownId = UUID.randomUUID().toString();
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
@@ -137,7 +136,7 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
   public void canLikeAndDislikeOnlyOnce(InteractWithVideoCommand.VideoInteractionType type) {
     String userName = "AnimalPlanet";
     String videoTitle = "Elephant sighting";
-    usersClient.registerUser(new UserDTO(userName));
+    usersClient.registerUser(userName);
     String postVideoResponseBody =
         videosClient
             .publish(new VideoDTO(userName, List.of("Elephant", "Awesome", "Safari"), videoTitle))
