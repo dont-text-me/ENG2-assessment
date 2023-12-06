@@ -26,7 +26,7 @@ public class ListVideosCommand implements Runnable {
   @Override
   public void run() {
     VideoResultsDTO result = client.list(authorUsername, hashtagName);
-    if (result.result() == null || result.result().isEmpty()) {
+    if (result == null || result.result() == null || result.result().isEmpty()) {
       if (authorUsername != null || hashtagName != null) {
         System.out.println("No videos matching the filter criteria found");
       } else {
