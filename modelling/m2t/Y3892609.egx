@@ -29,14 +29,25 @@ rule KafkaConsumerToJavaInterface
 
 	template : "kafkaConsumer2javaInterface.egl"
 
-	guard: kc.topicsReadFrom.none(t | t.isStreamOutputTopic)
-
 	parameters : Map{
 		"m" = kc.eContainer(),
 		"packageName" =  kc.eContainer.name.getMicroserviceAcronym() + ".events"
 	}
 
 	target : "../../microservices/" +  kc.eContainer.name + "/build/generated/egx/"   + kc.eContainer.name.getMicroserviceAcronym() + "/events/" + "I" + kc.name.ftuc() + ".java"
+}
+
+rule KafkaStreamToJavaInterface
+	transform ks : KafkaStream {
+
+	template : "kafkaStream2javaInterface.egl"
+
+	parameters : Map{
+		"m" = ks.eContainer(),
+		"packageName" =  ks.eContainer.name.getMicroserviceAcronym() + ".events"
+	}
+
+	target : "../../microservices/" +  ks.eContainer.name + "/build/generated/egx/"   + ks.eContainer.name.getMicroserviceAcronym() + "/events/" + "I" + ks.name.ftuc() + ".java"
 }
 
 rule KafkaTopicsToJava 

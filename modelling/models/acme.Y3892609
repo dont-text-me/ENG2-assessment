@@ -24,7 +24,7 @@
         </requests>
       </clients>
       <clients name="UsersClient" urlConfigProperty="resource-urls.vm.users" defaultUrl="http://localhost:8080/users">
-        <requests xsi:type="HttpNonGetRequest" name="registerUser" url="/" isStringResponse="true" requestBody="//@services.0/@dtos.1"/>
+        <requests xsi:type="HttpNonGetRequest" name="registerUser" url="/" isStringResponse="true" isStringRequestBody="true" stringRequestBodyName="userName"/>
       </clients>
     </api>
     <dtos name="VideoDTO">
@@ -154,7 +154,7 @@
   <services name="trending-hashtag-microservice" description="Subscribes to events from the video microservice and reports the top 10 most liked hashtags within the last hour">
     <api>
       <clients name="TrendingHashtagsClient" urlConfigProperty="resource-urls.thm.trending-hashtags" defaultUrl="http://localhost:8081/trending-hashtags">
-        <requests xsi:type="HttpGetRequest" name="latestStats" url="/latest" responseBody="//@services.2/@dtos.1"/>
+        <requests xsi:type="HttpGetRequest" name="lastestStats" url="/latest" responseBody="//@services.2/@dtos.1"/>
       </clients>
     </api>
     <dtos name="WindowedHashtagWithLikeCount">
@@ -173,8 +173,8 @@
       <fields name="windowStart" type="Long" isNullable="false"/>
       <fields name="windowEnd" type="Long" isNullable="false"/>
     </entities>
-    <kafkaConsumers name="TrendingHashtagsSummaryConsumer" topicsReadFrom="//@topics.7"/>
-    <kafkaStreams name="TrendingHashtagsStream" topicsStreamedFrom="//@topics.0" topicsStreamedTo="//@topics.7"/>
+    <kafkaConsumers name="TrendingHashtagsSummaryConsumer" isBatch="true" topicsReadFrom="//@topics.7"/>
+    <kafkaStreams name="TrendingHashtagsStream" topicStreamedFrom="//@topics.0" topicStreamedTo="//@topics.7"/>
   </services>
   <clients>
     <commands name="register-user" description="Creates a new user entity with the provided username and adds it to the database"/>
@@ -200,5 +200,7 @@
   <topics name="user-unsubscribed" kafkaValue="//@services.1/@dtos.0" producers="//@services.1/@kafkaProducers.0">
     <kafkaKey name="userName" type="String"/>
   </topics>
-  <topics name="trending-hashtags" isStreamOutputTopic="true" consumers="//@services.2/@kafkaConsumers.0" streamOutputs="//@services.2/@kafkaStreams.0"/>
+  <topics name="trending-hashtags" isStreamOutputTopic="true" kafkaValue="//@services.2/@dtos.0" consumers="//@services.2/@kafkaConsumers.0" streamOutputs="//@services.2/@kafkaStreams.0">
+    <kafkaKey name="hashtagName" type="String"/>
+  </topics>
 </System>

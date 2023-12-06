@@ -9,7 +9,6 @@ import jakarta.inject.Inject;
 import java.net.URI;
 import vm.api.IUsersClient;
 import vm.domain.User;
-import vm.dto.UserDTO;
 import vm.dto.UserRegisteredMessageValueDTO;
 import vm.events.UserCreationProducer;
 
@@ -20,12 +19,11 @@ public class UsersController implements IUsersClient {
   @Inject private UserCreationProducer producer;
 
   @Post("/")
-  public HttpResponse<String> registerUser(@Body UserDTO userDetails) {
+  public HttpResponse<String> registerUser(@Body String userName) {
     User newUser = new User();
-    newUser.setUsername(userDetails.username());
-    if (repo.existsByUsernameEqual(userDetails.username())) {
-      return HttpResponse.badRequest(
-          "User with username " + userDetails.username() + " already exists.");
+    newUser.setUsername(userName);
+    if (repo.existsByUsernameEqual(userName)) {
+      return HttpResponse.badRequest("User with username " + userName + " already exists.");
     }
     repo.save(newUser);
     producer.produceUserRegisteredMessage(

@@ -5,7 +5,6 @@ import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
 import picocli.CommandLine;
 import vm.api.UsersClient;
-import vm.dto.UserDTO;
 
 @CommandLine.Command(name = "register-user", mixinStandardHelpOptions = true)
 public class RegisterUserCommand implements Runnable {
@@ -19,7 +18,7 @@ public class RegisterUserCommand implements Runnable {
 
   @Override
   public void run() {
-    HttpResponse<String> result = client.registerUser(new UserDTO(userName));
+    HttpResponse<String> result = client.registerUser(userName);
     if (result.status().equals(HttpStatus.CREATED)) {
       System.out.println("Success! " + result.body());
     } else {

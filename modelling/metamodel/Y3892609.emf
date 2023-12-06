@@ -21,6 +21,7 @@ class Microservice {
 
 class KafkaConsumer{
 	attr String name;
+	attr Boolean isBatch = false;
 	ref KafkaTopic[*]#consumers topicsReadFrom;
 }
 
@@ -31,8 +32,8 @@ class KafkaProducer{
 
 class KafkaStream{
 	attr String name;
-	ref KafkaTopic[*]#streamInputs topicsStreamedFrom;
-	ref KafkaTopic[*]#streamOutputs topicsStreamedTo;
+	ref KafkaTopic#streamInputs topicStreamedFrom;
+	ref KafkaTopic#streamOutputs topicStreamedTo;
 }
 
 class KafkaTopic{
@@ -42,8 +43,8 @@ class KafkaTopic{
 	ref DTO kafkaValue;
 	ref KafkaConsumer[*]#topicsReadFrom consumers;
 	ref KafkaProducer[*]#topicsWrittenTo producers;
-	ref KafkaStream[*]#topicsStreamedFrom streamInputs;
-	ref KafkaStream[*]#topicsStreamedTo streamOutputs;
+	ref KafkaStream[*]#topicStreamedFrom streamInputs;
+	ref KafkaStream[*]#topicStreamedTo streamOutputs;
 }
 
 

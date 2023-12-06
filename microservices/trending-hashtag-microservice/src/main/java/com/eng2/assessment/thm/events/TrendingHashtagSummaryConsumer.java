@@ -12,16 +12,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import thm.domain.TrendingHashtag;
 import thm.dto.WindowedHashtagWithLikeCount;
+import thm.events.ITrendingHashtagsSummaryConsumer;
 
 @KafkaListener(batch = true)
-public class TrendingHashtagSummaryConsumer {
+public class TrendingHashtagSummaryConsumer implements ITrendingHashtagsSummaryConsumer {
   @Inject TrendingHashtagRepository hashtagRepo;
 
   private static final Logger logger =
       LoggerFactory.getLogger(TrendingHashtagSummaryConsumer.class);
 
   @Topic(TOPIC_HASHTAG_SUMMARY)
-  void reportHashtagStatistics(List<ConsumerRecord<String, WindowedHashtagWithLikeCount>> records) {
+  public void consumeTrendingHashtagsMessages(
+      List<ConsumerRecord<String, WindowedHashtagWithLikeCount>> records) {
     List<WindowedHashtagWithLikeCount> counts =
         records.stream().map(ConsumerRecord::value).toList();
 

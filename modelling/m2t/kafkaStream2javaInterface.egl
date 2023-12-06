@@ -1,26 +1,18 @@
 package [%=packageName%];
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import io.micronaut.configuration.kafka.streams.ConfiguredStreamBuilder;
 import io.micronaut.configuration.kafka.annotation.KafkaClient;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.Topic;
+import org.apache.kafka.streams.kstream.KStream;
 import java.util.*;
-[%for (microservice in kc.eContainer.eContainer.services){%]
+[%for (microservice in ks.eContainer.eContainer.services){%]
 import [%=microservice.name.getMicroserviceAcronym()%].dto.*;
 [%}%]
 
-public interface I[%=kc.name%] {
-  [%for (topic in kc.topicsReadFrom){%]
-  [%if(kc.isBatch){%]
-  	void consume[%=topic.name.kebabToCamelCase()%]Messages(List<ConsumerRecord<[%=topic.kafkaKey.type%], [%=topic.kafkaValue.name%]>> records);
-  [%}%]
-  [%else{%]
-  void consume[%=topic.name.kebabToCamelCase()%]Message([%=topic.kafkaKey.type%] [%=topic.kafkaKey.name%], [%=topic.kafkaValue.name%] value);
-  [%}%]
-  [%}%]
+public interface I[%=ks.name%] {
+    KStream<[%=ks.topicStreamedTo.kafkaKey.type%], [%=ks.topicStreamedTo.kafkaValue.name%]> stream[%=ks.topicStreamedFrom.name.kebabToCamelCase()%]Messages(ConfiguredStreamBuilder builder);
 }
-
-
-
 [%
 operation String kebabToCamelCase(){
 	return self.split("-").collect(it | it.ftuc()).concat();
