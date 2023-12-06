@@ -6,6 +6,7 @@ import static com.eng2.assessment.vm.utils.VideoEntityUtils.*;
 import com.eng2.assessment.vm.repositories.HashtagRepository;
 import com.eng2.assessment.vm.repositories.UsersRepository;
 import com.eng2.assessment.vm.repositories.VideosRepository;
+import com.eng2.assessment.vm.utils.VideoEntityUtils;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import jakarta.annotation.Nullable;
@@ -23,6 +24,7 @@ import vm.domain.User;
 import vm.domain.Video;
 import vm.dto.VideoDTO;
 import vm.dto.VideoInteractionDetailsDTO;
+import vm.dto.VideoResponseDTO;
 import vm.dto.VideoResultsDTO;
 import vm.events.VideoInteractionProducer;
 
@@ -55,7 +57,7 @@ public class VideosController implements IVideosClient {
   }
 
   @Get("/{id}")
-  public Video getVideo(
+  public VideoResponseDTO getVideo(
       UUID id, @Nullable @QueryValue String author, @Nullable @QueryValue String hashtag) {
     Optional<Video> result;
     if (author != null && hashtag == null) {
@@ -67,8 +69,7 @@ public class VideosController implements IVideosClient {
     } else {
       result = videoRepo.findById(id);
     }
-
-    return result.orElse(null);
+    return result.map(VideoEntityUtils::convertEntity).orElse(null);
   }
 
   /**

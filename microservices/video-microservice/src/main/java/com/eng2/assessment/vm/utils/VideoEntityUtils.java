@@ -40,4 +40,16 @@ public class VideoEntityUtils {
                         it.getViewCount()))
             .toList());
   }
+
+  public static VideoResponseDTO convertEntity(Video it) {
+    return new VideoResponseDTO(
+        it.getTitle(),
+        it.getId(),
+        it.getPublishedAt(),
+        it.getAuthor().getUsername(),
+        it.getLikeCount(),
+        it.getDislikeCount(),
+        it.getHashtags().stream().map(Hashtag::getId).toList(),
+        it.getViewCount());
+  }
 }
