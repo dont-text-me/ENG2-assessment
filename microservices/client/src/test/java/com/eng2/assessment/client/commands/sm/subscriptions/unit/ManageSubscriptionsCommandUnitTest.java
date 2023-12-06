@@ -8,6 +8,7 @@ import com.eng2.assessment.client.commands.sm.subscriptions.ManageSubscriptionsC
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+import enums.SubscriptionAction;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
@@ -36,8 +37,8 @@ public class ManageSubscriptionsCommandUnitTest {
   }
 
   @ParameterizedTest
-  @EnumSource(ManageSubscriptionsCommand.SubscriptionAction.class)
-  public void happyPathTest(ManageSubscriptionsCommand.SubscriptionAction action) {
+  @EnumSource(SubscriptionAction.class)
+  public void happyPathTest(SubscriptionAction action) {
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.put("/subscriptions/ZooLover/" + action.toString().toLowerCase())
@@ -56,8 +57,8 @@ public class ManageSubscriptionsCommandUnitTest {
   }
 
   @ParameterizedTest
-  @EnumSource(ManageSubscriptionsCommand.SubscriptionAction.class)
-  public void handlesError(ManageSubscriptionsCommand.SubscriptionAction action) {
+  @EnumSource(SubscriptionAction.class)
+  public void handlesError(SubscriptionAction action) {
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, "unit-test")) {
       wireMock.stubFor(
           WireMock.put("/subscriptions/ZooLover/" + action.toString().toLowerCase())

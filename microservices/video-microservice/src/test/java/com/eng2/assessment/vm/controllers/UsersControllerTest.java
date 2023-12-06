@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import vm.api.UsersClient;
 import vm.domain.User;
-import vm.dto.UserDTO;
 import vm.dto.UserRegisteredMessageValueDTO;
 import vm.events.UserCreationProducer;
 
@@ -41,7 +40,7 @@ public class UsersControllerTest {
   class RegisterUserTests {
     @Test
     public void canRegisterUser() {
-      HttpResponse<String> result = client.registerUser(new UserDTO("FirstUser"));
+      HttpResponse<String> result = client.registerUser("FirstUser");
 
       assertEquals(result.getStatus(), HttpStatus.CREATED);
 
@@ -58,7 +57,7 @@ public class UsersControllerTest {
       firstUser.setUsername("FirstUser");
       userRepo.save(firstUser);
 
-      HttpResponse<String> result = client.registerUser(new UserDTO("FirstUser"));
+      HttpResponse<String> result = client.registerUser("FirstUser");
       assertEquals(result.getStatus(), HttpStatus.BAD_REQUEST);
       verifyNoInteractions(mockProducer);
     }

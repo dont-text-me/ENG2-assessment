@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.eng2.assessment.client.commands.vm.videos.InteractWithVideoCommand;
 import com.eng2.assessment.client.utils.AbstractFeatureTest;
 import com.eng2.assessment.client.utils.FeatureTestExtension;
+import enums.VideoInteractionType;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
@@ -23,7 +24,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import vm.api.UsersClient;
 import vm.api.VideosClient;
-import vm.dto.UserDTO;
 import vm.dto.VideoDTO;
 import vm.dto.VideoResponseDTO;
 
@@ -47,11 +47,11 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
 
   @ParameterizedTest
   @DisplayName("Can interact with video")
-  @EnumSource(InteractWithVideoCommand.VideoInteractionType.class)
-  public void canInteractWithVideo(InteractWithVideoCommand.VideoInteractionType type) {
+  @EnumSource(VideoInteractionType.class)
+  public void canInteractWithVideo(VideoInteractionType type) {
     String userName = "AnimalPlanet";
     String videoTitle = "Elephant sighting";
-    usersClient.registerUser(new UserDTO(userName));
+    usersClient.registerUser(userName);
     String postVideoResponseBody =
         videosClient
             .publish(new VideoDTO(userName, List.of("Elephant", "Awesome", "Safari"), videoTitle))
@@ -68,17 +68,15 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
           .contains("Success!")
           .contains("Video with title " + videoTitle)
           .contains(
-              type.equals(InteractWithVideoCommand.VideoInteractionType.WATCH)
+              type.equals(VideoInteractionType.WATCH)
                   ? "viewed"
-                  : (type.equals(InteractWithVideoCommand.VideoInteractionType.LIKE)
-                      ? "liked"
-                      : "disliked"));
+                  : (type.equals(VideoInteractionType.LIKE) ? "liked" : "disliked"));
 
       VideoResponseDTO videoAfterUpdate = videosClient.list(null, null).result().get(0);
 
-      if (type.equals(InteractWithVideoCommand.VideoInteractionType.LIKE)) {
+      if (type.equals(VideoInteractionType.LIKE)) {
         assertThat(videoAfterUpdate.likeCount()).isEqualTo(1);
-      } else if (type.equals(InteractWithVideoCommand.VideoInteractionType.DISLIKE)) {
+      } else if (type.equals(VideoInteractionType.DISLIKE)) {
         assertThat(videoAfterUpdate.dislikeCount()).isEqualTo(1);
       } else {
         assertThat(videoAfterUpdate.viewCount()).isEqualTo(1);
@@ -88,11 +86,11 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
 
   @ParameterizedTest
   @DisplayName("Handles unknown username")
-  @EnumSource(InteractWithVideoCommand.VideoInteractionType.class)
-  public void handlesUnknownUser(InteractWithVideoCommand.VideoInteractionType type) {
+  @EnumSource(VideoInteractionType.class)
+  public void handlesUnknownUser(VideoInteractionType type) {
     String userName = "AnimalPlanet";
     String videoTitle = "Elephant sighting";
-    usersClient.registerUser(new UserDTO(userName));
+    usersClient.registerUser(userName);
     String postVideoResponseBody =
         videosClient
             .publish(new VideoDTO(userName, List.of("Elephant", "Awesome", "Safari"), videoTitle))
@@ -113,10 +111,10 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
 
   @ParameterizedTest
   @DisplayName("Handles unknown video ID")
-  @EnumSource(InteractWithVideoCommand.VideoInteractionType.class)
-  public void handlesUnknownVideo(InteractWithVideoCommand.VideoInteractionType type) {
+  @EnumSource(VideoInteractionType.class)
+  public void handlesUnknownVideo(VideoInteractionType type) {
     String userName = "AnimalPlanet";
-    usersClient.registerUser(new UserDTO(userName));
+    usersClient.registerUser(userName);
     String unknownId = UUID.randomUUID().toString();
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
@@ -131,13 +129,13 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
   @ParameterizedTest
   @DisplayName("Limits likes and dislikes to 1 each per user")
   @EnumSource(
-      value = InteractWithVideoCommand.VideoInteractionType.class,
+      value = VideoInteractionType.class,
       mode = EnumSource.Mode.EXCLUDE,
       names = {"WATCH"})
-  public void canLikeAndDislikeOnlyOnce(InteractWithVideoCommand.VideoInteractionType type) {
+  public void canLikeAndDislikeOnlyOnce(VideoInteractionType type) {
     String userName = "AnimalPlanet";
     String videoTitle = "Elephant sighting";
-    usersClient.registerUser(new UserDTO(userName));
+    usersClient.registerUser(userName);
     String postVideoResponseBody =
         videosClient
             .publish(new VideoDTO(userName, List.of("Elephant", "Awesome", "Safari"), videoTitle))
@@ -147,9 +145,9 @@ public class InteractWithVideoCommandFeatureTest extends AbstractFeatureTest {
             postVideoResponseBody.substring(postVideoResponseBody.lastIndexOf(" ") + 1));
 
     // make it so that the user has already liked/disliked the video prior to running the command
-    if (type.equals(InteractWithVideoCommand.VideoInteractionType.LIKE)) {
+    if (type.equals(VideoInteractionType.LIKE)) {
       videosClient.likeVideo(videoId, userName);
-    } else if (type.equals(InteractWithVideoCommand.VideoInteractionType.DISLIKE)) {
+    } else if (type.equals(VideoInteractionType.DISLIKE)) {
       videosClient.dislikeVideo(videoId, userName);
     }
 

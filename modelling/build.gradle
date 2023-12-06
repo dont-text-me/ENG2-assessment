@@ -35,5 +35,5 @@ task codegen {
     ant.'epsilon.emf.loadModel'(name: 'M', modelfile: 'models/acme.Y3892609', metamodelfile: 'metamodel/Y3892609.emf')
 
     // Run pdl.egx against it
-    ant.'epsilon.egl'(src: 'm2t/microservices2java.egx'){ model(ref: 'M') }
+    ant.'epsilon.egl'(src: 'm2t/Y3892609.egx'){ model(ref: 'M') }
 }

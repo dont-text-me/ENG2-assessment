@@ -24,7 +24,7 @@
         </requests>
       </clients>
       <clients name="UsersClient" urlConfigProperty="resource-urls.vm.users" defaultUrl="http://localhost:8080/users">
-        <requests xsi:type="HttpNonGetRequest" name="registerUser" url="/" isStringResponse="true" requestBody="//@services.0/@dtos.1"/>
+        <requests xsi:type="HttpNonGetRequest" name="registerUser" url="/" isStringResponse="true" isStringRequestBody="true" stringRequestBodyName="userName"/>
       </clients>
     </api>
     <dtos name="VideoDTO">
@@ -173,12 +173,101 @@
       <fields name="windowStart" type="Long" isNullable="false"/>
       <fields name="windowEnd" type="Long" isNullable="false"/>
     </entities>
-    <kafkaConsumers name="TrendingHashtagsSummaryConsumer" topicsReadFrom="//@topics.7"/>
-    <kafkaStreams name="TrendingHashtagsStream" topicsStreamedFrom="//@topics.0" topicsStreamedTo="//@topics.7"/>
+    <kafkaConsumers name="TrendingHashtagsSummaryConsumer" isBatch="true" topicsReadFrom="//@topics.7"/>
+    <kafkaStreams name="TrendingHashtagsStream" topicStreamedFrom="//@topics.0" topicStreamedTo="//@topics.7"/>
   </services>
-  <clients>
-    <commands name="register-user" description="Creates a new user entity with the provided username and adds it to the database"/>
-  </clients>
+  <client name="client">
+    <enums name="VideoInteractionType">
+      <values>LIKE</values>
+      <values>DISLIKE</values>
+      <values>WATCH</values>
+    </enums>
+    <enums name="SubscriptionAction">
+      <values>SUBSCRIBE</values>
+      <values>UNSUBSCRIBE</values>
+    </enums>
+    <commands name="get-recommendations" description="Get up to 10 videos from a given hashtag that the user is subscribed to, ordered by view count, that the given user has not seen yet">
+      <args xsi:type="CliArgument" description="The username of the user to get recommendations for" isRequired="true">
+        <names>-u</names>
+        <names>--username</names>
+        <field name="userName" type="String"/>
+      </args>
+      <args xsi:type="CliArgument" description="The name of the hashtag to get recommendations for (must be in user's subscriptions)" isRequired="true">
+        <names>-h</names>
+        <names>--hashtag</names>
+        <field name="hashtagName" type="String"/>
+      </args>
+    </commands>
+    <commands name="register-user" description="Creates a new user entity with the provided username and adds it to the database">
+      <args xsi:type="CliArgument" description="The username of the user to be created" isRequired="true">
+        <names>-u</names>
+        <names>--username</names>
+        <field name="userName" type="String"/>
+      </args>
+    </commands>
+    <commands name="manage-subscriptions" description="Creates or removes a subscription between a given user and a given hashtag">
+      <args xsi:type="EnumValueCliArgument" description="The desired action" isRequired="true" enumType="//@client/@enums.1">
+        <names>-a</names>
+        <names>--action</names>
+      </args>
+      <args xsi:type="CliArgument" description="The username in the subscription" isRequired="true">
+        <names>-u</names>
+        <names>--userName</names>
+        <field name="userName" type="String"/>
+      </args>
+      <args xsi:type="CliArgument" description="The name of the hashtag in the subscription" isRequired="true">
+        <names>-h</names>
+        <names>--hashtagName</names>
+        <field name="hashtagName" type="String"/>
+      </args>
+    </commands>
+    <commands name="list-trending-hashtags" description="Lists up to 10 hashtags, ordered by the number of likes videos tagged with them received"/>
+    <commands name="interact-with-video" description="Like, dislike or watch a video with a given id as the given user">
+      <args xsi:type="EnumValueCliArgument" description="The type of interaction" isRequired="true" enumType="//@client/@enums.0">
+        <names>-t</names>
+        <names>--type</names>
+      </args>
+      <args xsi:type="CliArgument" description="The ID (UUID) of the video to be interacted with" isRequired="true">
+        <names>-v</names>
+        <names>--video-id</names>
+        <field name="videoId" type="UUID"/>
+      </args>
+      <args xsi:type="CliArgument" description="The username of the user performing the interaction (case sensitive)" isRequired="true">
+        <names>-u</names>
+        <names>--username</names>
+        <field name="userName" type="String"/>
+      </args>
+    </commands>
+    <commands name="list-videos" description="Lists all known videos. Allows filtering by hashtag name and/or author username">
+      <args xsi:type="CliArgument" description="Optional. Can be provided to filter the list of videos based on the author's username. Case sensitive">
+        <names>-a</names>
+        <names>--author-username</names>
+        <field name="authorUsername" type="String"/>
+      </args>
+      <args xsi:type="CliArgument" description="Optional. Can be provided to filter the list of videos based on one of its hashtags. Case sensitive">
+        <names>-h</names>
+        <names>--hashtag-name</names>
+        <field name="hashtagName" type="String"/>
+      </args>
+    </commands>
+    <commands name="post-video" description="Post a video with the given title and list of hashtags as the given user">
+      <args xsi:type="CliArgument" description="The username of the user that will be recorded as this video's author. Must be a valid user" isRequired="true">
+        <names>-a</names>
+        <names>--author-username</names>
+        <field name="authorUsername" type="String"/>
+      </args>
+      <args xsi:type="CliArgument" description="The title of the video to be posted" isRequired="true">
+        <names>-t</names>
+        <names>--title</names>
+        <field name="title" type="String"/>
+      </args>
+      <args xsi:type="CliArgument" description="The list of hashtags to tag the video with. Please provide a single string, with the hashtags separated by commas. Note that hashtag names are case sensitive." isRequired="true">
+        <names>-h</names>
+        <names>--hashtags</names>
+        <field name="hashtagsList" type="String"/>
+      </args>
+    </commands>
+  </client>
   <topics name="video-liked" kafkaValue="//@services.0/@dtos.3" producers="//@services.0/@kafkaProducers.0" streamInputs="//@services.2/@kafkaStreams.0">
     <kafkaKey name="videoId" type="UUID"/>
   </topics>
@@ -200,5 +289,7 @@
   <topics name="user-unsubscribed" kafkaValue="//@services.1/@dtos.0" producers="//@services.1/@kafkaProducers.0">
     <kafkaKey name="userName" type="String"/>
   </topics>
-  <topics name="trending-hashtags" isStreamOutputTopic="true" consumers="//@services.2/@kafkaConsumers.0" streamOutputs="//@services.2/@kafkaStreams.0"/>
+  <topics name="trending-hashtags" isStreamOutputTopic="true" kafkaValue="//@services.2/@dtos.0" consumers="//@services.2/@kafkaConsumers.0" streamOutputs="//@services.2/@kafkaStreams.0">
+    <kafkaKey name="hashtagName" type="String"/>
+  </topics>
 </System>

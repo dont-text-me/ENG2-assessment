@@ -19,7 +19,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import vm.api.UsersClient;
 import vm.api.VideosClient;
-import vm.dto.UserDTO;
 import vm.dto.VideoDTO;
 
 @MicronautTest
@@ -54,7 +53,7 @@ public class TrendingHashtagsCommandFeatureTest extends AbstractFeatureTest {
   public void canDisplayTrendingHashtags() throws InterruptedException {
     ArrayList<UUID> videoIds = new ArrayList<>();
     for (int i = 0; i < 10; i++) {
-      usersClient.registerUser(new UserDTO("User-" + i));
+      usersClient.registerUser("User-" + i);
 
       String postVideoResponseBody =
           videosClient

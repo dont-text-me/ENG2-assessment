@@ -1,0 +1,32 @@
+package [%=packageName%];
+import com.eng2.assessment.client.utils.formatters.TrendingHashtagFormatter;
+import jakarta.inject.Inject;
+import java.util.*;
+import picocli.CommandLine;
+import thm.api.TrendingHashtagsClient;
+import thm.dto.TrendingHashtagResponseDTO;
+import enums.*;
+
+@CommandLine.Command(name = "[%=cmd.name%]", mixinStandardHelpOptions = true, scope = CommandLine.ScopeType.INHERIT)
+public abstract class A[%=cmd.name.kebabToCamelCase()%]Command implements Runnable {
+[%for (arg : CliArgument  in cmd.args){%]
+@CommandLine.Option(
+      names = {[%=arg.names.collect(it | '"' + it + '"').concat(", ")%]},
+      required = [%=arg.isRequired%],
+      description = "[%=arg.description%]")
+  public [%=arg.field.type%] [%=arg.field.name%];
+[%}%]
+[%for (arg : EnumValueCliArgument  in cmd.args){%]
+@CommandLine.Option(
+      names = {[%=arg.names.collect(it | '"' + it + '"').concat(", ")%]},
+      required = [%=arg.isRequired%],
+      description = "[%=arg.description%]")
+  public [%=arg.enumType.name%] [%=arg.enumType.name.toLowercase()%];
+[%}%]
+}
+
+[%
+operation String kebabToCamelCase(){
+	return self.split("-").collect(it | it.ftuc()).concat();
+}
+%]

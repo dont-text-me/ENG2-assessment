@@ -36,7 +36,7 @@ public class TrendingHashtagSummaryConsumerTest {
             Instant.now().minus(Duration.ofMinutes(10)).toEpochMilli(),
             Instant.now().toEpochMilli());
 
-    sut.reportHashtagStatistics(
+    sut.consumeTrendingHashtagsMessages(
         List.of(new ConsumerRecord<>(TOPIC_HASHTAG_SUMMARY, 1, 1L, "Zoo", messageData)));
 
     assertThat(repo.findAll()).isNotNull().isNotEmpty();
@@ -63,7 +63,7 @@ public class TrendingHashtagSummaryConsumerTest {
                             Instant.now().minus(Duration.ofMinutes(10)).toEpochMilli(),
                             Instant.now().toEpochMilli()))));
 
-    sut.reportHashtagStatistics(records);
+    sut.consumeTrendingHashtagsMessages(records);
 
     assertThat(repo.findAll()).isNotNull().isNotEmpty().hasSize(15);
     assertThat(

@@ -1,6 +1,7 @@
 package com.eng2.assessment.client.commands.thm;
 
 import com.eng2.assessment.client.utils.formatters.TrendingHashtagFormatter;
+import commands.AListTrendingHashtagsCommand;
 import jakarta.inject.Inject;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -8,8 +9,8 @@ import picocli.CommandLine;
 import thm.api.TrendingHashtagsClient;
 import thm.dto.TrendingHashtagResponseDTO;
 
-@CommandLine.Command(name = "list-trending-hashtags", mixinStandardHelpOptions = true)
-public class ListTrendingHashtagsCommand implements Runnable {
+@CommandLine.Command(name = "list-trending-hashtags")
+public class ListTrendingHashtagsCommand extends AListTrendingHashtagsCommand {
   @Inject private TrendingHashtagsClient client;
 
   @Override

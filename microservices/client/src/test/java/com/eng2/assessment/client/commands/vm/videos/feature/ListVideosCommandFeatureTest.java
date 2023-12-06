@@ -18,7 +18,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testcontainers.shaded.org.apache.commons.lang3.StringUtils;
 import vm.api.UsersClient;
 import vm.api.VideosClient;
-import vm.dto.UserDTO;
 import vm.dto.VideoDTO;
 
 @MicronautTest
@@ -63,7 +62,7 @@ public class ListVideosCommandFeatureTest extends AbstractFeatureTest {
   @Test
   @DisplayName("Happy path (videos are available, no filter)")
   public void canListVideos() {
-    usersClient.registerUser(new UserDTO("AnimalPlanet"));
+    usersClient.registerUser("AnimalPlanet");
     videosClient.publish(
         new VideoDTO("AnimalPlanet", List.of("Zoo", "Giraffe", "Gorilla"), "Me at the zoo"));
 
@@ -84,8 +83,8 @@ public class ListVideosCommandFeatureTest extends AbstractFeatureTest {
   @Test
   @DisplayName("Can filter by author's username")
   public void canFilterByAuthorName() throws InterruptedException {
-    usersClient.registerUser(new UserDTO("AnimalPlanet"));
-    usersClient.registerUser(new UserDTO("OtherUser"));
+    usersClient.registerUser("AnimalPlanet");
+    usersClient.registerUser("OtherUser");
 
     for (int i = 0; i < 10; i++) {
       videosClient.publish(new VideoDTO("AnimalPlanet", List.of("spam"), "Included video " + i));
@@ -105,7 +104,7 @@ public class ListVideosCommandFeatureTest extends AbstractFeatureTest {
   @Test
   @DisplayName("Can filter by hashtag name")
   public void canFilterByHashtagName() throws InterruptedException {
-    usersClient.registerUser(new UserDTO("AnimalPlanet"));
+    usersClient.registerUser("AnimalPlanet");
 
     for (int i = 0; i < 10; i++) {
       videosClient.publish(

@@ -16,10 +16,11 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.*;
 import thm.dto.WindowedHashtagWithLikeCount;
+import thm.events.ITrendingHashtagsStream;
 import vm.dto.VideoInteractionDetailsDTO;
 
 @Factory
-public class TrendingHashtagsStream {
+public class TrendingHashtagsStream implements ITrendingHashtagsStream {
   @Inject private CompositeSerdeRegistry serdeRegistry;
 
   @Value(value = "${trending-hashtags.window-size: `1h`}")
@@ -40,7 +41,8 @@ public class TrendingHashtagsStream {
    * summarized message i.e. for each hashtag's like count over the time window.
    */
   @Singleton
-  KStream<String, WindowedHashtagWithLikeCount> hashtagSummary(ConfiguredStreamBuilder builder) {
+  public KStream<String, WindowedHashtagWithLikeCount> streamVideoLikedMessages(
+      ConfiguredStreamBuilder builder) {
     Properties props = builder.getConfiguration();
     props.put(StreamsConfig.APPLICATION_ID_CONFIG, "trending-hashtags-stream");
     props.put(StreamsConfig.PROCESSING_GUARANTEE_CONFIG, StreamsConfig.EXACTLY_ONCE_V2);

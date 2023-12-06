@@ -1,6 +1,7 @@
 package com.eng2.assessment.client.commands.sm.recommendations;
 
 import com.eng2.assessment.client.utils.formatters.VideoRecommendationFormatter;
+import commands.AGetRecommendationsCommand;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
@@ -11,26 +12,14 @@ import sm.api.RecommendationsClient;
 import sm.dto.VideoDTO;
 import sm.dto.VideoRecommendationDTO;
 
-@CommandLine.Command(name = "get-recommendations", mixinStandardHelpOptions = true)
-public class GetRecommendationsCommand implements Runnable {
+@CommandLine.Command(name = "get-recommendations")
+public class GetRecommendationsCommand extends AGetRecommendationsCommand {
   @Inject private RecommendationsClient client;
-
-  @CommandLine.Option(
-      names = {"-u", "--username"},
-      required = true,
-      description = "The username of the user to get recommendations for")
-  private String userName;
-
-  @CommandLine.Option(
-      names = {"-h", "--hashtag"},
-      required = true,
-      description =
-          "The name of the hashtag to get recommendations for (must be in user's subscriptions)")
-  private String hashtagName;
 
   @Override
   public void run() {
-    HttpResponse<VideoRecommendationDTO> result = client.getRecommendations(userName, hashtagName);
+    HttpResponse<VideoRecommendationDTO> result =
+        client.getRecommendations(this.userName, this.hashtagName);
     if (result.status().equals(HttpStatus.OK)) {
       List<VideoDTO> videoResult = result.body().result();
       if (videoResult == null || videoResult.isEmpty()) {

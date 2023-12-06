@@ -30,7 +30,7 @@ public class TrendingHashtagTestDoubleStreamTest {
   public void smokeTest() {
     final ConfiguredStreamBuilder builder = new ConfiguredStreamBuilder(new Properties());
 
-    stream.hashtagSummary(builder);
+    stream.streamVideoLikedMessages(builder);
 
     try (TopologyTestDriver testDriver = new TopologyTestDriver(builder.build())) {
       TestInputTopic<UUID, VideoInteractionDetailsDTO> inputTopic =
@@ -57,7 +57,7 @@ public class TrendingHashtagTestDoubleStreamTest {
     List<String> expectedHashtags = List.of("Zoo", "Giraffe", "Funny");
     final ConfiguredStreamBuilder builder = new ConfiguredStreamBuilder(new Properties());
 
-    stream.hashtagSummary(builder);
+    stream.streamVideoLikedMessages(builder);
 
     try (TopologyTestDriver testDriver = new TopologyTestDriver(builder.build())) {
       TestInputTopic<UUID, VideoInteractionDetailsDTO> inputTopic =
@@ -86,7 +86,7 @@ public class TrendingHashtagTestDoubleStreamTest {
     List<String> vlogHashtags = List.of("Travel", "Cool", "Funny");
     final ConfiguredStreamBuilder builder = new ConfiguredStreamBuilder(new Properties());
 
-    stream.hashtagSummary(builder);
+    stream.streamVideoLikedMessages(builder);
 
     try (TopologyTestDriver testDriver = new TopologyTestDriver(builder.build())) {
       TestInputTopic<UUID, VideoInteractionDetailsDTO> inputTopic =

@@ -16,7 +16,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import vm.api.UsersClient;
 import vm.api.VideosClient;
-import vm.dto.UserDTO;
 import vm.dto.VideoResponseDTO;
 
 @MicronautTest
@@ -54,7 +53,7 @@ public class PostVideoCommandFeatureTest extends AbstractFeatureTest {
   @Test
   @DisplayName("When provided hashtags contain unsafe characters")
   public void whenBadHashtags() {
-    usersClient.registerUser(new UserDTO("someAuthor"));
+    usersClient.registerUser("someAuthor");
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
       String[] args =
           new String[] {"-a", "someAuthor", "-t", "me at the zoo", "-h", "omg!, no way!, ???"};
@@ -72,7 +71,7 @@ public class PostVideoCommandFeatureTest extends AbstractFeatureTest {
   @Test
   @DisplayName("Happy path test")
   public void happyPath() {
-    usersClient.registerUser(new UserDTO("someAuthor"));
+    usersClient.registerUser("someAuthor");
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
       String[] args =

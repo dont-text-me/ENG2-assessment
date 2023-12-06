@@ -39,13 +39,15 @@ public class VideoInteractionConsumer implements IVideoInteractionConsumer {
 
   @Topic(TOPIC_VIDEO_POSTED)
   @Transactional
-  public void consumeVideoPostedMessage(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
+  public void consumeVideoPostedMessage(
+      @KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
     createMissingEntities(videoId, details);
   }
 
   @Topic(TOPIC_VIDEO_VIEWED)
   @Transactional
-  public void consumeVideoViewedMessage(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
+  public void consumeVideoViewedMessage(
+      @KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
     createMissingEntities(videoId, details);
 
     Video video = videoRepository.findById(videoId).get();

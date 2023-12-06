@@ -28,7 +28,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import vm.api.UsersClient;
 import vm.api.VideosClient;
-import vm.dto.UserDTO;
 import vm.dto.VideoDTO;
 
 @MicronautTest
@@ -57,8 +56,8 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
     String videoViewerUserName = "VideoViewer";
     String hashtagName = "Zoo";
     String videoNamePrefix = "Video ";
-    vmUsersClient.registerUser(new UserDTO(videoAuthorUserName));
-    vmUsersClient.registerUser(new UserDTO(videoViewerUserName));
+    vmUsersClient.registerUser(videoAuthorUserName);
+    vmUsersClient.registerUser(videoViewerUserName);
 
     for (int i = 0; i < 10; i++) {
       String postVideoResponseBody =
@@ -97,8 +96,8 @@ public class GetRecommendationsCommandFeatureTest extends AbstractFeatureTest {
     String videoAuthorUserName = "VideoAuthor";
     String videoViewerUserName = "VideoViewer";
     String hashtagName = "Video";
-    vmUsersClient.registerUser(new UserDTO(videoAuthorUserName));
-    vmUsersClient.registerUser(new UserDTO(videoViewerUserName));
+    vmUsersClient.registerUser(videoAuthorUserName);
+    vmUsersClient.registerUser(videoViewerUserName);
     String postVideoResponseBody =
         vmVideosClient
             .publish(new VideoDTO(videoAuthorUserName, List.of(hashtagName), "My video"))
