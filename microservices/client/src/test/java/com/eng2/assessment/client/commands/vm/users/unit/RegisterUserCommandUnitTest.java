@@ -20,7 +20,6 @@ import java.io.PrintStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import vm.dto.UserDTO;
 
 public class RegisterUserCommandUnitTest {
   @RegisterExtension
@@ -52,9 +51,7 @@ public class RegisterUserCommandUnitTest {
 
       String[] args = new String[] {"-u", "someUser"};
       PicocliRunner.run(sut, ctx, args);
-      wireMock.verify(
-          postRequestedFor(urlEqualTo("/users"))
-              .withRequestBody(equalTo(gson.toJson(new UserDTO("someUser")))));
+      wireMock.verify(postRequestedFor(urlEqualTo("/users")).withRequestBody(equalTo("someUser")));
       assertThat(baos.toString()).contains("Success!").contains("Created user with username");
     }
   }
@@ -72,9 +69,7 @@ public class RegisterUserCommandUnitTest {
 
       String[] args = new String[] {"-u", "someUser"};
       PicocliRunner.run(sut, ctx, args);
-      wireMock.verify(
-          postRequestedFor(urlEqualTo("/users"))
-              .withRequestBody(equalTo(gson.toJson(new UserDTO("someUser")))));
+      wireMock.verify(postRequestedFor(urlEqualTo("/users")).withRequestBody(equalTo("someUser")));
       assertThat(baos.toString()).contains("Something went wrong:").contains("Error!");
     }
   }
