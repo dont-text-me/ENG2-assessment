@@ -8,5 +8,8 @@ jpa:
           auto: create-drop
 
 trending-hashtags:
-  url: /trending-hashtags
   window-size: 1h
+
+resource-urls:
+  thm:
+    trending-hashtags: /trending-hashtags

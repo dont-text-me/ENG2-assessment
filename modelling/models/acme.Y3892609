@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="ASCII"?>
-<System xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="Y3892609">
+<System xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="Y3892609">
   <services name="video-microservice" description="Stores information about users, videos and hashtags">
+    <api>
+      <clients name="VideosClient" urlConfigProperty="resource-urls.vm.videos" defaultUrl="http://localhost:8080/videos">
+        <requests xsi:type="HttpGetRequest" name="list" url="/" responseBody="//@services.0/@dtos.4">
+          <queryParams name="author" type="String" isNullable="true"/>
+          <queryParams name="hashtag" type="String" isNullable="true"/>
+        </requests>
+        <requests xsi:type="HttpNonGetRequest" name="likeVideo" url="/{id}/like" isStringResponse="true" type="PUT" isStringRequestBody="true" stringRequestBodyName="userName">
+          <urlParams name="id" type="UUID"/>
+        </requests>
+        <requests xsi:type="HttpNonGetRequest" name="dislikeVideo" url="/{id}/dislike" isStringResponse="true" type="PUT" isStringRequestBody="true" stringRequestBodyName="userName">
+          <urlParams name="id" type="UUID"/>
+        </requests>
+        <requests xsi:type="HttpNonGetRequest" name="watchVideo" url="/{id}/watch" isStringResponse="true" type="PUT" isStringRequestBody="true" stringRequestBodyName="userName">
+          <urlParams name="id" type="UUID"/>
+        </requests>
+        <requests xsi:type="HttpNonGetRequest" name="publish" url="/" isStringResponse="true" requestBody="//@services.0/@dtos.0"/>
+        <requests xsi:type="HttpGetRequest" name="getVideo" url="/{id}" responseBody="//@services.0/@dtos.5">
+          <urlParams name="id" type="UUID"/>
+          <queryParams name="author" type="String" isNullable="true"/>
+          <queryParams name="hashtag" type="String" isNullable="true"/>
+        </requests>
+      </clients>
+      <clients name="UsersClient" urlConfigProperty="resource-urls.vm.users" defaultUrl="http://localhost:8080/users">
+        <requests xsi:type="HttpNonGetRequest" name="registerUser" url="/" isStringResponse="true" requestBody="//@services.0/@dtos.1"/>
+      </clients>
+    </api>
     <dtos name="VideoDTO">
       <fields name="authorUsername" type="String"/>
       <fields name="hashtagNames" type="List&lt;String>"/>
@@ -17,11 +43,24 @@
       <fields name="hashtagNames" type="List&lt;String>"/>
       <fields name="userName" type="String"/>
     </dtos>
-    <entities name="Video" incoming="//@services.0/@relationships.1 //@services.0/@relationships.2 //@services.0/@relationships.3" outgoing="//@services.0/@relationships.0 //@services.0/@relationships.4">
-      <idField name="id" type="UUID"/>
+    <dtos name="VideoResultsDTO">
+      <fields name="result" type="List&lt;VideoResponseDTO>"/>
+    </dtos>
+    <dtos name="VideoResponseDTO">
+      <fields name="title" type="String"/>
+      <fields name="id" type="UUID"/>
+      <fields name="publishedAt" type="Instant"/>
+      <fields name="authorUsername" type="String"/>
       <fields name="likeCount" type="Integer"/>
       <fields name="dislikeCount" type="Integer"/>
+      <fields name="hashtagIds" type="List&lt;String>"/>
       <fields name="viewCount" type="Integer"/>
+    </dtos>
+    <entities name="Video" incoming="//@services.0/@relationships.1 //@services.0/@relationships.2 //@services.0/@relationships.3" outgoing="//@services.0/@relationships.0 //@services.0/@relationships.4">
+      <idField name="id" type="UUID"/>
+      <fields name="likeCount" type="Integer" hasDefaultValue="true" defaultValue="0"/>
+      <fields name="dislikeCount" type="Integer" hasDefaultValue="true" defaultValue="0"/>
+      <fields name="viewCount" type="Integer" hasDefaultValue="true" defaultValue="0"/>
       <fields name="publishedAt" type="Instant"/>
       <fields name="title" type="String" isNullable="false"/>
     </entities>
@@ -56,8 +95,34 @@
     </relationships>
   </services>
   <services name="subscription-microservice" description="Subscribes to events from the video microservice and allows management of user subscriptions as well as receving video recommendations for each user/hashtag pair (if subscribed)">
+    <api>
+      <clients name="RecommendationsClient" urlConfigProperty="resource-urls.sm.recommendations" defaultUrl="http://localhost:8082/recommendations" errorType="VideoRecommendationDTO">
+        <requests xsi:type="HttpGetRequest" name="getRecommendations" url="/{userName}" responseBody="//@services.1/@dtos.1" isResponseWrappedInHttpResponse="true">
+          <urlParams name="userName" type="String"/>
+          <queryParams name="hashtagName" type="String"/>
+        </requests>
+      </clients>
+      <clients name="SubscriptionsClient" urlConfigProperty="resource-urls.sm.subscriptions" defaultUrl="http://localhost:8082/subscriptions">
+        <requests xsi:type="HttpNonGetRequest" name="subscribe" url="/{userName}/subscribe" isStringResponse="true" type="PUT" isStringRequestBody="true" stringRequestBodyName="hashtagName">
+          <urlParams name="userName" type="String"/>
+        </requests>
+        <requests xsi:type="HttpNonGetRequest" name="unsubscribe" url="/{userName}/unsubscribe" isStringResponse="true" type="PUT" isStringRequestBody="true" stringRequestBodyName="hashtagName">
+          <urlParams name="userName" type="String"/>
+        </requests>
+      </clients>
+    </api>
     <dtos name="UserSubscriptionMessageValueDTO">
       <fields name="hashtagName" type="String"/>
+    </dtos>
+    <dtos name="VideoRecommendationDTO">
+      <fields name="errorMessage" type="String"/>
+      <fields name="result" type="List&lt;VideoDTO>"/>
+    </dtos>
+    <dtos name="VideoDTO">
+      <fields name="id" type="UUID"/>
+      <fields name="title" type="String"/>
+      <fields name="viewCount" type="Long"/>
+      <fields name="hashtagNames" type="List&lt;String>"/>
     </dtos>
     <entities name="Video" outgoing="//@services.1/@relationships.0 //@services.1/@relationships.2">
       <idField name="id" type="UUID" isAutoGenerated="false"/>
@@ -87,11 +152,19 @@
     </relationships>
   </services>
   <services name="trending-hashtag-microservice" description="Subscribes to events from the video microservice and reports the top 10 most liked hashtags within the last hour">
+    <api>
+      <clients name="TrendingHashtagsClient" urlConfigProperty="resource-urls.thm.trending-hashtags" defaultUrl="http://localhost:8081/trending-hashtags">
+        <requests xsi:type="HttpGetRequest" name="latestStats" url="/latest" responseBody="//@services.2/@dtos.1"/>
+      </clients>
+    </api>
     <dtos name="WindowedHashtagWithLikeCount">
       <fields name="hashtagName" type="String"/>
       <fields name="likeCount" type="Long"/>
       <fields name="windowStart" type="Long"/>
       <fields name="windowEnd" type="Long"/>
+    </dtos>
+    <dtos name="TrendingHashtagResponseDTO">
+      <fields name="hashtags" type="List&lt;WindowedHashtagWithLikeCount>"/>
     </dtos>
     <entities name="TrendingHashtag">
       <idField name="id" type="UUID"/>

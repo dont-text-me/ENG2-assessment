@@ -2,8 +2,6 @@ package com.eng2.assessment.thm.events;
 
 import static com.eng2.assessment.thm.events.TrendingHashtagsStream.TOPIC_HASHTAG_SUMMARY;
 
-import com.eng2.assessment.thm.domain.TrendingHashtag;
-import com.eng2.assessment.thm.events.dto.WindowedHashtagWIthLikeCount;
 import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.Topic;
@@ -12,6 +10,8 @@ import java.util.List;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import thm.domain.TrendingHashtag;
+import thm.dto.WindowedHashtagWithLikeCount;
 
 @KafkaListener(batch = true)
 public class TrendingHashtagSummaryConsumer {
@@ -21,8 +21,8 @@ public class TrendingHashtagSummaryConsumer {
       LoggerFactory.getLogger(TrendingHashtagSummaryConsumer.class);
 
   @Topic(TOPIC_HASHTAG_SUMMARY)
-  void reportHashtagStatistics(List<ConsumerRecord<String, WindowedHashtagWIthLikeCount>> records) {
-    List<WindowedHashtagWIthLikeCount> counts =
+  void reportHashtagStatistics(List<ConsumerRecord<String, WindowedHashtagWithLikeCount>> records) {
+    List<WindowedHashtagWithLikeCount> counts =
         records.stream().map(ConsumerRecord::value).toList();
 
     List<TrendingHashtag> trendingHashtags =

@@ -6,8 +6,7 @@ jpa:
         format_sql: true
         hbm2ddl:
           auto: create-drop
-
-videos:
-  url: /videos
-users:
-  url: /users
+resource-urls:
+  vm:
+    videos: /videos
+    users: /users

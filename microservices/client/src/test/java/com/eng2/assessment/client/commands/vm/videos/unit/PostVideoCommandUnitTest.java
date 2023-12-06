@@ -11,6 +11,7 @@ import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
 import io.micronaut.http.HttpStatus;
+import io.micronaut.http.MediaType;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.UUID;
@@ -43,6 +44,7 @@ public class PostVideoCommandUnitTest {
           WireMock.post("/videos")
               .willReturn(
                   ResponseDefinitionBuilder.responseDefinition()
+                      .withHeader("Content-Type", MediaType.APPLICATION_JSON)
                       .withStatus(HttpStatus.CREATED.getCode())
                       .withBody("Created video with ID " + UUID.randomUUID())));
 
@@ -61,6 +63,7 @@ public class PostVideoCommandUnitTest {
           WireMock.post("/videos")
               .willReturn(
                   ResponseDefinitionBuilder.responseDefinition()
+                      .withHeader("Content-Type", MediaType.APPLICATION_JSON)
                       .withStatus(statusCode)
                       .withBody("Error!")));
 

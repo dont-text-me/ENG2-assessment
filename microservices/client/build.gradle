@@ -9,22 +9,19 @@ group = "com.eng2.assessment.client"
 repositories {
 	mavenCentral()
 }
-// Do not run the dependency microservices, they are only needed to import their classes
-gradle.startParameter.excludedTaskNames.add(":microservices:video-microservice:run")
-gradle.startParameter.excludedTaskNames.add(":microservices:trending-hashtag-microservice:run")
-gradle.startParameter.excludedTaskNames.add(":microservices:subscription-microservice:run")
 
 dependencies {
 	annotationProcessor("info.picocli:picocli-codegen")
 	annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
 	implementation("info.picocli:picocli")
-	implementation(project(":microservices:trending-hashtag-microservice"))
-	implementation(project(":microservices:video-microservice"))
-	implementation(project(":microservices:subscription-microservice"))
+	implementation(project(":microservices:generated-shared"))
 	implementation("io.micronaut.picocli:micronaut-picocli")
 	implementation("io.micronaut.serde:micronaut-serde-jackson")
 	implementation("io.micronaut:micronaut-http-client")
+	implementation(project(":microservices:generated-shared"))
+	runtimeOnly("org.yaml:snakeyaml")
 	runtimeOnly("ch.qos.logback:logback-classic")
+	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
 	testImplementation("io.micronaut:micronaut-http-client")
 	testImplementation("org.assertj:assertj-core:3.24.2")

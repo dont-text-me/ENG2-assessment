@@ -1,8 +1,8 @@
 package com.eng2.assessment.thm.controllers;
 
+import static com.eng2.assessment.thm.shared.Utils.convertEntityList;
 import static com.eng2.assessment.thm.shared.Utils.trendingHashtagOrdering;
 
-import com.eng2.assessment.thm.domain.TrendingHashtag;
 import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.http.annotation.Controller;
@@ -10,13 +10,13 @@ import io.micronaut.http.annotation.Get;
 import jakarta.inject.Inject;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
 import java.util.TreeSet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import thm.api.ITrendingHashtagsClient;
+import thm.domain.TrendingHashtag;
+import thm.dto.TrendingHashtagResponseDTO;
 
 @Controller("/trending-hashtags")
-public class TrendingHashtagController {
+public class TrendingHashtagController implements ITrendingHashtagsClient {
   @Inject private TrendingHashtagRepository repo;
 
   @Value(value = "${trending-hashtags.window-size: `1h`}")
@@ -25,10 +25,8 @@ public class TrendingHashtagController {
   @Value(value = "${trending-hashtags.leaderboard-size: 10}")
   private Integer leaderboardSize;
 
-  private static final Logger logger = LoggerFactory.getLogger(TrendingHashtagController.class);
-
   @Get("/latest")
-  public List<TrendingHashtag> latestStats() {
+  public TrendingHashtagResponseDTO latestStats() {
 
     TreeSet<TrendingHashtag> leaderboard = new TreeSet<>(trendingHashtagOrdering);
 
@@ -36,7 +34,6 @@ public class TrendingHashtagController {
             Instant.now().toEpochMilli(), Instant.now().minus(windowSize).toEpochMilli())
         .forEach(
             entry -> {
-              logger.info(entry.toString());
               TrendingHashtag previousValue =
                   leaderboard.stream()
                       .filter(it -> it.getHashtagName().equals(entry.getHashtagName()))
@@ -54,8 +51,6 @@ public class TrendingHashtagController {
               }
             });
 
-    logger.info(leaderboard.toString());
-
-    return leaderboard.stream().toList();
+    return convertEntityList(leaderboard.stream().toList());
   }
 }

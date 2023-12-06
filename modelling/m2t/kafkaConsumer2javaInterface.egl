@@ -3,13 +3,13 @@ import io.micronaut.configuration.kafka.annotation.KafkaClient;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.Topic;
 import java.util.*;
-import [%=kp.eContainer.name.getMicroserviceAcronym()%].dto.*;
+[%for (microservice in kc.eContainer.eContainer.services){%]
+import [%=microservice.name.getMicroserviceAcronym()%].dto.*;
+[%}%]
 
-@KafkaClient
-public interface [%=kp.name%] {
-  [%for (topic in kp.topicsWrittenTo){%]
-  	@Topic("[%=topic.name%]")
-  	void produce[%=topic.name.kebabToCamelCase()%]Message(@KafkaKey [%=topic.kafkaKey.type%] [%=topic.kafkaKey.name%], [%=topic.kafkaValue.name%] value);
+public interface I[%=kc.name%] {
+  [%for (topic in kc.topicsReadFrom){%]
+  	void consume[%=topic.name.kebabToCamelCase()%]Message([%=topic.kafkaKey.type%] [%=topic.kafkaKey.name%], [%=topic.kafkaValue.name%] value);
   [%}%]
 }
 

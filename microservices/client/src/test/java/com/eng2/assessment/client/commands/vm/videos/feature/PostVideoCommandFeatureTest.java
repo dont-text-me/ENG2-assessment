@@ -2,13 +2,9 @@ package com.eng2.assessment.client.commands.vm.videos.feature;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.eng2.assessment.client.clients.vm.UsersClient;
-import com.eng2.assessment.client.clients.vm.VideosClient;
 import com.eng2.assessment.client.commands.vm.videos.PostVideoCommand;
 import com.eng2.assessment.client.utils.AbstractFeatureTest;
 import com.eng2.assessment.client.utils.FeatureTestExtension;
-import com.eng2.assessment.vm.domain.Video;
-import com.eng2.assessment.vm.dto.UserDTO;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
@@ -18,6 +14,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import vm.api.UsersClient;
+import vm.api.VideosClient;
+import vm.dto.UserDTO;
+import vm.dto.VideoResponseDTO;
 
 @MicronautTest
 @Tag("feature-test")
@@ -79,13 +79,13 @@ public class PostVideoCommandFeatureTest extends AbstractFeatureTest {
           new String[] {"-a", "someAuthor", "-t", "Me at the zoo", "-h", "tiger, lion, giraffe"};
       PicocliRunner.run(sut, ctx, args);
       assertThat(baos.toString()).contains("Success!").contains("Created video with ID");
-      assertThat(videosClient.list(null, null)).hasSize(1);
+      assertThat(videosClient.list(null, null).result()).hasSize(1);
       // Using the client instead of the CLI to retrieve users to not depend on the correctness of
       // the command's implementation
-      Video result = videosClient.list(null, null).get(0);
-      assertThat(result.getTitle()).isEqualTo("Me at the zoo");
-      assertThat(result.getAuthor().getUsername()).isEqualTo("someAuthor");
-      assertThat(result.getHashtagIds()).containsExactlyInAnyOrder("tiger", "lion", "giraffe");
+      VideoResponseDTO result = videosClient.list(null, null).result().get(0);
+      assertThat(result.title()).isEqualTo("Me at the zoo");
+      assertThat(result.authorUsername()).isEqualTo("someAuthor");
+      assertThat(result.hashtagIds()).containsExactlyInAnyOrder("tiger", "lion", "giraffe");
     }
   }
 }

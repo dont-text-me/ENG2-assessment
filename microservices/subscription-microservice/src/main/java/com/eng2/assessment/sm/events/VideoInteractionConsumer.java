@@ -1,15 +1,14 @@
 package com.eng2.assessment.sm.events;
 
-import static com.eng2.assessment.vm.events.Topics.TOPIC_VIDEO_POSTED;
-import static com.eng2.assessment.vm.events.Topics.TOPIC_VIDEO_VIEWED;
+import static com.eng2.assessment.sm.utils.UserUtils.hasUserWatchedVideo;
+import static com.eng2.assessment.sm.utils.VideoUtils.addViewer;
+import static com.eng2.assessment.sm.utils.VideoUtils.incrementViewCount;
+import static shared.Topics.TOPIC_VIDEO_POSTED;
+import static shared.Topics.TOPIC_VIDEO_VIEWED;
 
-import com.eng2.assessment.sm.domain.Hashtag;
-import com.eng2.assessment.sm.domain.User;
-import com.eng2.assessment.sm.domain.Video;
 import com.eng2.assessment.sm.repositories.HashtagRepository;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import com.eng2.assessment.sm.repositories.VideoRepository;
-import com.eng2.assessment.vm.dto.VideoInteractionDetailsDTO;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.Topic;
@@ -20,13 +19,18 @@ import java.util.Set;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sm.domain.Hashtag;
+import sm.domain.User;
+import sm.domain.Video;
+import sm.events.IVideoInteractionConsumer;
+import vm.dto.VideoInteractionDetailsDTO;
 
 /**
  * Handles incoming messages from VM and recreates (with minimal information) the links between
  * hashtags, users and videos.
  */
 @KafkaListener(groupId = "subscription-microservice")
-public class VideoInteractionConsumer {
+public class VideoInteractionConsumer implements IVideoInteractionConsumer {
   private static final Logger logger = LoggerFactory.getLogger(VideoInteractionConsumer.class);
 
   @Inject private HashtagRepository hashtagRepository;
@@ -35,25 +39,25 @@ public class VideoInteractionConsumer {
 
   @Topic(TOPIC_VIDEO_POSTED)
   @Transactional
-  void processPosted(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
+  public void consumeVideoPostedMessage(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
     createMissingEntities(videoId, details);
   }
 
   @Topic(TOPIC_VIDEO_VIEWED)
   @Transactional
-  void processViewed(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
+  public void consumeVideoViewedMessage(@KafkaKey UUID videoId, VideoInteractionDetailsDTO details) {
     createMissingEntities(videoId, details);
 
     Video video = videoRepository.findById(videoId).get();
     User user = userRepository.findByUserNameEqual(details.userName()).get();
-    if (!user.hasWatchedVideo(videoId)) {
+    if (!hasUserWatchedVideo(user, videoId)) {
       logger.info(
           String.format(
               "User %s has watched video %s for the first time. Adding new link to database",
               details.userName(), details.videoTitle()));
-      video.addViewer(user);
+      addViewer(video, user);
     }
-    video.incrementViewCount();
+    incrementViewCount(video);
     videoRepository.update(video);
   }
 

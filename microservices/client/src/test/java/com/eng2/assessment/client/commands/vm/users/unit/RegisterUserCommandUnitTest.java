@@ -5,7 +5,6 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.eng2.assessment.client.commands.vm.users.RegisterUserCommand;
-import com.eng2.assessment.vm.dto.UserDTO;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
@@ -15,11 +14,13 @@ import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
 import io.micronaut.http.HttpStatus;
+import io.micronaut.http.MediaType;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import vm.dto.UserDTO;
 
 public class RegisterUserCommandUnitTest {
   @RegisterExtension
@@ -46,6 +47,7 @@ public class RegisterUserCommandUnitTest {
               .willReturn(
                   ResponseDefinitionBuilder.responseDefinition()
                       .withStatus(HttpStatus.CREATED.getCode())
+                      .withHeader("Content-Type", MediaType.APPLICATION_JSON)
                       .withBody("Created user with username firstUser")));
 
       String[] args = new String[] {"-u", "someUser"};
@@ -65,6 +67,7 @@ public class RegisterUserCommandUnitTest {
               .willReturn(
                   ResponseDefinitionBuilder.responseDefinition()
                       .withStatus(HttpStatus.BAD_REQUEST.getCode())
+                      .withHeader("Content-Type", MediaType.APPLICATION_JSON)
                       .withBody("Error!")));
 
       String[] args = new String[] {"-u", "someUser"};

@@ -4,13 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-import com.eng2.assessment.sm.domain.Hashtag;
-import com.eng2.assessment.sm.domain.User;
-import com.eng2.assessment.sm.events.SubscriptionProducer;
 import com.eng2.assessment.sm.repositories.HashtagRepository;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import com.eng2.assessment.sm.utils.DbCleanupExtension;
-import com.eng2.assessment.sm.utils.SubscriptionsClient;
 import io.micronaut.context.annotation.Replaces;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
@@ -20,6 +16,11 @@ import jakarta.inject.Singleton;
 import java.util.Set;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import sm.api.SubscriptionsClient;
+import sm.domain.Hashtag;
+import sm.domain.User;
+import sm.dto.UserSubscriptionMessageValueDTO;
+import sm.events.SubscriptionProducer;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)
@@ -63,7 +64,8 @@ public class SubscriptionsControllerTest {
 
       assertThat(result.status().getCode()).isEqualTo(HttpStatus.OK.getCode());
       assertThat(result.body()).contains("User VlogEnjoyer subscribed to hashtag Vlog");
-      verify(mockProducer).userSubscribed("VlogEnjoyer", "Vlog");
+      verify(mockProducer)
+          .produceUserSubscribedMessage("VlogEnjoyer", new UserSubscriptionMessageValueDTO("Vlog"));
       User userPostUpdate = userRepo.findByUserNameEqual("VlogEnjoyer").get();
       assertThat(userPostUpdate.getSubscriptions()).hasSize(1);
       assertThat(userPostUpdate.getSubscriptions().iterator().next())
@@ -133,7 +135,9 @@ public class SubscriptionsControllerTest {
 
       // assertThat(result.status().getCode()).isEqualTo(HttpStatus.OK.getCode());
       assertThat(result.body()).contains("User VlogEnjoyer unsubscribed from hashtag Vlog");
-      verify(mockProducer).userUnsubscribed("VlogEnjoyer", "Vlog");
+      verify(mockProducer)
+          .produceUserUnsubscribedMessage(
+              "VlogEnjoyer", new UserSubscriptionMessageValueDTO("Vlog"));
       User userPostUpdate = userRepo.findByUserNameEqual("VlogEnjoyer").get();
       assertThat(userPostUpdate.getSubscriptions()).isEmpty();
     }

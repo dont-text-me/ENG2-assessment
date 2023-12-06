@@ -130,7 +130,8 @@ public class ListVideosCommandUnitTest {
               .willReturn(
                   ResponseDefinitionBuilder.responseDefinition()
                       .withStatus(HttpStatus.OK.getCode())
-                      .withHeader("Content-Type", MediaType.APPLICATION_JSON)));
+                      .withHeader("Content-Type", MediaType.APPLICATION_JSON)
+                      .withBody(getVideoList())));
       String[] args = new String[] {"-h", "someHashtag", "-a", "SomeUser"};
 
       PicocliRunner.run(sut, ctx, args);

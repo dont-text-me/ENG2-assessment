@@ -2,15 +2,10 @@ package com.eng2.assessment.sm.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.eng2.assessment.sm.domain.Hashtag;
-import com.eng2.assessment.sm.domain.User;
-import com.eng2.assessment.sm.domain.Video;
-import com.eng2.assessment.sm.dto.VideoRecommendationDTO;
 import com.eng2.assessment.sm.repositories.HashtagRepository;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import com.eng2.assessment.sm.repositories.VideoRepository;
 import com.eng2.assessment.sm.utils.DbCleanupExtension;
-import com.eng2.assessment.sm.utils.RecommendationsClient;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.serde.ObjectMapper;
@@ -21,6 +16,12 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import sm.api.RecommendationsClient;
+import sm.domain.Hashtag;
+import sm.domain.User;
+import sm.domain.Video;
+import sm.dto.VideoDTO;
+import sm.dto.VideoRecommendationDTO;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)
@@ -67,12 +68,12 @@ public class RecommendationsControllerTest {
 
     assertThat(result.getStatus().getCode()).isEqualTo(HttpStatus.OK.getCode());
 
-    List<Video> videos = result.body().result();
+    List<VideoDTO> videos = result.body().result();
 
     assertThat(videos)
         .isNotNull()
         .hasSize(10)
-        .isSortedAccordingTo(Comparator.comparing(Video::getViewCount).reversed())
+        .isSortedAccordingTo(Comparator.comparing(VideoDTO::viewCount).reversed())
         .allMatch(it -> it.hashtagNames().contains("Zoo"));
   }
 
@@ -119,17 +120,16 @@ public class RecommendationsControllerTest {
 
     assertThat(result.getStatus().getCode()).isEqualTo(HttpStatus.OK.getCode());
 
-    List<Video> videos = result.body().result();
+    List<VideoDTO> videos = result.body().result();
 
     assertThat(videos)
         .isNotNull()
         .hasSize(8)
-        .isSortedAccordingTo(Comparator.comparing(Video::getViewCount).reversed())
+        .isSortedAccordingTo(Comparator.comparing(VideoDTO::viewCount).reversed())
         .allMatch(it -> it.hashtagNames().contains("Zoo"))
         .noneMatch(
             it ->
-                Integer.parseInt(it.getTitle().split(" ")[1])
-                    > 7); // user has watched video 8 onwards
+                Integer.parseInt(it.title().split(" ")[1]) > 7); // user has watched video 8 onwards
   }
 
   @Test
@@ -168,16 +168,16 @@ public class RecommendationsControllerTest {
 
     assertThat(result.getStatus().getCode()).isEqualTo(HttpStatus.OK.getCode());
 
-    List<Video> videos = result.body().result();
+    List<VideoDTO> videos = result.body().result();
 
     assertThat(videos)
         .isNotNull()
         .hasSize(8)
-        .isSortedAccordingTo(Comparator.comparing(Video::getViewCount).reversed())
+        .isSortedAccordingTo(Comparator.comparing(VideoDTO::viewCount).reversed())
         .allMatch(it -> it.hashtagNames().contains("Zoo"))
         .noneMatch(
             it ->
-                Integer.parseInt(it.getTitle().split(" ")[1])
+                Integer.parseInt(it.title().split(" ")[1])
                     > 7); // Video 8 onwards are tagged with #Other
   }
 

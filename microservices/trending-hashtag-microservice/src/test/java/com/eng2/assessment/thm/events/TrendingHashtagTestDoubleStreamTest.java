@@ -1,11 +1,9 @@
 package com.eng2.assessment.thm.events;
 
 import static com.eng2.assessment.thm.events.TrendingHashtagsStream.TOPIC_HASHTAG_SUMMARY;
-import static com.eng2.assessment.vm.events.Topics.TOPIC_VIDEO_LIKED;
 import static org.assertj.core.api.Assertions.assertThat;
+import static shared.Topics.TOPIC_VIDEO_LIKED;
 
-import com.eng2.assessment.thm.events.dto.WindowedHashtagWIthLikeCount;
-import com.eng2.assessment.vm.dto.VideoInteractionDetailsDTO;
 import io.micronaut.configuration.kafka.serde.CompositeSerdeRegistry;
 import io.micronaut.configuration.kafka.streams.ConfiguredStreamBuilder;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
@@ -19,6 +17,8 @@ import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.junit.jupiter.api.Test;
+import thm.dto.WindowedHashtagWithLikeCount;
+import vm.dto.VideoInteractionDetailsDTO;
 
 @MicronautTest(environments = "no-streams")
 public class TrendingHashtagTestDoubleStreamTest {
@@ -38,11 +38,11 @@ public class TrendingHashtagTestDoubleStreamTest {
               TOPIC_VIDEO_LIKED,
               new UUIDSerializer(),
               serdeRegistry.getSerializer(VideoInteractionDetailsDTO.class));
-      TestOutputTopic<String, WindowedHashtagWIthLikeCount> outputTopic =
+      TestOutputTopic<String, WindowedHashtagWithLikeCount> outputTopic =
           testDriver.createOutputTopic(
               TOPIC_HASHTAG_SUMMARY,
               new StringDeserializer(),
-              serdeRegistry.getDeserializer(WindowedHashtagWIthLikeCount.class));
+              serdeRegistry.getDeserializer(WindowedHashtagWithLikeCount.class));
 
       inputTopic.pipeInput(
           UUID.randomUUID(),
@@ -65,11 +65,11 @@ public class TrendingHashtagTestDoubleStreamTest {
               TOPIC_VIDEO_LIKED,
               new UUIDSerializer(),
               serdeRegistry.getSerializer(VideoInteractionDetailsDTO.class));
-      TestOutputTopic<String, WindowedHashtagWIthLikeCount> outputTopic =
+      TestOutputTopic<String, WindowedHashtagWithLikeCount> outputTopic =
           testDriver.createOutputTopic(
               TOPIC_HASHTAG_SUMMARY,
               new StringDeserializer(),
-              serdeRegistry.getDeserializer(WindowedHashtagWIthLikeCount.class));
+              serdeRegistry.getDeserializer(WindowedHashtagWithLikeCount.class));
 
       inputTopic.pipeInput(
           UUID.randomUUID(),
@@ -94,11 +94,11 @@ public class TrendingHashtagTestDoubleStreamTest {
               TOPIC_VIDEO_LIKED,
               new UUIDSerializer(),
               serdeRegistry.getSerializer(VideoInteractionDetailsDTO.class));
-      TestOutputTopic<String, WindowedHashtagWIthLikeCount> outputTopic =
+      TestOutputTopic<String, WindowedHashtagWithLikeCount> outputTopic =
           testDriver.createOutputTopic(
               TOPIC_HASHTAG_SUMMARY,
               new StringDeserializer(),
-              serdeRegistry.getDeserializer(WindowedHashtagWIthLikeCount.class));
+              serdeRegistry.getDeserializer(WindowedHashtagWithLikeCount.class));
 
       inputTopic.pipeInput(
           UUID.randomUUID(),

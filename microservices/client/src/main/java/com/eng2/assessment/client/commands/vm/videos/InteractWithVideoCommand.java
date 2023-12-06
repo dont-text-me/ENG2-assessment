@@ -1,11 +1,11 @@
 package com.eng2.assessment.client.commands.vm.videos;
 
-import com.eng2.assessment.client.clients.vm.VideosClient;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
 import java.util.UUID;
 import picocli.CommandLine;
+import vm.api.VideosClient;
 
 @CommandLine.Command(name = "interact-with-video", mixinStandardHelpOptions = true)
 public class InteractWithVideoCommand implements Runnable {

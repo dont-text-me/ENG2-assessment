@@ -1,15 +1,10 @@
 package com.eng2.assessment.client.commands.vm.videos.feature;
 
-import static com.eng2.assessment.client.utils.TestContainerServicesInfo.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.eng2.assessment.client.clients.vm.UsersClient;
-import com.eng2.assessment.client.clients.vm.VideosClient;
 import com.eng2.assessment.client.commands.vm.videos.ListVideosCommand;
 import com.eng2.assessment.client.utils.AbstractFeatureTest;
 import com.eng2.assessment.client.utils.FeatureTestExtension;
-import com.eng2.assessment.vm.dto.UserDTO;
-import com.eng2.assessment.vm.dto.VideoDTO;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
@@ -21,6 +16,10 @@ import java.util.List;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testcontainers.shaded.org.apache.commons.lang3.StringUtils;
+import vm.api.UsersClient;
+import vm.api.VideosClient;
+import vm.dto.UserDTO;
+import vm.dto.VideoDTO;
 
 @MicronautTest
 @Tag("feature-test")
@@ -66,7 +65,7 @@ public class ListVideosCommandFeatureTest extends AbstractFeatureTest {
   public void canListVideos() {
     usersClient.registerUser(new UserDTO("AnimalPlanet"));
     videosClient.publish(
-        new VideoDTO("Me at the zoo", "AnimalPlanet", List.of("Zoo", "Giraffe", "Gorilla")));
+        new VideoDTO("AnimalPlanet", List.of("Zoo", "Giraffe", "Gorilla"), "Me at the zoo"));
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
       PicocliRunner.run(sut, ctx);
@@ -89,9 +88,9 @@ public class ListVideosCommandFeatureTest extends AbstractFeatureTest {
     usersClient.registerUser(new UserDTO("OtherUser"));
 
     for (int i = 0; i < 10; i++) {
-      videosClient.publish(new VideoDTO("Included video " + i, "AnimalPlanet", List.of("spam")));
+      videosClient.publish(new VideoDTO("AnimalPlanet", List.of("spam"), "Included video " + i));
       Thread.sleep(100L);
-      videosClient.publish(new VideoDTO("Excluded video " + i, "OtherUser", List.of("spam")));
+      videosClient.publish(new VideoDTO("OtherUser", List.of("spam"), "Excluded video " + i));
     }
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
@@ -110,9 +109,9 @@ public class ListVideosCommandFeatureTest extends AbstractFeatureTest {
 
     for (int i = 0; i < 10; i++) {
       videosClient.publish(
-          new VideoDTO("Included video " + i, "AnimalPlanet", List.of("Included")));
+          new VideoDTO("AnimalPlanet", List.of("Included"), "Included video " + i));
       Thread.sleep(100L);
-      videosClient.publish(new VideoDTO("Excluded video " + i, "AnimalPlanet", List.of("spam")));
+      videosClient.publish(new VideoDTO("AnimalPlanet", List.of("spam"), "Excluded video " + i));
     }
 
     try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {

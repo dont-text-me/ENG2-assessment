@@ -1,12 +1,11 @@
 package com.eng2.assessment.client.commands.vm.videos;
 
-import com.eng2.assessment.client.clients.vm.VideosClient;
 import com.eng2.assessment.client.utils.formatters.VideoFormatter;
-import com.eng2.assessment.vm.domain.Video;
 import jakarta.inject.Inject;
-import java.util.List;
 import java.util.stream.Collectors;
 import picocli.CommandLine;
+import vm.api.VideosClient;
+import vm.dto.VideoResultsDTO;
 
 @CommandLine.Command(name = "list-videos", mixinStandardHelpOptions = true)
 public class ListVideosCommand implements Runnable {
@@ -26,8 +25,8 @@ public class ListVideosCommand implements Runnable {
 
   @Override
   public void run() {
-    List<Video> result = client.list(authorUsername, hashtagName);
-    if (result == null || result.isEmpty()) {
+    VideoResultsDTO result = client.list(authorUsername, hashtagName);
+    if (result == null || result.result() == null || result.result().isEmpty()) {
       if (authorUsername != null || hashtagName != null) {
         System.out.println("No videos matching the filter criteria found");
       } else {
@@ -35,7 +34,7 @@ public class ListVideosCommand implements Runnable {
       }
     } else {
       System.out.println(
-          result.stream()
+          result.result().stream()
               .map(VideoFormatter::prettyPrintVideo)
               .collect(Collectors.joining("--------------------------\n")));
     }

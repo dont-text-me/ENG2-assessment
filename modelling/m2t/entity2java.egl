@@ -3,8 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.micronaut.serde.annotation.Serdeable;
 import java.time.Instant;
 import jakarta.persistence.*;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Serdeable
@@ -25,7 +24,7 @@ public class [%=e.name%] {
 [* Generate entity-specific fields i.e. ones that are not part of any relationship *]
 	[%for (field in e.fields){%]
 	@Column(nullable = [%=field.isNullable%], unique = [%=field.isUnique%])
-	private [%=field.type%] [%=field.name%];
+	private [%=field.type%] [%=field.name%][%=field.hasDefaultValue ? " = " + field.defaultValue else ""%];
 	
 	public [%=field.type%] get[%=field.name.ftuc()%](){return this.[%=field.name%];}
 	

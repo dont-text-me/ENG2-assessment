@@ -13,7 +13,7 @@ jpa:
   default:
     entity-scan:
       packages:
-        - com.eng2.assessment.thm.domain
+        - thm.domain
     properties:
       hibernate:
         hbm2ddl:

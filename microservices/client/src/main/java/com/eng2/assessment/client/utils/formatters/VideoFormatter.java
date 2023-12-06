@@ -1,18 +1,18 @@
 package com.eng2.assessment.client.utils.formatters;
 
-import com.eng2.assessment.vm.domain.Video;
 import java.time.ZoneOffset;
+import vm.dto.VideoResponseDTO;
 
 public class VideoFormatter {
-  public static String prettyPrintVideo(Video video) {
+  public static String prettyPrintVideo(VideoResponseDTO video) {
     return String.format(
         "%s%nID: %s%nPosted at: %s%nAuthor: %s%nLikes: %s%nDislikes: %s%nHashtags: %s%n",
-        video.getTitle(),
-        video.getId(),
-        video.getPublishedAt().atOffset(ZoneOffset.UTC),
-        video.getAuthor().getUsername(),
-        video.getLikeCount(),
-        video.getDislikeCount(),
-        String.join(", ", video.getHashtagIds()));
+        video.title(),
+        video.id(),
+        video.publishedAt().atOffset(ZoneOffset.UTC),
+        video.authorUsername(),
+        video.likeCount(),
+        video.dislikeCount(),
+        String.join(", ", video.hashtagIds()));
   }
 }

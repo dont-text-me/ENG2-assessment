@@ -1,8 +1,8 @@
 package com.eng2.assessment.sm.controllers;
 
-import com.eng2.assessment.sm.domain.Hashtag;
-import com.eng2.assessment.sm.domain.User;
-import com.eng2.assessment.sm.events.SubscriptionProducer;
+import static com.eng2.assessment.sm.utils.UserUtils.addSubscription;
+import static com.eng2.assessment.sm.utils.UserUtils.removeSubscription;
+
 import com.eng2.assessment.sm.repositories.HashtagRepository;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import io.micronaut.http.HttpResponse;
@@ -13,9 +13,14 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sm.api.ISubscriptionsClient;
+import sm.domain.Hashtag;
+import sm.domain.User;
+import sm.dto.UserSubscriptionMessageValueDTO;
+import sm.events.SubscriptionProducer;
 
 @Controller("/subscriptions")
-public class SubscriptionsController {
+public class SubscriptionsController implements ISubscriptionsClient {
 
   private static final Logger logger = LoggerFactory.getLogger(SubscriptionsController.class);
 
@@ -39,9 +44,10 @@ public class SubscriptionsController {
           String.format("User %s is already subscribed to hashtag %s", userName, hashtagName));
     }
 
-    user.addSubscription(hashtag);
+    addSubscription(user, hashtag);
     userRepo.update(user);
-    producer.userSubscribed(userName, hashtagName);
+    producer.produceUserSubscribedMessage(
+        userName, new UserSubscriptionMessageValueDTO(hashtagName));
     logger.info(String.format("User %s subscribed to hashtag %s", userName, hashtagName));
     return HttpResponse.ok(
         String.format("User %s subscribed to hashtag %s", userName, hashtagName));
@@ -63,9 +69,10 @@ public class SubscriptionsController {
           String.format("User %s is not subscribed to hashtag %s", userName, hashtagName));
     }
 
-    user.removeSubscription(hashtag);
+    removeSubscription(user, hashtag);
     userRepo.update(user);
-    producer.userUnsubscribed(userName, hashtagName);
+    producer.produceUserUnsubscribedMessage(
+        userName, new UserSubscriptionMessageValueDTO(hashtagName));
     logger.info(String.format("User %s unsubscribed from hashtag %s", userName, hashtagName));
     return HttpResponse.ok(
         String.format("User %s unsubscribed from hashtag %s", userName, hashtagName));

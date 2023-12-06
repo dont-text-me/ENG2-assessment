@@ -12,3 +12,8 @@ recommendations:
   url: /recommendations
 subscriptions:
   url: /subscriptions
+
+resource-urls:
+  sm:
+    recommendations: /recommendations
+    subscriptions: /subscriptions
