@@ -16,7 +16,7 @@ public class ListTrendingHashtagsCommand implements Runnable {
   public void run() {
     TrendingHashtagResponseDTO result = client.latestStats();
 
-    if (result.hashtags().isEmpty()) {
+    if (result.hashtags() == null || result.hashtags().isEmpty()) {
       System.out.println("No statistics available. Please try again later");
     } else {
       Date wStart = new Date(result.hashtags().get(0).windowStart()),

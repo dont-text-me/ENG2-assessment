@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import sm.domain.User;
+import vm.dto.UserRegisteredMessageValueDTO;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)
@@ -23,7 +24,7 @@ public class UserCreationConsumerTest {
 
   @Test
   public void handlesNewUser() {
-    sut.processUserRegistered("NewUser", UUID.randomUUID());
+    sut.processUserRegistered("NewUser", new UserRegisteredMessageValueDTO(UUID.randomUUID()));
 
     User result = userRepo.findByUserNameEqual("NewUser").orElse(null);
 
@@ -43,7 +44,7 @@ public class UserCreationConsumerTest {
     user.setViewedVideos(Collections.emptySet());
     userRepo.save(user);
 
-    sut.processUserRegistered("ExistingUser", UUID.randomUUID());
+    sut.processUserRegistered("ExistingUser", new UserRegisteredMessageValueDTO(UUID.randomUUID()));
 
     List<User> result = userRepo.findAll();
 
