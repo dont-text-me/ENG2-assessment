@@ -35,21 +35,26 @@
 ## Running the services locally
 
 ### Step 1
+Run the code generator
+```shell
+./gradlew modelling:m2t:run
+```
+### Step 2
 Build docker images
 ```shell
 ./gradlew dockerBuild
 ```
-### Step 2
+### Step 3
 Build client jar
 ```shell
 ./gradlew microservices:client:shadowJar
 ```
-### Step 3
+### Step 4
 Start the kafka cluster, microservices and databases
 ```shell
 docker compose up
 ```
-### Step 4
+### Step 5
 Use CLI to interact with the apps. (UNIX/git bash/WSL) 
 ```shell
 ./video-services.sh your-command
