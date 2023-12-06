@@ -9,6 +9,7 @@ import com.eng2.assessment.client.commands.vm.videos.InteractWithVideoCommand;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+import enums.VideoInteractionType;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
@@ -43,8 +44,8 @@ public class InteractWithVideoCommandUnitTest {
   }
 
   @ParameterizedTest
-  @EnumSource(InteractWithVideoCommand.VideoInteractionType.class)
-  public void canInteractWithVideo(InteractWithVideoCommand.VideoInteractionType type) {
+  @EnumSource(VideoInteractionType.class)
+  public void canInteractWithVideo(VideoInteractionType type) {
     UUID videoId = UUID.randomUUID();
     String userName = "Some-user";
 
@@ -73,15 +74,13 @@ public class InteractWithVideoCommandUnitTest {
    * watch) and some error codes (400, 404).
    */
   private static Stream<Arguments> interactionTypeXErrorCode() {
-    return Sets.cartesianProduct(
-            Set.of(InteractWithVideoCommand.VideoInteractionType.values()), Set.of(400, 404))
-        .stream()
+    return Sets.cartesianProduct(Set.of(VideoInteractionType.values()), Set.of(400, 404)).stream()
         .map(it -> Arguments.of(it.get(0), it.get(1)));
   }
 
   @ParameterizedTest
   @MethodSource("interactionTypeXErrorCode")
-  public void handlesError(InteractWithVideoCommand.VideoInteractionType type, Integer status) {
+  public void handlesError(VideoInteractionType type, Integer status) {
     UUID videoId = UUID.randomUUID();
     String userName = "Some-user";
 

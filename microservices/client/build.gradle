@@ -46,6 +46,14 @@ micronaut {
 	}
 }
 
+sourceSets {
+	main{
+		java{
+			srcDir "build/generated/egx"
+		}
+	}
+}
+
 tasks.register('unitTests', Test) {
 	useJUnitPlatform {
 		excludeTags "feature-test"

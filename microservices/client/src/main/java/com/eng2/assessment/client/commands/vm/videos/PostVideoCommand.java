@@ -1,5 +1,6 @@
 package com.eng2.assessment.client.commands.vm.videos;
 
+import commands.APostVideoCommand;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
@@ -11,36 +12,16 @@ import picocli.CommandLine;
 import vm.api.VideosClient;
 import vm.dto.VideoDTO;
 
-@CommandLine.Command(name = "post-video", mixinStandardHelpOptions = true)
-public class PostVideoCommand implements Runnable {
+@CommandLine.Command(name = "post-video")
+public class PostVideoCommand extends APostVideoCommand {
   @Inject private VideosClient client;
 
   private static final Logger logger = LoggerFactory.getLogger(PostVideoCommand.class);
 
-  @CommandLine.Option(
-      names = {"-a", "--author-username"},
-      required = true,
-      description =
-          "The username of the user that will be recorded as this video's author. Must be a valid user")
-  private String authorUsername;
-
-  @CommandLine.Option(
-      names = {"-t", "--title"},
-      required = true,
-      description = "The title of the video to be posted")
-  private String title;
-
-  @CommandLine.Option(
-      names = {"-h", "--hashtags"},
-      required = true,
-      description =
-          "The list of hashtags to tag the video with. Please provide a single string, with the hashtags separated by commas. Note that hashtag names are case sensitive.")
-  private String hashtagsList;
-
   @Override
   public void run() {
-    List<String> hashtags = Arrays.stream(hashtagsList.split(",")).map(String::trim).toList();
-    VideoDTO detais = new VideoDTO(authorUsername, hashtags, title);
+    List<String> hashtags = Arrays.stream(this.hashtagsList.split(",")).map(String::trim).toList();
+    VideoDTO detais = new VideoDTO(this.authorUsername, hashtags, this.title);
     logger.info("Attempting to create a video with these details: " + detais);
 
     HttpResponse<String> result = client.publish(detais);

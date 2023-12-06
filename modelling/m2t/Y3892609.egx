@@ -103,6 +103,37 @@ rule ClientDefinition2APIInterface
 	target : "../../microservices/generated-shared/build/generated/egx/" + cd.eContainer.eContainer.name.getMicroserviceAcronym() + "/api/" + "I" + cd.name.ftuc() + ".java"
 }
 
+
+rule CLIEnum2JavaEnum
+    transform enum : CliOptionJavaEnum {
+
+	template : "cliClientOptionEnum2javaEnum.egl"
+
+	parameters : Map{
+		"m" = enum.eContainer(),
+		"packageName" =  "enums"
+	}
+
+	target : "../../microservices/client/build/generated/egx/enums/" + enum.name.ftuc() + ".java"
+}
+
+rule CLICommand2AbstractJavaClass
+    transform cmd : CliCommand {
+
+	template : "cliCommand2AbstractJavaClass.egl"
+
+	parameters : Map{
+		"m" = cmd.eContainer(),
+		"packageName" =  "commands"
+	}
+
+	target : "../../microservices/client/build/generated/egx/commands/A" + cmd.name.kebabToCamelCase() + "Command.java"
+}
+
 operation String getMicroserviceAcronym(){
     return self.split("-").collect(it | it.characterAt(0)).concat();
+}
+
+operation String kebabToCamelCase(){
+	return self.split("-").collect(it | it.ftuc()).concat();
 }
