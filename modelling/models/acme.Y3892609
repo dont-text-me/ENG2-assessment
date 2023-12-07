@@ -27,7 +27,7 @@
         <requests xsi:type="HttpNonGetRequest" name="registerUser" url="/" isStringResponse="true" isStringRequestBody="true" stringRequestBodyName="userName"/>
       </clients>
       <clients name="HealthClient" urlConfigProperty="resource-urls.vm.health" defaultUrl="http://localhost:8080/health" isHealthClient="true">
-        <requests xsi:type="HttpGetRequest" name="health" url="/health" isStringResponse="true"/>
+        <requests xsi:type="HttpGetRequest" name="health" url="/" isStringResponse="true"/>
       </clients>
     </api>
     <dtos name="VideoDTO">
@@ -114,7 +114,7 @@
         </requests>
       </clients>
       <clients name="HealthClient" urlConfigProperty="resource-urls.sm.health" defaultUrl="http://localhost:8082/health" isHealthClient="true">
-        <requests xsi:type="HttpGetRequest" name="health" url="/health" isStringResponse="true"/>
+        <requests xsi:type="HttpGetRequest" name="health" url="/" isStringResponse="true"/>
       </clients>
     </api>
     <dtos name="UserSubscriptionMessageValueDTO">
@@ -163,7 +163,7 @@
         <requests xsi:type="HttpGetRequest" name="latestStats" url="/latest" responseBody="//@services.2/@dtos.1"/>
       </clients>
       <clients name="HealthClient" urlConfigProperty="resource-urls.thm.health" defaultUrl="http://localhost:8081/health" isHealthClient="true">
-        <requests xsi:type="HttpGetRequest" name="health" url="/health" isStringResponse="true"/>
+        <requests xsi:type="HttpGetRequest" name="health" url="/" isStringResponse="true"/>
       </clients>
     </api>
     <dtos name="WindowedHashtagWithLikeCount">

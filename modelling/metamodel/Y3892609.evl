@@ -155,7 +155,7 @@ context ClientDefinition{
 
     constraint healthClientMustHaveOneHealthGetEndpoint{
         guard: self.isHealthClient
-        check: self.requests.size() == 1 and self.requests.at(0).name == "health" and self.requests.at(0).url == "/health" and self.requests.at(0).urlParams.size() == 0 and  self.requests.at(0).isTypeOf(HttpGetRequest)
+        check: self.requests.size() == 1 and self.requests.at(0).name == "health" and self.requests.at(0).url == "/" and self.requests.at(0).urlParams.size() == 0 and  self.requests.at(0).isTypeOf(HttpGetRequest)
         message: "Client definition " + self.name + " must have at least one health endpoint at url /health"
     }
 }
