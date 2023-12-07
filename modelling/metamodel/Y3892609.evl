@@ -1,0 +1,189 @@
+context KafkaTopic{
+    critique shouldHaveAtLeastOneConsumer{
+        check: self.consumers.size() >= 1 or self.streamInputs.size() >= 1
+        message: "Topic " + self.name + " is not read from by any streams or consumers"
+    }
+
+    critique shouldHaveAtLeastOneProducer{
+        check: self.producers.size() >= 1 or self.streamOutputs.size() >= 1
+        message: "Topic " + self.name + " is not written to by any streams or consumers"
+    }
+
+    constraint mustHaveKafkaKeyField{
+        check: self.kafkaKey?.name <> null and self.kafkaKey?.type <> null
+        message: "Key field is not defined for topic " + self.name
+    }
+
+    constraint mustHaveValueDTO{
+            check: self.kafkaValue <> null
+            message: "Value field is not defined for topic " + self.name
+    }
+}
+
+context Entity{
+    constraint mustHaveIdField{
+        check: self.idField <> null and self.idField.isDefined()
+        message: "Entity " + self.name + " must have and ID field"
+    }
+}
+
+context EntityRelationship{
+    critique shouldHaveDescription{
+        check: self.description <> null
+        message: "Consider adding a description for entity relationship " + self
+    }
+
+    critique shouldHaveNonNullJsonIgnore{
+        check: self.isJsonIgnoreFrom <> null and self.isJsonIgnoreTo <> null
+        message: "The JsonIgnore flag is not set and will default to true in relationship " + self.description
+    }
+
+    constraint mustHaveToEntity{
+        check: self.to <> null
+        message: "Relationship " + self.description + " does not have a target entity"
+    }
+
+    constraint mustHaveFromEntity{
+            check: self.from <> null
+            message: "Relationship " + self.description + " does not have a source entity"
+    }
+
+    constraint mustHaveToField{
+        check: self.toField.isDefined()
+        message: "Relationship " + self.description + " does not have a defined field in the target entity"
+    }
+
+    constraint mustHaveFromField{
+        check: self.fromField.isDefined()
+        message: "Relationship " + self.description + " does not have a defined field in the source entity"
+    }
+}
+
+context System{
+    constraint mustHaveAtLeastOneMicroservice{
+        check: self.services.size() >= 1
+        message: "System does not have any microservices"
+    }
+}
+
+context Microservice{
+    constraint mustHaveDifferentJoinTablesForMultipleManyToManyRelationships{
+        check {
+            for (sourceEntity in self.entities){
+                for (destinationEntity in self.entities){
+                    var relationships = self.relationships.select(it | it.type.toString() == "MANY_TO_MANY" and it.from == sourceEntity and it.to == destinationEntity).collect(it | it.description);
+                    if (relationships.size() > relationships.asSet().size()) {
+                        return false;
+                    }
+                    if(relationships.size() == 0){
+                    return true;
+                    }
+                }
+            }
+        }
+
+        message {
+            for (sourceEntity in self.entities){
+                 for (destinationEntity in self.entities){
+                     var relationships = self.relationships.select(it | it.type.toString() == "MANY_TO_MANY" and it.from == sourceEntity and it.to == destinationEntity).collect(it | it.description);
+                        if (relationships.size() > 0 and relationships.size() > relationships.asSet().size()) {
+                            return "There are several many-to-many relationships using the same join table between entities " + sourceEntity.name + " and " + destinationEntity.name + " in microservice " + self.name;
+                            }
+                        if(relationships.size() == 0){
+                                            return null;
+                                            }
+                        }
+                 }
+            }
+            }
+}
+
+
+context HttpRequest{
+    constraint mustNotHaveAResponseBodyDTOIfStringResponse{
+        check: not (self.isStringResponse and self.responseBody <> null)
+        message: "Request " + self.name + " must not have a DTO response if the isStringResponse is set to true. It must also have a DTO response if it is set to false."
+    }
+
+    constraint mustHaveAFieldForEveryURLParameter{
+       	guard: self.url.contains("{")
+
+        check: self.url.substring(1).split("/").select(it | it.characterAt(0) == "{").select(it | self.urlParams.none(p | p.name == it.replace('\\{', "").replace('\\}', ""))).size() == 0
+
+        message: "The following url parameters in request " + self.name + " do not have a field matching their name: " + self.url.substring(1).split("/").select(it | it.characterAt(0) == "{").select(it | self.urlParams.none(p | p.name == it.replace("{", "").replace("}", "")))
+    }
+
+    constraint mustNotHaveBackToBackURLParameters{
+        check: not self.url.contains("\\}\\{")
+        message: "The URL of request " + self.name + " contains multiple parameters without separation. This is likely to cause errors in the client"
+    }
+
+    constraint mustHaveAURLParameterForEveryField{
+        guard: self.urlParams.size() > 0
+        check: self.urlParams.collect(it | it.name).forAll(it | self.url.contains(it))
+        message: "The following fields in request " + self.name + " do not have a matching URL parameter: " + self.urlParams.collect(it | it.name).select(it | not self.url.contains(it))
+    }
+}
+
+context HttpNonGetRequest{
+    constraint mustNotHaveARequestBodyDTOIfStringRequestBody{
+            check: not (self.isStringRequestBody and self.requestBody <> null)
+            message: "Request " + self.name + " must not have a DTO body if the isStringResponse is set to true. It must also have a DTO body if it is set to false."
+        }
+
+    constraint mustHaveType{
+        check: self.type <> null
+        message: "Non-get request " + self.name + " must have a request type defined"
+    }
+}
+
+context ClientDefinition{
+    constraint mustHaveAtLeastOneRequest{
+        check: self.requests.size() >= 1
+        message: "Client definition " + self.name + " must have at least one request defined"
+    }
+}
+
+context AField{
+    constraint typeMustStartWithUpperCase{
+        check: self.type == self.type.ftuc()
+        message: "The type of field with name " + self.name + " starts with a lowercase letter and is probably not a valid java type"
+    }
+}
+
+context CommandLineClient{
+    constraint mustHaveAtLeastOneCommand{
+        check: self.commands.size() >= 1
+        message: "The CLI client must have at least 1 command"
+    }
+}
+
+context CliCommand{
+    critique shouldHaveDescription{
+        check: self.description <> null
+        message: "Commands should have a description"
+    }
+
+    constraint mustNotHaveDifferentArgumentsWithSameName{
+        check: self.args.collect(it | it.names).flatten().size() == self.args.collect(it | it.names).flatten().asSet().size()
+        message: "Command with name " + self.name + " has duplicate argument names"
+    }
+}
+
+context EnumValueCliArgument{
+    constraint mustHaveDefinedEnum{
+        check: self.enumType <> null
+        message: "Argument with name " + self.names.at(0) + " of command " + self.eContainer.name + " does not reference an existing enum"
+    }
+}
+
+context CliArgument{
+    constraint mustHaveDefinedField{
+        check: self.field.isDefined()
+        message: "Argument with name " + self.names.at(0) + " of command " + self.eContainer.name + " does not reference a valid java field"
+    }
+}
+
+operation Field isDefined(){
+    return self.name <> null and self.type <> null;
+}

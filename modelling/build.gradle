@@ -28,12 +28,18 @@ task setupEpsilonTasks {
     ant.lifecycleLogLevel = 'INFO'
 }
 
-task codegen {
+task validateModel{
     dependsOn tasks.setupEpsilonTasks
 
     // Load the project.flexmi EMF model
     ant.'epsilon.emf.loadModel'(name: 'M', modelfile: 'models/acme.Y3892609', metamodelfile: 'metamodel/Y3892609.emf')
 
-    // Run pdl.egx against it
+    // Validate it with EVL
+    ant.'epsilon.evl'(src: 'metamodel/Y3892609.evl'){ model(ref: 'M') }
+}
+
+task codegen {
+    dependsOn tasks.validateModel
+    // Run EGX code generator
     ant.'epsilon.egl'(src: 'm2t/Y3892609.egx'){ model(ref: 'M') }
 }
