@@ -7,7 +7,7 @@ import thm.api.TrendingHashtagsClient;
 import thm.dto.TrendingHashtagResponseDTO;
 import enums.*;
 
-@CommandLine.Command(name = "[%=cmd.name%]", mixinStandardHelpOptions = true, scope = CommandLine.ScopeType.INHERIT)
+@CommandLine.Command(name = "[%=cmd.name%]", description = "[%=cmd.description%]", mixinStandardHelpOptions = true, scope = CommandLine.ScopeType.INHERIT)
 public abstract class A[%=cmd.name.kebabToCamelCase()%]Command implements Runnable {
 [%for (arg : CliArgument  in cmd.args){%]
 @CommandLine.Option(

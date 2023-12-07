@@ -119,6 +119,7 @@ class ClientDefinition{
 	attr String urlConfigProperty;
 	attr String defaultUrl;
 	attr String errorType = "String";
+	attr Boolean isHealthClient = false;
 	val HttpRequest[*] requests;
 }
 

@@ -20,6 +20,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Validate model
+        run: ./gradlew modelling:validate
       - name: Generate code
         run: ./gradlew modelling:codegen
       - name: Build docker images

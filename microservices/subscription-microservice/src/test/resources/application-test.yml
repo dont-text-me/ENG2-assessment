@@ -17,3 +17,4 @@ resource-urls:
   sm:
     recommendations: /recommendations
     subscriptions: /subscriptions
+    health: /health

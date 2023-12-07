@@ -26,6 +26,9 @@
       <clients name="UsersClient" urlConfigProperty="resource-urls.vm.users" defaultUrl="http://localhost:8080/users">
         <requests xsi:type="HttpNonGetRequest" name="registerUser" url="/" isStringResponse="true" isStringRequestBody="true" stringRequestBodyName="userName"/>
       </clients>
+      <clients name="HealthClient" urlConfigProperty="resource-urls.vm.health" defaultUrl="http://localhost:8080/health" isHealthClient="true">
+        <requests xsi:type="HttpGetRequest" name="health" url="/" isStringResponse="true"/>
+      </clients>
     </api>
     <dtos name="VideoDTO">
       <fields name="authorUsername" type="String"/>
@@ -110,6 +113,9 @@
           <urlParams name="userName" type="String"/>
         </requests>
       </clients>
+      <clients name="HealthClient" urlConfigProperty="resource-urls.sm.health" defaultUrl="http://localhost:8082/health" isHealthClient="true">
+        <requests xsi:type="HttpGetRequest" name="health" url="/" isStringResponse="true"/>
+      </clients>
     </api>
     <dtos name="UserSubscriptionMessageValueDTO">
       <fields name="hashtagName" type="String"/>
@@ -155,6 +161,9 @@
     <api>
       <clients name="TrendingHashtagsClient" urlConfigProperty="resource-urls.thm.trending-hashtags" defaultUrl="http://localhost:8081/trending-hashtags">
         <requests xsi:type="HttpGetRequest" name="latestStats" url="/latest" responseBody="//@services.2/@dtos.1"/>
+      </clients>
+      <clients name="HealthClient" urlConfigProperty="resource-urls.thm.health" defaultUrl="http://localhost:8081/health" isHealthClient="true">
+        <requests xsi:type="HttpGetRequest" name="health" url="/" isStringResponse="true"/>
       </clients>
     </api>
     <dtos name="WindowedHashtagWithLikeCount">
