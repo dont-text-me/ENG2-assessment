@@ -98,6 +98,15 @@ context Microservice{
             }
 }
 
+context APISchema{
+    constraint mustHaveOneHealthEndpoint{
+        check: self.clients.one(it | it.isHealthClient)
+        message: "API schema of microservice " + self.eContainer.name + " is missing a client with a health endpoint"
+    }
+}
+
+
+
 
 context HttpRequest{
     constraint mustNotHaveAResponseBodyDTOIfStringResponse{
@@ -141,6 +150,13 @@ context ClientDefinition{
     constraint mustHaveAtLeastOneRequest{
         check: self.requests.size() >= 1
         message: "Client definition " + self.name + " must have at least one request defined"
+    }
+
+
+    constraint healthClientMustHaveOneHealthGetEndpoint{
+        guard: self.isHealthClient
+        check: self.requests.size() == 1 and self.requests.at(0).name == "health" and self.requests.at(0).url == "/health" and self.requests.at(0).urlParams.size() == 0 and  self.requests.at(0).isTypeOf(HttpGetRequest)
+        message: "Client definition " + self.name + " must have at least one health endpoint at url /health"
     }
 }
 

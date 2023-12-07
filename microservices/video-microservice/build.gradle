@@ -30,7 +30,6 @@ dependencies {
 	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
 	implementation("jakarta.annotation:jakarta.annotation-api")
 	implementation("io.micronaut:micronaut-http-client")
-	implementation("io.micronaut:micronaut-management")
 	implementation(project(":microservices:generated-shared"))
 	runtimeOnly("ch.qos.logback:logback-classic")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
