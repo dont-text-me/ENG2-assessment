@@ -10,3 +10,4 @@ resource-urls:
   vm:
     videos: /videos
     users: /users
+    health: /health

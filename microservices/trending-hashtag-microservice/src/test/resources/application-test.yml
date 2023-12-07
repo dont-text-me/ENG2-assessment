@@ -13,3 +13,4 @@ trending-hashtags:
 resource-urls:
   thm:
     trending-hashtags: /trending-hashtags
+    health: /health
