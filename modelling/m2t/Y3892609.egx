@@ -130,6 +130,12 @@ rule CLICommand2AbstractJavaClass
 	target : "../../microservices/client/build/generated/egx/commands/A" + cmd.name.kebabToCamelCase() + "Command.java"
 }
 
+rule System2DockerCompose
+    transform s : System {
+    template: "microservices2dockerComposeNoSecrets.egl"
+    target: "../../microservices/compose-prod-generated.yml"
+}
+
 operation String getMicroserviceAcronym(){
     return self.split("-").collect(it | it.characterAt(0)).concat();
 }

@@ -1,0 +1,1 @@
+docker compose -p eng2-assessment-prod -f microservices/compose-prod-generated.yml -f microservices/compose-prod-secrets.yml up -d

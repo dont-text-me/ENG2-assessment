@@ -20,7 +20,7 @@ public abstract class A[%=cmd.name.kebabToCamelCase()%]Command implements Runnab
 @CommandLine.Option(
       names = {[%=arg.names.collect(it | '"' + it + '"').concat(", ")%]},
       required = [%=arg.isRequired%],
-      description = "[%=arg.description%]")
+      description = "[%=arg.description%]. Possible options: [%=arg.enumType.values.concat(", ")%]")
   public [%=arg.enumType.name%] [%=arg.enumType.name.toLowercase()%];
 [%}%]
 }

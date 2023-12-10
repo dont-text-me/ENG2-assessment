@@ -2,7 +2,6 @@ workspace "Video-Platform" "A set of microservices implementing a video hosting 
 
     model {
         user = person "User"
-        admin = person "Admin"
         softwareSystem = softwareSystem "Video platform" {
             cli = container "Command line client"
             vm = container "Video microservice" {
@@ -31,12 +30,9 @@ workspace "Video-Platform" "A set of microservices implementing a video hosting 
             sm-db = container "Subscription microservice database" "" "" database
             thm-db = container "Trending hashtag microservice database" "" "" database
             kafka = container "Kafka cluster"
-            kafka-ui = container "Kafka UI" "" "" webapp
         }
 
         user -> cli "Uses"
-        admin -> kafka-ui "Uses"
-        kafka-ui -> kafka "Manages"
 
         cli -> vm "Interacts with HTTP REST API and formats results"
         cli -> sm "Interacts with HTTP REST API and formats results"
