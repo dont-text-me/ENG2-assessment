@@ -67,7 +67,7 @@ context System{
 
     constraint microservicesMustNotExposeConflictingPorts{
         check: self.services.dockerComposePortForwardValue.asSet().size() == self.services.dockerComposePortForwardValue.size()
-        message: "One or more microservices expose the same port, which will break docker compose. Please check the model"
+        message: "Found 2 or more microservices exposing the same port, which will cause issues when running docker compose. Please check the model"
     }
 }
 
