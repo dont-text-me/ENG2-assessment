@@ -13,10 +13,10 @@ import java.util.Comparator;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import thm.api.TrendingHashtagsClient;
-import thm.domain.TrendingHashtag;
-import thm.dto.TrendingHashtagResponseDTO;
-import thm.dto.WindowedHashtagWithLikeCount;
+import com.eng2.assessment.generated.thm.api.TrendingHashtagsClient;
+import com.eng2.assessment.generated.thm.domain.TrendingHashtag;
+import com.eng2.assessment.generated.thm.dto.TrendingHashtagResponseDTO;
+import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

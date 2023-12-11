@@ -1,6 +1,6 @@
 package com.eng2.assessment.client.utils.formatters;
 
-import sm.dto.VideoDTO;
+import com.eng2.assessment.generated.sm.dto.VideoDTO;
 
 public class VideoRecommendationFormatter {
   public static String prettyPrintRecommendation(VideoDTO video) {

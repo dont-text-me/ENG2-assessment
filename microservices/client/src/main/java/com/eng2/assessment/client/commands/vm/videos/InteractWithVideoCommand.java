@@ -1,11 +1,11 @@
 package com.eng2.assessment.client.commands.vm.videos;
 
-import commands.AInteractWithVideoCommand;
+import com.eng2.assessment.generated.commands.AInteractWithVideoCommand;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
 import picocli.CommandLine;
-import vm.api.VideosClient;
+import com.eng2.assessment.generated.vm.api.VideosClient;
 
 @CommandLine.Command(name = "interact-with-video")
 public class InteractWithVideoCommand extends AInteractWithVideoCommand {

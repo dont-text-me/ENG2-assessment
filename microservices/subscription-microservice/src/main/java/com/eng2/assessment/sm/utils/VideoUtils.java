@@ -1,10 +1,10 @@
 package com.eng2.assessment.sm.utils;
 
 import java.util.List;
-import sm.domain.Hashtag;
-import sm.domain.User;
-import sm.domain.Video;
-import sm.dto.VideoDTO;
+import com.eng2.assessment.generated.sm.domain.Hashtag;
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.sm.domain.Video;
+import com.eng2.assessment.generated.sm.dto.VideoDTO;
 
 public class VideoUtils {
   public static List<VideoDTO> convertEntityList(List<Video> videos) {

@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.eng2.assessment.client.commands.vm.videos.InteractWithVideoCommand;
 import com.eng2.assessment.client.utils.AbstractFeatureTest;
 import com.eng2.assessment.client.utils.FeatureTestExtension;
-import enums.VideoInteractionType;
+import com.eng2.assessment.generated.enums.VideoInteractionType;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import vm.api.UsersClient;
-import vm.api.VideosClient;
-import vm.dto.VideoDTO;
-import vm.dto.VideoResponseDTO;
+import com.eng2.assessment.generated.vm.api.UsersClient;
+import com.eng2.assessment.generated.vm.api.VideosClient;
+import com.eng2.assessment.generated.vm.dto.VideoDTO;
+import com.eng2.assessment.generated.vm.dto.VideoResponseDTO;
 
 @MicronautTest
 @Tag("feature-test")

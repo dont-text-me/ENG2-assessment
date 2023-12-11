@@ -8,7 +8,7 @@ import com.eng2.assessment.client.commands.sm.subscriptions.ManageSubscriptionsC
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
-import enums.SubscriptionAction;
+import com.eng2.assessment.generated.enums.SubscriptionAction;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;

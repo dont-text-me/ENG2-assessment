@@ -4,7 +4,7 @@ import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.Topic;
 import java.util.List;
 import java.util.UUID;
-import [%=kp.eContainer.name.getMicroserviceAcronym()%].dto.*;
+import com.eng2.assessment.generated.[%=kp.eContainer.name.getMicroserviceAcronym()%].dto.*;
 
 @KafkaClient
 public interface [%=kp.name%] {

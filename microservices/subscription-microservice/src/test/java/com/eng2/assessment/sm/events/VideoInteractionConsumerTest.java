@@ -15,10 +15,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import sm.domain.Hashtag;
-import sm.domain.User;
-import sm.domain.Video;
-import vm.dto.VideoInteractionDetailsDTO;
+import com.eng2.assessment.generated.sm.domain.Hashtag;
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.sm.domain.Video;
+import com.eng2.assessment.generated.vm.dto.VideoInteractionDetailsDTO;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

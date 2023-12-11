@@ -2,7 +2,7 @@ package com.eng2.assessment.thm.events;
 
 import static java.lang.String.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
-import static shared.Topics.TOPIC_TRENDING_HASHTAGS;
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_TRENDING_HASHTAGS;
 
 import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import com.eng2.assessment.thm.utils.DbCleanupExtension;
@@ -17,8 +17,8 @@ import java.util.stream.IntStream;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import thm.domain.TrendingHashtag;
-import thm.dto.WindowedHashtagWithLikeCount;
+import com.eng2.assessment.generated.thm.domain.TrendingHashtag;
+import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
 
 @MicronautTest
 @ExtendWith(DbCleanupExtension.class)

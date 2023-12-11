@@ -11,9 +11,9 @@ import jakarta.inject.Inject;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.TreeSet;
-import thm.api.ITrendingHashtagsClient;
-import thm.domain.TrendingHashtag;
-import thm.dto.TrendingHashtagResponseDTO;
+import com.eng2.assessment.generated.thm.api.ITrendingHashtagsClient;
+import com.eng2.assessment.generated.thm.domain.TrendingHashtag;
+import com.eng2.assessment.generated.thm.dto.TrendingHashtagResponseDTO;
 
 @Controller("/trending-hashtags")
 public class TrendingHashtagController implements ITrendingHashtagsClient {

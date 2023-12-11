@@ -14,9 +14,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import vm.api.UsersClient;
-import vm.api.VideosClient;
-import vm.dto.VideoResponseDTO;
+import com.eng2.assessment.generated.vm.api.UsersClient;
+import com.eng2.assessment.generated.vm.api.VideosClient;
+import com.eng2.assessment.generated.vm.dto.VideoResponseDTO;
 
 @MicronautTest
 @Tag("feature-test")

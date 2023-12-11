@@ -1,7 +1,7 @@
 package com.eng2.assessment.thm.events;
 
-import static shared.Topics.TOPIC_TRENDING_HASHTAGS;
-import static shared.Topics.TOPIC_VIDEO_LIKED;
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_TRENDING_HASHTAGS;
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_VIDEO_LIKED;
 
 import io.micronaut.configuration.kafka.serde.CompositeSerdeRegistry;
 import io.micronaut.configuration.kafka.streams.ConfiguredStreamBuilder;
@@ -16,9 +16,9 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.*;
-import thm.dto.WindowedHashtagWithLikeCount;
-import thm.events.ITrendingHashtagsStream;
-import vm.dto.VideoInteractionDetailsDTO;
+import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
+import com.eng2.assessment.generated.thm.events.ITrendingHashtagsStream;
+import com.eng2.assessment.generated.vm.dto.VideoInteractionDetailsDTO;
 
 @Factory
 public class TrendingHashtagsStream implements ITrendingHashtagsStream {

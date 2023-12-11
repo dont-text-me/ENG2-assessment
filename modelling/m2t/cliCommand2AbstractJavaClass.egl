@@ -1,7 +1,7 @@
 package [%=packageName%];
 import java.util.UUID;
 import picocli.CommandLine;
-import enums.*;
+import com.eng2.assessment.generated.enums.*;
 
 @CommandLine.Command(name = "[%=cmd.name%]", description = "[%=cmd.description%]", mixinStandardHelpOptions = true, scope = CommandLine.ScopeType.INHERIT)
 public abstract class A[%=cmd.name.kebabToCamelCase()%]Command implements Runnable {

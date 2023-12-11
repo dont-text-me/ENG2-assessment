@@ -11,12 +11,12 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-import sm.dto.VideoDTO;
-import sm.dto.VideoRecommendationDTO;
-import thm.dto.TrendingHashtagResponseDTO;
-import thm.dto.WindowedHashtagWithLikeCount;
-import vm.dto.VideoResponseDTO;
-import vm.dto.VideoResultsDTO;
+import com.eng2.assessment.generated.sm.dto.VideoDTO;
+import com.eng2.assessment.generated.sm.dto.VideoRecommendationDTO;
+import com.eng2.assessment.generated.thm.dto.TrendingHashtagResponseDTO;
+import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
+import com.eng2.assessment.generated.vm.dto.VideoResponseDTO;
+import com.eng2.assessment.generated.vm.dto.VideoResultsDTO;
 
 public class MockResponses {
 

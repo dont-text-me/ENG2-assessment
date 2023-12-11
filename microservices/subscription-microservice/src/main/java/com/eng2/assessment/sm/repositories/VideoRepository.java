@@ -7,7 +7,7 @@ import io.micronaut.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import sm.domain.Video;
+import com.eng2.assessment.generated.sm.domain.Video;
 
 @Repository
 public interface VideoRepository extends CrudRepository<Video, UUID> {

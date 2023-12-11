@@ -5,10 +5,10 @@ rule DTOtoJava
 
 	parameters : Map{
 		"m" = d.eContainer(),
-		"packageName" =  d.eContainer.name.getMicroserviceAcronym() + ".dto"
+		"packageName" = "com.eng2.assessment.generated." + d.eContainer.name.getMicroserviceAcronym() + ".dto"
 	}
 
-	target : "../../microservices/generated-shared/build/generated/egx/" + d.eContainer.name.getMicroserviceAcronym() + "/dto/" + d.name.ftuc() + ".java"
+	target : "../../microservices/generated-shared/build/generated/egx/com/eng2/assessment/generated/" + d.eContainer.name.getMicroserviceAcronym() + "/dto/" + d.name.ftuc() + ".java"
 }
 
 rule KafkaProducerToJava 
@@ -18,10 +18,10 @@ rule KafkaProducerToJava
 
 	parameters : Map{
 		"m" = kp.eContainer(),
-		"packageName" =  kp.eContainer.name.getMicroserviceAcronym() + ".events"
+		"packageName" =  "com.eng2.assessment.generated." + kp.eContainer.name.getMicroserviceAcronym() + ".events"
 	}
 
-	target : "../../microservices/" +  kp.eContainer.name + "/build/generated/egx/"   + kp.eContainer.name.getMicroserviceAcronym() + "/events/" + kp.name.ftuc() + ".java"
+	target : "../../microservices/" +  kp.eContainer.name + "/build/generated/egx/com/eng2/assessment/generated/"   + kp.eContainer.name.getMicroserviceAcronym() + "/events/" + kp.name.ftuc() + ".java"
 }
 
 rule KafkaConsumerToJavaInterface
@@ -31,10 +31,10 @@ rule KafkaConsumerToJavaInterface
 
 	parameters : Map{
 		"m" = kc.eContainer(),
-		"packageName" =  kc.eContainer.name.getMicroserviceAcronym() + ".events"
+		"packageName" =  "com.eng2.assessment.generated." + kc.eContainer.name.getMicroserviceAcronym() + ".events"
 	}
 
-	target : "../../microservices/" +  kc.eContainer.name + "/build/generated/egx/"   + kc.eContainer.name.getMicroserviceAcronym() + "/events/" + "I" + kc.name.ftuc() + ".java"
+	target : "../../microservices/" +  kc.eContainer.name + "/build/generated/egx/com/eng2/assessment/generated/"   + kc.eContainer.name.getMicroserviceAcronym() + "/events/" + "I" + kc.name.ftuc() + ".java"
 }
 
 rule KafkaStreamToJavaInterface
@@ -44,10 +44,10 @@ rule KafkaStreamToJavaInterface
 
 	parameters : Map{
 		"m" = ks.eContainer(),
-		"packageName" =  ks.eContainer.name.getMicroserviceAcronym() + ".events"
+		"packageName" =  "com.eng2.assessment.generated." + ks.eContainer.name.getMicroserviceAcronym() + ".events"
 	}
 
-	target : "../../microservices/" +  ks.eContainer.name + "/build/generated/egx/"   + ks.eContainer.name.getMicroserviceAcronym() + "/events/" + "I" + ks.name.ftuc() + ".java"
+	target : "../../microservices/" +  ks.eContainer.name + "/build/generated/egx/com/eng2/assessment/generated/"   + ks.eContainer.name.getMicroserviceAcronym() + "/events/" + "I" + ks.name.ftuc() + ".java"
 }
 
 rule KafkaTopicsToJava 
@@ -59,7 +59,7 @@ rule KafkaTopicsToJava
 		"m" = s.eContainer()
 	}
 
-	target : "../../microservices/generated-shared/build/generated/egx/shared/Topics.java"
+	target : "../../microservices/generated-shared/build/generated/egx/com/eng2/assessment/generated/shared/Topics.java"
 }
 
 rule EntityToJava 
@@ -69,10 +69,10 @@ rule EntityToJava
 
 	parameters : Map{
 		"m" = e.eContainer(),
-		"packageName" =  e.eContainer.name.getMicroserviceAcronym() + ".domain"
+		"packageName" =  "com.eng2.assessment.generated." + e.eContainer.name.getMicroserviceAcronym() + ".domain"
 	}
 
-	target : "../../microservices/" +  e.eContainer.name + "/build/generated/egx/"  + e.eContainer.name.getMicroserviceAcronym() + "/domain/" + e.name.ftuc() + ".java"
+	target : "../../microservices/" +  e.eContainer.name + "/build/generated/egx/com/eng2/assessment/generated/"  + e.eContainer.name.getMicroserviceAcronym() + "/domain/" + e.name.ftuc() + ".java"
 }
 
 rule ClientDefinition2MicronautClient
@@ -82,11 +82,11 @@ rule ClientDefinition2MicronautClient
 
 	parameters : Map{
 		"m" = cd.eContainer(),
-		"packageName" =  cd.eContainer.eContainer.name.getMicroserviceAcronym() + ".api",
+		"packageName" = "com.eng2.assessment.generated." + cd.eContainer.eContainer.name.getMicroserviceAcronym() + ".api",
 		"microserviceAcronym" = cd.eContainer.eContainer.name.getMicroserviceAcronym()
 	}
 
-	target : "../../microservices/generated-shared/build/generated/egx/" + cd.eContainer.eContainer.name.getMicroserviceAcronym() + "/api/" + cd.name.ftuc() + ".java"
+	target : "../../microservices/generated-shared/build/generated/egx/com/eng2/assessment/generated/" + cd.eContainer.eContainer.name.getMicroserviceAcronym() + "/api/" + cd.name.ftuc() + ".java"
 }
 
 rule ClientDefinition2APIInterface
@@ -96,11 +96,11 @@ rule ClientDefinition2APIInterface
 
 	parameters : Map{
 		"m" = cd.eContainer(),
-		"packageName" =  cd.eContainer.eContainer.name.getMicroserviceAcronym() + ".api",
+		"packageName" = "com.eng2.assessment.generated." + cd.eContainer.eContainer.name.getMicroserviceAcronym() + ".api",
 		"microserviceAcronym" = cd.eContainer.eContainer.name.getMicroserviceAcronym()
 	}
 
-	target : "../../microservices/generated-shared/build/generated/egx/" + cd.eContainer.eContainer.name.getMicroserviceAcronym() + "/api/" + "I" + cd.name.ftuc() + ".java"
+	target : "../../microservices/generated-shared/build/generated/egx/com/eng2/assessment/generated/" + cd.eContainer.eContainer.name.getMicroserviceAcronym() + "/api/" + "I" + cd.name.ftuc() + ".java"
 }
 
 
@@ -111,10 +111,10 @@ rule CLIEnum2JavaEnum
 
 	parameters : Map{
 		"m" = enum.eContainer(),
-		"packageName" =  "enums"
+		"packageName" =  "com.eng2.assessment.generated.enums"
 	}
 
-	target : "../../microservices/client/build/generated/egx/enums/" + enum.name.ftuc() + ".java"
+	target : "../../microservices/client/build/generated/egx/com/eng2/assessment/generated/enums/" + enum.name.ftuc() + ".java"
 }
 
 rule CLICommand2AbstractJavaClass
@@ -124,10 +124,10 @@ rule CLICommand2AbstractJavaClass
 
 	parameters : Map{
 		"m" = cmd.eContainer(),
-		"packageName" =  "commands"
+		"packageName" =  "com.eng2.assessment.generated.commands"
 	}
 
-	target : "../../microservices/client/build/generated/egx/commands/A" + cmd.name.kebabToCamelCase() + "Command.java"
+	target : "../../microservices/client/build/generated/egx/com/eng2/assessment/generated/commands/A" + cmd.name.kebabToCamelCase() + "Command.java"
 }
 
 rule System2DockerCompose
