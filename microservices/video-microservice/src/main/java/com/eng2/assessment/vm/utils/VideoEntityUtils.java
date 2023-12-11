@@ -1,10 +1,11 @@
 package com.eng2.assessment.vm.utils;
 
-import java.util.List;
 import com.eng2.assessment.generated.vm.domain.Hashtag;
 import com.eng2.assessment.generated.vm.domain.Video;
 import com.eng2.assessment.generated.vm.dto.VideoResponseDTO;
 import com.eng2.assessment.generated.vm.dto.VideoResultsDTO;
+
+import java.util.List;
 
 public class VideoEntityUtils {
 

@@ -2,11 +2,12 @@ package com.eng2.assessment.client.commands.vm.videos;
 
 import com.eng2.assessment.client.utils.formatters.VideoFormatter;
 import com.eng2.assessment.generated.commands.AListVideosCommand;
-import jakarta.inject.Inject;
-import java.util.stream.Collectors;
-import picocli.CommandLine;
 import com.eng2.assessment.generated.vm.api.VideosClient;
 import com.eng2.assessment.generated.vm.dto.VideoResultsDTO;
+import jakarta.inject.Inject;
+import picocli.CommandLine;
+
+import java.util.stream.Collectors;
 
 @CommandLine.Command(name = "list-videos")
 public class ListVideosCommand extends AListVideosCommand {

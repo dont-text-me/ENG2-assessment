@@ -78,7 +78,7 @@ run{
 }
 
 tasks.named("dockerfile") {
-	//instruction """RUN apk add --no-cache libstdc++""" // for kafka-streams
+	baseImage "eclipse-temurin:17-alpine" // a newer version of a JDK image, with less vulnerabilities than the default openjdk
 	instruction """RUN apk --no-cache add curl""" // Add curl to the alpine base image to enable self-pings for healthchecks
 }
 

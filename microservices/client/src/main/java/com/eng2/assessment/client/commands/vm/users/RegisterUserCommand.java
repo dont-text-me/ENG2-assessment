@@ -1,11 +1,11 @@
 package com.eng2.assessment.client.commands.vm.users;
 
 import com.eng2.assessment.generated.commands.ARegisterUserCommand;
+import com.eng2.assessment.generated.vm.api.UsersClient;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
 import picocli.CommandLine;
-import com.eng2.assessment.generated.vm.api.UsersClient;
 
 @CommandLine.Command(name = "register-user")
 public class RegisterUserCommand extends ARegisterUserCommand {

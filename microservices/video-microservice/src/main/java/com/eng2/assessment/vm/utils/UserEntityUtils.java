@@ -1,8 +1,9 @@
 package com.eng2.assessment.vm.utils;
 
-import java.util.UUID;
 import com.eng2.assessment.generated.vm.domain.User;
 import com.eng2.assessment.generated.vm.domain.Video;
+
+import java.util.UUID;
 
 public class UserEntityUtils {
   public static boolean hasUserWatchedVideo(User user, UUID videoId) {

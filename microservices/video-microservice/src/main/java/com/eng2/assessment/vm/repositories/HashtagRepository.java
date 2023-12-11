@@ -1,13 +1,14 @@
 package com.eng2.assessment.vm.repositories;
 
+import com.eng2.assessment.generated.vm.domain.Hashtag;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.data.annotation.Join;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import jakarta.annotation.Nonnull;
+
 import java.util.Collection;
 import java.util.Optional;
-import com.eng2.assessment.generated.vm.domain.Hashtag;
 
 @Repository
 public interface HashtagRepository extends CrudRepository<Hashtag, String> {

@@ -1,8 +1,10 @@
 package com.eng2.assessment.sm.controllers;
 
-import static com.eng2.assessment.sm.utils.UserUtils.addSubscription;
-import static com.eng2.assessment.sm.utils.UserUtils.removeSubscription;
-
+import com.eng2.assessment.generated.sm.api.ISubscriptionsClient;
+import com.eng2.assessment.generated.sm.domain.Hashtag;
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.sm.dto.UserSubscriptionMessageValueDTO;
+import com.eng2.assessment.generated.sm.events.SubscriptionProducer;
 import com.eng2.assessment.sm.repositories.HashtagRepository;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import io.micronaut.http.HttpResponse;
@@ -13,11 +15,9 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.eng2.assessment.generated.sm.api.ISubscriptionsClient;
-import com.eng2.assessment.generated.sm.domain.Hashtag;
-import com.eng2.assessment.generated.sm.domain.User;
-import com.eng2.assessment.generated.sm.dto.UserSubscriptionMessageValueDTO;
-import com.eng2.assessment.generated.sm.events.SubscriptionProducer;
+
+import static com.eng2.assessment.sm.utils.UserUtils.addSubscription;
+import static com.eng2.assessment.sm.utils.UserUtils.removeSubscription;
 
 @Controller("/subscriptions")
 public class SubscriptionsController implements ISubscriptionsClient {

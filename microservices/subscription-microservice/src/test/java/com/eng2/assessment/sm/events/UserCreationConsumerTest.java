@@ -1,19 +1,20 @@
 package com.eng2.assessment.sm.events;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.vm.dto.UserRegisteredMessageValueDTO;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import com.eng2.assessment.sm.utils.DbCleanupExtension;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import com.eng2.assessment.generated.sm.domain.User;
-import com.eng2.assessment.generated.vm.dto.UserRegisteredMessageValueDTO;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

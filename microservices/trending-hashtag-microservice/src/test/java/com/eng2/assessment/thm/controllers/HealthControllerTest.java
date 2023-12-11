@@ -1,7 +1,6 @@
 package com.eng2.assessment.thm.controllers;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.eng2.assessment.generated.thm.api.HealthClient;
 import com.eng2.assessment.thm.utils.DbCleanupExtension;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
@@ -9,7 +8,8 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import com.eng2.assessment.generated.thm.api.HealthClient;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

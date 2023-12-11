@@ -1,9 +1,9 @@
 package com.eng2.assessment.vm.controllers;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
+import com.eng2.assessment.generated.vm.api.UsersClient;
+import com.eng2.assessment.generated.vm.domain.User;
+import com.eng2.assessment.generated.vm.dto.UserRegisteredMessageValueDTO;
+import com.eng2.assessment.generated.vm.events.UserCreationProducer;
 import com.eng2.assessment.vm.repositories.UsersRepository;
 import com.eng2.assessment.vm.utils.DbCleanupExtension;
 import io.micronaut.context.annotation.Replaces;
@@ -16,10 +16,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import com.eng2.assessment.generated.vm.api.UsersClient;
-import com.eng2.assessment.generated.vm.domain.User;
-import com.eng2.assessment.generated.vm.dto.UserRegisteredMessageValueDTO;
-import com.eng2.assessment.generated.vm.events.UserCreationProducer;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

@@ -1,24 +1,25 @@
 package com.eng2.assessment.thm.events;
 
-import static com.eng2.assessment.generated.shared.Topics.TOPIC_TRENDING_HASHTAGS;
-import static com.eng2.assessment.generated.shared.Topics.TOPIC_VIDEO_LIKED;
-
+import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
+import com.eng2.assessment.generated.thm.events.ITrendingHashtagsStream;
+import com.eng2.assessment.generated.vm.dto.VideoInteractionDetailsDTO;
 import io.micronaut.configuration.kafka.serde.CompositeSerdeRegistry;
 import io.micronaut.configuration.kafka.streams.ConfiguredStreamBuilder;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Value;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.time.Duration;
-import java.util.Properties;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.*;
-import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
-import com.eng2.assessment.generated.thm.events.ITrendingHashtagsStream;
-import com.eng2.assessment.generated.vm.dto.VideoInteractionDetailsDTO;
+
+import java.time.Duration;
+import java.util.Properties;
+
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_TRENDING_HASHTAGS;
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_VIDEO_LIKED;
 
 @Factory
 public class TrendingHashtagsStream implements ITrendingHashtagsStream {

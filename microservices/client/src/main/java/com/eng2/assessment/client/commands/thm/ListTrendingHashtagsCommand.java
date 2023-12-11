@@ -2,12 +2,13 @@ package com.eng2.assessment.client.commands.thm;
 
 import com.eng2.assessment.client.utils.formatters.TrendingHashtagFormatter;
 import com.eng2.assessment.generated.commands.AListTrendingHashtagsCommand;
-import jakarta.inject.Inject;
-import java.util.Date;
-import java.util.stream.Collectors;
-import picocli.CommandLine;
 import com.eng2.assessment.generated.thm.api.TrendingHashtagsClient;
 import com.eng2.assessment.generated.thm.dto.TrendingHashtagResponseDTO;
+import jakarta.inject.Inject;
+import picocli.CommandLine;
+
+import java.util.Date;
+import java.util.stream.Collectors;
 
 @CommandLine.Command(name = "list-trending-hashtags")
 public class ListTrendingHashtagsCommand extends AListTrendingHashtagsCommand {

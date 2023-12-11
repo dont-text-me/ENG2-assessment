@@ -1,25 +1,29 @@
 package com.eng2.assessment.client.commands.thm.feature;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.eng2.assessment.client.commands.thm.ListTrendingHashtagsCommand;
 import com.eng2.assessment.client.utils.AbstractFeatureTest;
 import com.eng2.assessment.client.utils.FeatureTestExtension;
+import com.eng2.assessment.generated.vm.api.UsersClient;
+import com.eng2.assessment.generated.vm.api.VideosClient;
+import com.eng2.assessment.generated.vm.dto.VideoDTO;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import com.eng2.assessment.generated.vm.api.UsersClient;
-import com.eng2.assessment.generated.vm.api.VideosClient;
-import com.eng2.assessment.generated.vm.dto.VideoDTO;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @MicronautTest
 @Tag("feature-test")
