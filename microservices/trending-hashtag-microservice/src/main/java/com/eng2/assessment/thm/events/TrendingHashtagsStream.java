@@ -1,5 +1,6 @@
 package com.eng2.assessment.thm.events;
 
+import static shared.Topics.TOPIC_TRENDING_HASHTAGS;
 import static shared.Topics.TOPIC_VIDEO_LIKED;
 
 import io.micronaut.configuration.kafka.serde.CompositeSerdeRegistry;
@@ -26,7 +27,6 @@ public class TrendingHashtagsStream implements ITrendingHashtagsStream {
   @Value(value = "${trending-hashtags.window-size: `1h`}")
   private Duration windowSize;
 
-  public static final String TOPIC_HASHTAG_SUMMARY = "trending-hashtags";
   public static final String HASHTAG_LEADERBOARD_STORE = "hashtag-leaderboard";
 
   /**
@@ -65,7 +65,7 @@ public class TrendingHashtagsStream implements ITrendingHashtagsStream {
                             key.key(), value, key.window().start(), key.window().end())));
 
     stream.to(
-        TOPIC_HASHTAG_SUMMARY,
+        TOPIC_TRENDING_HASHTAGS,
         Produced.with(Serdes.String(), serdeRegistry.getSerde(WindowedHashtagWithLikeCount.class)));
 
     return stream;

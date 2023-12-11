@@ -1,7 +1,7 @@
 package com.eng2.assessment.thm.events;
 
-import static com.eng2.assessment.thm.events.TrendingHashtagsStream.TOPIC_HASHTAG_SUMMARY;
 import static org.assertj.core.api.Assertions.assertThat;
+import static shared.Topics.TOPIC_TRENDING_HASHTAGS;
 import static shared.Topics.TOPIC_VIDEO_LIKED;
 
 import io.micronaut.configuration.kafka.serde.CompositeSerdeRegistry;
@@ -40,7 +40,7 @@ public class TrendingHashtagTestDoubleStreamTest {
               serdeRegistry.getSerializer(VideoInteractionDetailsDTO.class));
       TestOutputTopic<String, WindowedHashtagWithLikeCount> outputTopic =
           testDriver.createOutputTopic(
-              TOPIC_HASHTAG_SUMMARY,
+              TOPIC_TRENDING_HASHTAGS,
               new StringDeserializer(),
               serdeRegistry.getDeserializer(WindowedHashtagWithLikeCount.class));
 
@@ -67,7 +67,7 @@ public class TrendingHashtagTestDoubleStreamTest {
               serdeRegistry.getSerializer(VideoInteractionDetailsDTO.class));
       TestOutputTopic<String, WindowedHashtagWithLikeCount> outputTopic =
           testDriver.createOutputTopic(
-              TOPIC_HASHTAG_SUMMARY,
+              TOPIC_TRENDING_HASHTAGS,
               new StringDeserializer(),
               serdeRegistry.getDeserializer(WindowedHashtagWithLikeCount.class));
 
@@ -96,7 +96,7 @@ public class TrendingHashtagTestDoubleStreamTest {
               serdeRegistry.getSerializer(VideoInteractionDetailsDTO.class));
       TestOutputTopic<String, WindowedHashtagWithLikeCount> outputTopic =
           testDriver.createOutputTopic(
-              TOPIC_HASHTAG_SUMMARY,
+              TOPIC_TRENDING_HASHTAGS,
               new StringDeserializer(),
               serdeRegistry.getDeserializer(WindowedHashtagWithLikeCount.class));
 

@@ -1,6 +1,6 @@
 package com.eng2.assessment.thm.events;
 
-import static com.eng2.assessment.thm.events.TrendingHashtagsStream.TOPIC_HASHTAG_SUMMARY;
+import static shared.Topics.TOPIC_TRENDING_HASHTAGS;
 
 import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
@@ -21,7 +21,7 @@ public class TrendingHashtagSummaryConsumer implements ITrendingHashtagsSummaryC
   private static final Logger logger =
       LoggerFactory.getLogger(TrendingHashtagSummaryConsumer.class);
 
-  @Topic(TOPIC_HASHTAG_SUMMARY)
+  @Topic(TOPIC_TRENDING_HASHTAGS)
   public void consumeTrendingHashtagsMessages(
       List<ConsumerRecord<String, WindowedHashtagWithLikeCount>> records) {
     List<WindowedHashtagWithLikeCount> counts =
