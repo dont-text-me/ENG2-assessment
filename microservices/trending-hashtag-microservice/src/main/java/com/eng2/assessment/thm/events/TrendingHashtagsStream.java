@@ -27,8 +27,6 @@ public class TrendingHashtagsStream implements ITrendingHashtagsStream {
   @Value(value = "${trending-hashtags.window-size: `1h`}")
   private Duration windowSize;
 
-  public static final String HASHTAG_LEADERBOARD_STORE = "hashtag-leaderboard";
-
   /**
    * A kafka stream that listens to messages about liked videos from VM and reposts per-hashtag
    * statistics.
@@ -55,7 +53,7 @@ public class TrendingHashtagsStream implements ITrendingHashtagsStream {
             .selectKey((k, v) -> v)
             .groupByKey(Grouped.with(Serdes.String(), Serdes.String()))
             .windowedBy(SlidingWindows.ofTimeDifferenceWithNoGrace(windowSize))
-            .count(Materialized.as(HASHTAG_LEADERBOARD_STORE))
+            .count()
             .toStream()
             .map(
                 (key, value) ->
