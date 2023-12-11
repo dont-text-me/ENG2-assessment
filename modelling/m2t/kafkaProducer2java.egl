@@ -2,7 +2,8 @@ package [%=packageName%];
 import io.micronaut.configuration.kafka.annotation.KafkaClient;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.Topic;
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 import [%=kp.eContainer.name.getMicroserviceAcronym()%].dto.*;
 
 @KafkaClient

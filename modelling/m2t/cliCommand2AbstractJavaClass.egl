@@ -1,10 +1,6 @@
 package [%=packageName%];
-import com.eng2.assessment.client.utils.formatters.TrendingHashtagFormatter;
-import jakarta.inject.Inject;
-import java.util.*;
+import java.util.UUID;
 import picocli.CommandLine;
-import thm.api.TrendingHashtagsClient;
-import thm.dto.TrendingHashtagResponseDTO;
 import enums.*;
 
 @CommandLine.Command(name = "[%=cmd.name%]", description = "[%=cmd.description%]", mixinStandardHelpOptions = true, scope = CommandLine.ScopeType.INHERIT)
@@ -14,14 +10,14 @@ public abstract class A[%=cmd.name.kebabToCamelCase()%]Command implements Runnab
       names = {[%=arg.names.collect(it | '"' + it + '"').concat(", ")%]},
       required = [%=arg.isRequired%],
       description = "[%=arg.description%]")
-  public [%=arg.field.type%] [%=arg.field.name%];
+  protected [%=arg.field.type%] [%=arg.field.name%];
 [%}%]
 [%for (arg : EnumValueCliArgument  in cmd.args){%]
 @CommandLine.Option(
       names = {[%=arg.names.collect(it | '"' + it + '"').concat(", ")%]},
       required = [%=arg.isRequired%],
       description = "[%=arg.description%]. Possible options: [%=arg.enumType.values.concat(", ")%]")
-  public [%=arg.enumType.name%] [%=arg.enumType.name.toLowercase()%];
+  protected [%=arg.enumType.name%] [%=arg.enumType.name.toLowercase()%];
 [%}%]
 }
 

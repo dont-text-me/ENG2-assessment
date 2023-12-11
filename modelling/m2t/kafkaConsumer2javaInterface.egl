@@ -1,9 +1,7 @@
 package [%=packageName%];
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import io.micronaut.configuration.kafka.annotation.KafkaClient;
-import io.micronaut.configuration.kafka.annotation.KafkaKey;
-import io.micronaut.configuration.kafka.annotation.Topic;
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 [%for (microservice in kc.eContainer.eContainer.services){%]
 import [%=microservice.name.getMicroserviceAcronym()%].dto.*;
 [%}%]
