@@ -1,7 +1,11 @@
 package com.eng2.assessment.sm.controllers;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.eng2.assessment.generated.sm.api.RecommendationsClient;
+import com.eng2.assessment.generated.sm.domain.Hashtag;
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.sm.domain.Video;
+import com.eng2.assessment.generated.sm.dto.VideoDTO;
+import com.eng2.assessment.generated.sm.dto.VideoRecommendationDTO;
 import com.eng2.assessment.sm.repositories.HashtagRepository;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import com.eng2.assessment.sm.repositories.VideoRepository;
@@ -11,17 +15,14 @@ import io.micronaut.http.HttpStatus;
 import io.micronaut.serde.ObjectMapper;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
-import java.util.*;
-import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import com.eng2.assessment.generated.sm.api.RecommendationsClient;
-import com.eng2.assessment.generated.sm.domain.Hashtag;
-import com.eng2.assessment.generated.sm.domain.User;
-import com.eng2.assessment.generated.sm.domain.Video;
-import com.eng2.assessment.generated.sm.dto.VideoDTO;
-import com.eng2.assessment.generated.sm.dto.VideoRecommendationDTO;
+
+import java.util.*;
+import java.util.stream.IntStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

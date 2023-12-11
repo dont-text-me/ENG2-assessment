@@ -1,8 +1,9 @@
 package com.eng2.assessment.sm.controllers;
 
-import static com.eng2.assessment.sm.utils.UserUtils.isUserSubscribedToHashtag;
-import static com.eng2.assessment.sm.utils.VideoUtils.convertEntityList;
-
+import com.eng2.assessment.generated.sm.api.IRecommendationsClient;
+import com.eng2.assessment.generated.sm.domain.Hashtag;
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.sm.dto.VideoRecommendationDTO;
 import com.eng2.assessment.sm.repositories.HashtagRepository;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import com.eng2.assessment.sm.repositories.VideoRepository;
@@ -11,12 +12,12 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.QueryValue;
 import jakarta.inject.Inject;
+
 import java.util.Collections;
 import java.util.Objects;
-import com.eng2.assessment.generated.sm.api.IRecommendationsClient;
-import com.eng2.assessment.generated.sm.domain.Hashtag;
-import com.eng2.assessment.generated.sm.domain.User;
-import com.eng2.assessment.generated.sm.dto.VideoRecommendationDTO;
+
+import static com.eng2.assessment.sm.utils.UserUtils.isUserSubscribedToHashtag;
+import static com.eng2.assessment.sm.utils.VideoUtils.convertEntityList;
 
 @Controller("/recommendations")
 public class RecommendationsController implements IRecommendationsClient {

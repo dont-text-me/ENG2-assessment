@@ -1,5 +1,11 @@
 package com.eng2.assessment.client.utils.mockResponses;
 
+import com.eng2.assessment.generated.sm.dto.VideoDTO;
+import com.eng2.assessment.generated.sm.dto.VideoRecommendationDTO;
+import com.eng2.assessment.generated.thm.dto.TrendingHashtagResponseDTO;
+import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
+import com.eng2.assessment.generated.vm.dto.VideoResponseDTO;
+import com.eng2.assessment.generated.vm.dto.VideoResultsDTO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -7,16 +13,14 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import jakarta.annotation.Nullable;
+
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
-import com.eng2.assessment.generated.sm.dto.VideoDTO;
-import com.eng2.assessment.generated.sm.dto.VideoRecommendationDTO;
-import com.eng2.assessment.generated.thm.dto.TrendingHashtagResponseDTO;
-import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
-import com.eng2.assessment.generated.vm.dto.VideoResponseDTO;
-import com.eng2.assessment.generated.vm.dto.VideoResultsDTO;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 public class MockResponses {
 

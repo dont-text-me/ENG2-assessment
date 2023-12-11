@@ -1,13 +1,14 @@
 package com.eng2.assessment.sm.repositories;
 
+import com.eng2.assessment.generated.sm.domain.Video;
 import io.micronaut.data.annotation.Join;
 import io.micronaut.data.annotation.Query;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import com.eng2.assessment.generated.sm.domain.Video;
 
 @Repository
 public interface VideoRepository extends CrudRepository<Video, UUID> {

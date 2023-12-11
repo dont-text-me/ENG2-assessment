@@ -1,10 +1,11 @@
 package com.eng2.assessment.thm.shared;
 
-import java.util.Comparator;
-import java.util.List;
 import com.eng2.assessment.generated.thm.domain.TrendingHashtag;
 import com.eng2.assessment.generated.thm.dto.TrendingHashtagResponseDTO;
 import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
+
+import java.util.Comparator;
+import java.util.List;
 
 public class Utils {
   public static Comparator<TrendingHashtag> trendingHashtagOrdering =

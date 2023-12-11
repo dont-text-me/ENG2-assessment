@@ -1,11 +1,14 @@
 package com.eng2.assessment.vm.controllers;
 
-import static com.eng2.assessment.vm.utils.VideoEntityUtils.getHashtagIds;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.openMocks;
-
+import com.eng2.assessment.generated.vm.api.VideosClient;
+import com.eng2.assessment.generated.vm.domain.Hashtag;
+import com.eng2.assessment.generated.vm.domain.User;
+import com.eng2.assessment.generated.vm.domain.Video;
+import com.eng2.assessment.generated.vm.dto.VideoDTO;
+import com.eng2.assessment.generated.vm.dto.VideoInteractionDetailsDTO;
+import com.eng2.assessment.generated.vm.dto.VideoResponseDTO;
+import com.eng2.assessment.generated.vm.dto.VideoResultsDTO;
+import com.eng2.assessment.generated.vm.events.VideoInteractionProducer;
 import com.eng2.assessment.vm.repositories.HashtagRepository;
 import com.eng2.assessment.vm.repositories.UsersRepository;
 import com.eng2.assessment.vm.repositories.VideosRepository;
@@ -16,26 +19,25 @@ import io.micronaut.http.HttpStatus;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.NullSource;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EmptySource;
-import org.junit.jupiter.params.provider.NullSource;
-import com.eng2.assessment.generated.vm.api.VideosClient;
-import com.eng2.assessment.generated.vm.domain.Hashtag;
-import com.eng2.assessment.generated.vm.domain.User;
-import com.eng2.assessment.generated.vm.domain.Video;
-import com.eng2.assessment.generated.vm.dto.VideoDTO;
-import com.eng2.assessment.generated.vm.dto.VideoInteractionDetailsDTO;
-import com.eng2.assessment.generated.vm.dto.VideoResponseDTO;
-import com.eng2.assessment.generated.vm.dto.VideoResultsDTO;
-import com.eng2.assessment.generated.vm.events.VideoInteractionProducer;
+
+import static com.eng2.assessment.vm.utils.VideoEntityUtils.getHashtagIds;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

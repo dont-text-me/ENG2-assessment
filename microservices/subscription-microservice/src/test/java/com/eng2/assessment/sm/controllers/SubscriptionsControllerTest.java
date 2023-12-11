@@ -1,9 +1,10 @@
 package com.eng2.assessment.sm.controllers;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.openMocks;
-
+import com.eng2.assessment.generated.sm.api.SubscriptionsClient;
+import com.eng2.assessment.generated.sm.domain.Hashtag;
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.sm.dto.UserSubscriptionMessageValueDTO;
+import com.eng2.assessment.generated.sm.events.SubscriptionProducer;
 import com.eng2.assessment.sm.repositories.HashtagRepository;
 import com.eng2.assessment.sm.repositories.UserRepository;
 import com.eng2.assessment.sm.utils.DbCleanupExtension;
@@ -13,14 +14,14 @@ import io.micronaut.http.HttpStatus;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.util.Set;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import com.eng2.assessment.generated.sm.api.SubscriptionsClient;
-import com.eng2.assessment.generated.sm.domain.Hashtag;
-import com.eng2.assessment.generated.sm.domain.User;
-import com.eng2.assessment.generated.sm.dto.UserSubscriptionMessageValueDTO;
-import com.eng2.assessment.generated.sm.events.SubscriptionProducer;
+
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)
