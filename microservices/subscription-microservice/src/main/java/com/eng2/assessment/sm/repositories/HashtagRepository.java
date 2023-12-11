@@ -6,7 +6,7 @@ import io.micronaut.data.repository.CrudRepository;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import sm.domain.Hashtag;
+import com.eng2.assessment.generated.sm.domain.Hashtag;
 
 @Repository
 public interface HashtagRepository extends CrudRepository<Hashtag, String> {

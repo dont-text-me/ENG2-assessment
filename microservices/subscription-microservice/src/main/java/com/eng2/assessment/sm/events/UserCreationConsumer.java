@@ -1,6 +1,6 @@
 package com.eng2.assessment.sm.events;
 
-import static shared.Topics.TOPIC_USER_REGISTERED;
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_USER_REGISTERED;
 
 import com.eng2.assessment.sm.repositories.UserRepository;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
@@ -11,9 +11,9 @@ import jakarta.transaction.Transactional;
 import java.util.HashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sm.domain.User;
-import sm.events.IUserCreationConsumer;
-import vm.dto.UserRegisteredMessageValueDTO;
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.sm.events.IUserCreationConsumer;
+import com.eng2.assessment.generated.vm.dto.UserRegisteredMessageValueDTO;
 
 @KafkaListener(groupId = "subscription-microservice")
 public class UserCreationConsumer implements IUserCreationConsumer {

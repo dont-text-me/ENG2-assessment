@@ -13,11 +13,11 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sm.api.ISubscriptionsClient;
-import sm.domain.Hashtag;
-import sm.domain.User;
-import sm.dto.UserSubscriptionMessageValueDTO;
-import sm.events.SubscriptionProducer;
+import com.eng2.assessment.generated.sm.api.ISubscriptionsClient;
+import com.eng2.assessment.generated.sm.domain.Hashtag;
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.sm.dto.UserSubscriptionMessageValueDTO;
+import com.eng2.assessment.generated.sm.events.SubscriptionProducer;
 
 @Controller("/subscriptions")
 public class SubscriptionsController implements ISubscriptionsClient {

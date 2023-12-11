@@ -2,7 +2,7 @@ package [%=packageName%];
 import io.micronaut.configuration.kafka.streams.ConfiguredStreamBuilder;
 import org.apache.kafka.streams.kstream.KStream;
 [%for (microservice in ks.eContainer.eContainer.services){%]
-import [%=microservice.name.getMicroserviceAcronym()%].dto.*;
+import com.eng2.assessment.generated.[%=microservice.name.getMicroserviceAcronym()%].dto.*;
 [%}%]
 
 public interface I[%=ks.name%] {

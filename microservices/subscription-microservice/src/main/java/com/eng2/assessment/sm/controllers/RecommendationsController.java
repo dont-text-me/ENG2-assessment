@@ -13,10 +13,10 @@ import io.micronaut.http.annotation.QueryValue;
 import jakarta.inject.Inject;
 import java.util.Collections;
 import java.util.Objects;
-import sm.api.IRecommendationsClient;
-import sm.domain.Hashtag;
-import sm.domain.User;
-import sm.dto.VideoRecommendationDTO;
+import com.eng2.assessment.generated.sm.api.IRecommendationsClient;
+import com.eng2.assessment.generated.sm.domain.Hashtag;
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.sm.dto.VideoRecommendationDTO;
 
 @Controller("/recommendations")
 public class RecommendationsController implements IRecommendationsClient {

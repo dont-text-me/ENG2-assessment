@@ -1,6 +1,6 @@
 package com.eng2.assessment.client.utils.formatters;
 
-import thm.dto.WindowedHashtagWithLikeCount;
+import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
 
 public class TrendingHashtagFormatter {
   public static String prettyPrintTrendingHashtag(WindowedHashtagWithLikeCount hashtag) {

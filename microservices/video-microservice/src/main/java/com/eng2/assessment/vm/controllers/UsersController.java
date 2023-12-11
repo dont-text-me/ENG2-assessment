@@ -7,10 +7,10 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import jakarta.inject.Inject;
 import java.net.URI;
-import vm.api.IUsersClient;
-import vm.domain.User;
-import vm.dto.UserRegisteredMessageValueDTO;
-import vm.events.UserCreationProducer;
+import com.eng2.assessment.generated.vm.api.IUsersClient;
+import com.eng2.assessment.generated.vm.domain.User;
+import com.eng2.assessment.generated.vm.dto.UserRegisteredMessageValueDTO;
+import com.eng2.assessment.generated.vm.events.UserCreationProducer;
 
 @Controller("/users")
 public class UsersController implements IUsersClient {

@@ -8,7 +8,7 @@ import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import vm.domain.Video;
+import com.eng2.assessment.generated.vm.domain.Video;
 
 @Repository
 public interface VideosRepository extends CrudRepository<Video, UUID> {

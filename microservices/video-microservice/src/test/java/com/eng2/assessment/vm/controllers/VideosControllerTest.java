@@ -27,15 +27,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.NullSource;
-import vm.api.VideosClient;
-import vm.domain.Hashtag;
-import vm.domain.User;
-import vm.domain.Video;
-import vm.dto.VideoDTO;
-import vm.dto.VideoInteractionDetailsDTO;
-import vm.dto.VideoResponseDTO;
-import vm.dto.VideoResultsDTO;
-import vm.events.VideoInteractionProducer;
+import com.eng2.assessment.generated.vm.api.VideosClient;
+import com.eng2.assessment.generated.vm.domain.Hashtag;
+import com.eng2.assessment.generated.vm.domain.User;
+import com.eng2.assessment.generated.vm.domain.Video;
+import com.eng2.assessment.generated.vm.dto.VideoDTO;
+import com.eng2.assessment.generated.vm.dto.VideoInteractionDetailsDTO;
+import com.eng2.assessment.generated.vm.dto.VideoResponseDTO;
+import com.eng2.assessment.generated.vm.dto.VideoResultsDTO;
+import com.eng2.assessment.generated.vm.events.VideoInteractionProducer;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

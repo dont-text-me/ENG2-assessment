@@ -1,8 +1,8 @@
 package com.eng2.assessment.thm.events;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static shared.Topics.TOPIC_TRENDING_HASHTAGS;
-import static shared.Topics.TOPIC_VIDEO_LIKED;
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_TRENDING_HASHTAGS;
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_VIDEO_LIKED;
 
 import io.micronaut.configuration.kafka.serde.CompositeSerdeRegistry;
 import io.micronaut.configuration.kafka.streams.ConfiguredStreamBuilder;
@@ -17,8 +17,8 @@ import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.junit.jupiter.api.Test;
-import thm.dto.WindowedHashtagWithLikeCount;
-import vm.dto.VideoInteractionDetailsDTO;
+import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
+import com.eng2.assessment.generated.vm.dto.VideoInteractionDetailsDTO;
 
 @MicronautTest(environments = "no-streams")
 public class TrendingHashtagTestDoubleStreamTest {

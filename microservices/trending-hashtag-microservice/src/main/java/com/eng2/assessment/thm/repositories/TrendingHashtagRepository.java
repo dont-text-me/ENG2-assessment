@@ -5,7 +5,7 @@ import io.micronaut.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import thm.domain.TrendingHashtag;
+import com.eng2.assessment.generated.thm.domain.TrendingHashtag;
 
 @Repository
 public interface TrendingHashtagRepository extends CrudRepository<TrendingHashtag, UUID> {

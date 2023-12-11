@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import vm.api.UsersClient;
-import vm.api.VideosClient;
-import vm.dto.VideoDTO;
+import com.eng2.assessment.generated.vm.api.UsersClient;
+import com.eng2.assessment.generated.vm.api.VideosClient;
+import com.eng2.assessment.generated.vm.dto.VideoDTO;
 
 @MicronautTest
 @Tag("feature-test")

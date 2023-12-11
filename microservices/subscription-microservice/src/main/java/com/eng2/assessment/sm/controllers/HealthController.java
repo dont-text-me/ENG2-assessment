@@ -3,7 +3,7 @@ package com.eng2.assessment.sm.controllers;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import sm.api.IHealthClient;
+import com.eng2.assessment.generated.sm.api.IHealthClient;
 
 @Controller("/health")
 public class HealthController implements IHealthClient {

@@ -18,15 +18,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vm.api.IVideosClient;
-import vm.domain.Hashtag;
-import vm.domain.User;
-import vm.domain.Video;
-import vm.dto.VideoDTO;
-import vm.dto.VideoInteractionDetailsDTO;
-import vm.dto.VideoResponseDTO;
-import vm.dto.VideoResultsDTO;
-import vm.events.VideoInteractionProducer;
+import com.eng2.assessment.generated.vm.api.IVideosClient;
+import com.eng2.assessment.generated.vm.domain.Hashtag;
+import com.eng2.assessment.generated.vm.domain.User;
+import com.eng2.assessment.generated.vm.domain.Video;
+import com.eng2.assessment.generated.vm.dto.VideoDTO;
+import com.eng2.assessment.generated.vm.dto.VideoInteractionDetailsDTO;
+import com.eng2.assessment.generated.vm.dto.VideoResponseDTO;
+import com.eng2.assessment.generated.vm.dto.VideoResultsDTO;
+import com.eng2.assessment.generated.vm.events.VideoInteractionProducer;
 
 @Controller("/videos")
 public class VideosController implements IVideosClient {

@@ -6,7 +6,7 @@ import io.micronaut.data.repository.CrudRepository;
 import jakarta.annotation.Nonnull;
 import java.util.Optional;
 import java.util.UUID;
-import vm.domain.User;
+import com.eng2.assessment.generated.vm.domain.User;
 
 @Repository
 public interface UsersRepository extends CrudRepository<User, UUID> {

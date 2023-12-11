@@ -1,4 +1,4 @@
-package shared;
+package com.eng2.assessment.generated.shared;
 public class Topics {
   [%for (topic in s.topics){%]
   	public static final String TOPIC_[%=topic.name.kebabCaseToCapitalSnakeCase()%] = "[%=topic.name%]";

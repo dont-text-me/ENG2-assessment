@@ -12,8 +12,8 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import sm.domain.User;
-import vm.dto.UserRegisteredMessageValueDTO;
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.vm.dto.UserRegisteredMessageValueDTO;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

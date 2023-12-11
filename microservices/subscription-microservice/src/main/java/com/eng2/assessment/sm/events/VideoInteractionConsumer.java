@@ -3,8 +3,8 @@ package com.eng2.assessment.sm.events;
 import static com.eng2.assessment.sm.utils.UserUtils.hasUserWatchedVideo;
 import static com.eng2.assessment.sm.utils.VideoUtils.addViewer;
 import static com.eng2.assessment.sm.utils.VideoUtils.incrementViewCount;
-import static shared.Topics.TOPIC_VIDEO_POSTED;
-import static shared.Topics.TOPIC_VIDEO_VIEWED;
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_VIDEO_POSTED;
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_VIDEO_VIEWED;
 
 import com.eng2.assessment.sm.repositories.HashtagRepository;
 import com.eng2.assessment.sm.repositories.UserRepository;
@@ -19,11 +19,11 @@ import java.util.Set;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sm.domain.Hashtag;
-import sm.domain.User;
-import sm.domain.Video;
-import sm.events.IVideoInteractionConsumer;
-import vm.dto.VideoInteractionDetailsDTO;
+import com.eng2.assessment.generated.sm.domain.Hashtag;
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.sm.domain.Video;
+import com.eng2.assessment.generated.sm.events.IVideoInteractionConsumer;
+import com.eng2.assessment.generated.vm.dto.VideoInteractionDetailsDTO;
 
 /**
  * Handles incoming messages from VM and recreates (with minimal information) the links between

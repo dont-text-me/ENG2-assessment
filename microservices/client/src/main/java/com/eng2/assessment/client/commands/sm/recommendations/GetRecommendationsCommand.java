@@ -1,16 +1,16 @@
 package com.eng2.assessment.client.commands.sm.recommendations;
 
 import com.eng2.assessment.client.utils.formatters.VideoRecommendationFormatter;
-import commands.AGetRecommendationsCommand;
+import com.eng2.assessment.generated.commands.AGetRecommendationsCommand;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
 import picocli.CommandLine;
-import sm.api.RecommendationsClient;
-import sm.dto.VideoDTO;
-import sm.dto.VideoRecommendationDTO;
+import com.eng2.assessment.generated.sm.api.RecommendationsClient;
+import com.eng2.assessment.generated.sm.dto.VideoDTO;
+import com.eng2.assessment.generated.sm.dto.VideoRecommendationDTO;
 
 @CommandLine.Command(name = "get-recommendations")
 public class GetRecommendationsCommand extends AGetRecommendationsCommand {

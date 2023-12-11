@@ -1,8 +1,8 @@
 package com.eng2.assessment.sm.utils;
 
 import java.util.UUID;
-import sm.domain.Hashtag;
-import sm.domain.User;
+import com.eng2.assessment.generated.sm.domain.Hashtag;
+import com.eng2.assessment.generated.sm.domain.User;
 
 public class UserUtils {
   public static boolean isUserSubscribedToHashtag(User user, String hashtagId) {

@@ -16,10 +16,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import vm.api.UsersClient;
-import vm.domain.User;
-import vm.dto.UserRegisteredMessageValueDTO;
-import vm.events.UserCreationProducer;
+import com.eng2.assessment.generated.vm.api.UsersClient;
+import com.eng2.assessment.generated.vm.domain.User;
+import com.eng2.assessment.generated.vm.dto.UserRegisteredMessageValueDTO;
+import com.eng2.assessment.generated.vm.events.UserCreationProducer;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

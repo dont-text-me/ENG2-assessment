@@ -5,7 +5,7 @@ import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
-import sm.domain.User;
+import com.eng2.assessment.generated.sm.domain.User;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, String> {

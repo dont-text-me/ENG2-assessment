@@ -3,7 +3,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import java.util.List;
 import java.util.UUID;
 [%for (microservice in kc.eContainer.eContainer.services){%]
-import [%=microservice.name.getMicroserviceAcronym()%].dto.*;
+import com.eng2.assessment.generated.[%=microservice.name.getMicroserviceAcronym()%].dto.*;
 [%}%]
 
 public interface I[%=kc.name%] {

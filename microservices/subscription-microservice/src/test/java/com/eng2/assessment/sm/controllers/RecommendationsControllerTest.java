@@ -16,12 +16,12 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import sm.api.RecommendationsClient;
-import sm.domain.Hashtag;
-import sm.domain.User;
-import sm.domain.Video;
-import sm.dto.VideoDTO;
-import sm.dto.VideoRecommendationDTO;
+import com.eng2.assessment.generated.sm.api.RecommendationsClient;
+import com.eng2.assessment.generated.sm.domain.Hashtag;
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.sm.domain.Video;
+import com.eng2.assessment.generated.sm.dto.VideoDTO;
+import com.eng2.assessment.generated.sm.dto.VideoRecommendationDTO;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

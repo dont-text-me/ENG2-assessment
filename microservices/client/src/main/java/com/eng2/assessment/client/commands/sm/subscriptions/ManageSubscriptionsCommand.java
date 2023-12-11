@@ -1,12 +1,12 @@
 package com.eng2.assessment.client.commands.sm.subscriptions;
 
-import commands.AManageSubscriptionsCommand;
-import enums.SubscriptionAction;
+import com.eng2.assessment.generated.commands.AManageSubscriptionsCommand;
+import com.eng2.assessment.generated.enums.SubscriptionAction;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
 import picocli.CommandLine;
-import sm.api.SubscriptionsClient;
+import com.eng2.assessment.generated.sm.api.SubscriptionsClient;
 
 @CommandLine.Command(name = "manage-subscriptions")
 public class ManageSubscriptionsCommand extends AManageSubscriptionsCommand {

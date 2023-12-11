@@ -16,11 +16,11 @@ import jakarta.inject.Singleton;
 import java.util.Set;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import sm.api.SubscriptionsClient;
-import sm.domain.Hashtag;
-import sm.domain.User;
-import sm.dto.UserSubscriptionMessageValueDTO;
-import sm.events.SubscriptionProducer;
+import com.eng2.assessment.generated.sm.api.SubscriptionsClient;
+import com.eng2.assessment.generated.sm.domain.Hashtag;
+import com.eng2.assessment.generated.sm.domain.User;
+import com.eng2.assessment.generated.sm.dto.UserSubscriptionMessageValueDTO;
+import com.eng2.assessment.generated.sm.events.SubscriptionProducer;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)
