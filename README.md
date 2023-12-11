@@ -16,6 +16,9 @@
         * Sends messages about users subscribing/unsubscribing to the cluster
     * client
       * Contains CLI commands that enable interaction with other microservices
+* modelling
+  * Contains the metamodel, model, validation 
+and code generation templates as specified in the assessment brief
 
 ---
 
@@ -52,7 +55,7 @@ Build client jar
 ### Step 4
 Start the kafka cluster, microservices and databases
 ```shell
-docker compose up
+./compose-prod.sh
 ```
 ### Step 5
 Use CLI to interact with the apps. (UNIX/git bash/WSL) 

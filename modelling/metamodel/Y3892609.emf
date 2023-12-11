@@ -5,11 +5,13 @@ class System {
     val Microservice [*] services;
     val CommandLineClient client;
     val KafkaTopic[*] topics;
+    attr Integer kafkaBrokerCount = 3;
 }
 
 class Microservice {
     attr String name;
     attr String description;
+    attr Integer dockerComposePortForwardValue = 8080;
     val APISchema api;
     val DTO[*] dtos;
     val Entity[*] entities;

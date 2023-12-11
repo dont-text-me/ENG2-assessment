@@ -64,9 +64,20 @@ context System{
         check: self.services.size() >= 1
         message: "System does not have any microservices"
     }
+
+    constraint microservicesMustNotExposeConflictingPorts{
+        check: self.services.dockerComposePortForwardValue.asSet().size() == self.services.dockerComposePortForwardValue.size()
+        message: "Found 2 or more microservices exposing the same port, which will cause issues when running docker compose. Please check the model"
+    }
 }
 
 context Microservice{
+    constraint nameMustNotContainSpaces{
+        check: not self.name.contains(" ")
+        message: "The name of microservice " + self.name + " must not contain spaces"
+    }
+
+
     constraint mustHaveDifferentJoinTablesForMultipleManyToManyRelationships{
         check {
             for (sourceEntity in self.entities){

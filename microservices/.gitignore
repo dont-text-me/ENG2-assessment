@@ -40,3 +40,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Generated docker-compose file ###
+compose-prod-generated.yml

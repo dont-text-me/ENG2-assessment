@@ -1,8 +1,8 @@
 package com.eng2.assessment.thm.events;
 
-import static com.eng2.assessment.thm.events.TrendingHashtagsStream.TOPIC_HASHTAG_SUMMARY;
 import static java.lang.String.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
+import static shared.Topics.TOPIC_TRENDING_HASHTAGS;
 
 import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import com.eng2.assessment.thm.utils.DbCleanupExtension;
@@ -37,7 +37,7 @@ public class TrendingHashtagSummaryConsumerTest {
             Instant.now().toEpochMilli());
 
     sut.consumeTrendingHashtagsMessages(
-        List.of(new ConsumerRecord<>(TOPIC_HASHTAG_SUMMARY, 1, 1L, "Zoo", messageData)));
+        List.of(new ConsumerRecord<>(TOPIC_TRENDING_HASHTAGS, 1, 1L, "Zoo", messageData)));
 
     assertThat(repo.findAll()).isNotNull().isNotEmpty();
 
@@ -53,7 +53,7 @@ public class TrendingHashtagSummaryConsumerTest {
             it ->
                 records.add(
                     new ConsumerRecord<>(
-                        TOPIC_HASHTAG_SUMMARY,
+                        TOPIC_TRENDING_HASHTAGS,
                         1,
                         it,
                         valueOf(it),

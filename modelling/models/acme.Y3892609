@@ -97,7 +97,7 @@
       <fromField name="hashtags" type="Set&lt;Hashtag>"/>
     </relationships>
   </services>
-  <services name="subscription-microservice" description="Subscribes to events from the video microservice and allows management of user subscriptions as well as receving video recommendations for each user/hashtag pair (if subscribed)">
+  <services name="subscription-microservice" description="Subscribes to events from the video microservice and allows management of user subscriptions as well as receving video recommendations for each user/hashtag pair (if subscribed)" dockerComposePortForwardValue="8082">
     <api>
       <clients name="RecommendationsClient" urlConfigProperty="resource-urls.sm.recommendations" defaultUrl="http://localhost:8082/recommendations" errorType="VideoRecommendationDTO">
         <requests xsi:type="HttpGetRequest" name="getRecommendations" url="/{userName}" responseBody="//@services.1/@dtos.1" isResponseWrappedInHttpResponse="true">
@@ -157,7 +157,7 @@
       <fromField name="viewers" type="Set&lt;User>"/>
     </relationships>
   </services>
-  <services name="trending-hashtag-microservice" description="Subscribes to events from the video microservice and reports the top 10 most liked hashtags within the last hour">
+  <services name="trending-hashtag-microservice" description="Subscribes to events from the video microservice and reports the top 10 most liked hashtags within the last hour" dockerComposePortForwardValue="8081">
     <api>
       <clients name="TrendingHashtagsClient" urlConfigProperty="resource-urls.thm.trending-hashtags" defaultUrl="http://localhost:8081/trending-hashtags">
         <requests xsi:type="HttpGetRequest" name="latestStats" url="/latest" responseBody="//@services.2/@dtos.1"/>
