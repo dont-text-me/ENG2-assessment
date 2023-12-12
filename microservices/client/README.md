@@ -41,7 +41,7 @@
 ### Feature tests
 Feature tests are tagged with `@Tag(feature-tests)`
 
-To run all feature tests by themselves, use the `client:featureTests` task.
+To run all feature tests by themselves, use the `client:featureTests` task (when running from the `microservices/client` directory).
 
 The system is started by using a Compose testcontainer by default.
 It is possible, if desired, to run the tests against another instance of docker compose, 

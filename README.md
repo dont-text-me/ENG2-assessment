@@ -16,6 +16,8 @@
         * Sends messages about users subscribing/unsubscribing to the cluster
     * client
       * Contains CLI commands that enable interaction with other microservices
+    * generated-shared
+      * Contains parts of the generated code that are shared across microservices
 * modelling
   * Contains the metamodel, model, validation 
 and code generation templates as specified in the assessment brief
@@ -37,6 +39,8 @@ and code generation templates as specified in the assessment brief
 
 ## Running the services locally
 
+### From the top-level directory:
+
 ### Step 1
 Run the code generator
 ```shell
@@ -55,16 +59,36 @@ Build client jar
 ### Step 4
 Start the kafka cluster, microservices and databases
 ```shell
-./compose-prod.sh
+./compose-prod
 ```
 ### Step 5
 Use CLI to interact with the apps. (UNIX/git bash/WSL) 
 ```shell
-./video-services.sh your-command
+./video-services your-command
 ```
 
 Alternatively, from the `microservices/client` directory:
 ```shell
 ./gradlew run --args="your commmand"
 ```
-For the full list of commands as well as feature testing instructions, please consult [the client's README](microservices/client/README.md)
+---
+## Running tests
+
+### Running all tests at once (~7-8 minute execution time)
+```shell
+./gradlew test
+```
+### Running tests for each microservice separately
+```shell
+./gradlew microservices:<microservice name>:test
+```
+### Running unit tests for the CLI client
+```shell
+./gradlew microservices:client:unitTests
+```
+### Running feature tests of the system
+```shell
+./gradlew microservices:client:featureTests
+```
+---
+For the full list of commands as well as more information on feature testing, please consult [the client's README](microservices/client/README.md)
