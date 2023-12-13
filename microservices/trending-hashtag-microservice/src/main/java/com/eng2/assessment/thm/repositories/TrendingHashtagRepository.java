@@ -4,7 +4,6 @@ import com.eng2.assessment.generated.thm.domain.TrendingHashtag;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
