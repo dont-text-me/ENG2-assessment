@@ -14,14 +14,12 @@ public class InteractWithVideoCommand extends AInteractWithVideoCommand {
 
   @Override
   public void run() {
-    HttpResponse<String> result;
-    switch (this.videointeractiontype) {
-      case LIKE -> result = client.likeVideo(videoId, userName);
-      case WATCH -> result = client.watchVideo(videoId, userName);
-      case DISLIKE -> result = client.dislikeVideo(videoId, userName);
-      default -> throw new IllegalArgumentException(
-          "Invalid interaction type!"); // this won't happen, adding to satisfy compiler
-    }
+    HttpResponse<String> result =
+        switch (this.videointeractiontype) {
+          case LIKE -> client.likeVideo(videoId, userName);
+          case WATCH -> client.watchVideo(videoId, userName);
+          case DISLIKE -> client.dislikeVideo(videoId, userName);
+        };
     if (result.status() == HttpStatus.OK) {
       System.out.println("Success! " + result.body());
     } else {
