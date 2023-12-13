@@ -20,7 +20,7 @@ dependencies {
 	implementation("io.micronaut:micronaut-http-client")
 	implementation(project(":microservices:generated-shared"))
 	runtimeOnly("org.yaml:snakeyaml")
-	runtimeOnly("ch.qos.logback:logback-classic")
+	runtimeOnly("ch.qos.logback:logback-classic:1.4.14")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
 	testImplementation("io.micronaut:micronaut-http-client")

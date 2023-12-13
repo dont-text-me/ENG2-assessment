@@ -9,8 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface TrendingHashtagRepository extends CrudRepository<TrendingHashtag, UUID> {
-  Optional<Long> findMaxWindowEnd();
-
   List<TrendingHashtag> findByWindowEndLessThanEqualsAndWindowEndGreaterThanOrderByLikeCountDesc(
       Long windowEnd, Long windowEnd2);
 }

@@ -22,7 +22,7 @@ dependencies {
 	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
 	implementation(project(":microservices:generated-shared"))
 	compileOnly("io.micronaut:micronaut-http-client")
-	runtimeOnly("ch.qos.logback:logback-classic")
+	runtimeOnly("ch.qos.logback:logback-classic:1.4.14")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 	runtimeOnly("org.yaml:snakeyaml")
 	testImplementation("io.micronaut:micronaut-http-client")
@@ -30,6 +30,12 @@ dependencies {
 	testImplementation("org.apache.kafka:kafka-streams-test-utils:3.6.0")
 	testImplementation("org.mockito:mockito-core:5.6.0")
 	testImplementation("org.mockito:mockito-junit-jupiter:5.6.0")
+
+	//address docker scout vulnerabilities
+	implementation ('org.xerial.snappy:snappy-java:1.1.10.5')
+	implementation ('io.netty:netty-handler:4.1.102.Final')
+
+
 }
 
 
