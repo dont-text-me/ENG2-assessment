@@ -1,5 +1,8 @@
 package com.eng2.assessment.thm.controllers;
 
+import static com.eng2.assessment.thm.shared.Utils.convertEntityList;
+import static com.eng2.assessment.thm.shared.Utils.trendingHashtagOrdering;
+
 import com.eng2.assessment.generated.thm.api.ITrendingHashtagsClient;
 import com.eng2.assessment.generated.thm.domain.TrendingHashtag;
 import com.eng2.assessment.generated.thm.dto.TrendingHashtagResponseDTO;
@@ -8,13 +11,9 @@ import io.micronaut.context.annotation.Value;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import jakarta.inject.Inject;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.TreeSet;
-
-import static com.eng2.assessment.thm.shared.Utils.convertEntityList;
-import static com.eng2.assessment.thm.shared.Utils.trendingHashtagOrdering;
 
 @Controller("/trending-hashtags")
 public class TrendingHashtagController implements ITrendingHashtagsClient {

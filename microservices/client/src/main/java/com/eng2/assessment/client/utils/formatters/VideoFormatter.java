@@ -1,7 +1,6 @@
 package com.eng2.assessment.client.utils.formatters;
 
 import com.eng2.assessment.generated.vm.dto.VideoResponseDTO;
-
 import java.time.ZoneOffset;
 
 public class VideoFormatter {

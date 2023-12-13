@@ -1,5 +1,12 @@
 package com.eng2.assessment.vm.controllers;
 
+import static com.eng2.assessment.vm.utils.VideoEntityUtils.getHashtagIds;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.openMocks;
+
 import com.eng2.assessment.generated.vm.api.VideosClient;
 import com.eng2.assessment.generated.vm.domain.Hashtag;
 import com.eng2.assessment.generated.vm.domain.User;
@@ -19,25 +26,17 @@ import io.micronaut.http.HttpStatus;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EmptySource;
-import org.junit.jupiter.params.provider.NullSource;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import static com.eng2.assessment.vm.utils.VideoEntityUtils.getHashtagIds;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.openMocks;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

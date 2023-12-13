@@ -1,5 +1,8 @@
 package com.eng2.assessment.sm.controllers;
 
+import static com.eng2.assessment.sm.utils.UserUtils.isUserSubscribedToHashtag;
+import static com.eng2.assessment.sm.utils.VideoUtils.convertEntityList;
+
 import com.eng2.assessment.generated.sm.api.IRecommendationsClient;
 import com.eng2.assessment.generated.sm.domain.Hashtag;
 import com.eng2.assessment.generated.sm.domain.User;
@@ -12,12 +15,8 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.QueryValue;
 import jakarta.inject.Inject;
-
 import java.util.Collections;
 import java.util.Objects;
-
-import static com.eng2.assessment.sm.utils.UserUtils.isUserSubscribedToHashtag;
-import static com.eng2.assessment.sm.utils.VideoUtils.convertEntityList;
 
 @Controller("/recommendations")
 public class RecommendationsController implements IRecommendationsClient {

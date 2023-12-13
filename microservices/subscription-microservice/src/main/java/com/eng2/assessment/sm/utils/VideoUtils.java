@@ -4,7 +4,6 @@ import com.eng2.assessment.generated.sm.domain.Hashtag;
 import com.eng2.assessment.generated.sm.domain.User;
 import com.eng2.assessment.generated.sm.domain.Video;
 import com.eng2.assessment.generated.sm.dto.VideoDTO;
-
 import java.util.List;
 
 public class VideoUtils {

@@ -6,7 +6,6 @@ import io.micronaut.data.annotation.Query;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import jakarta.annotation.Nonnull;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

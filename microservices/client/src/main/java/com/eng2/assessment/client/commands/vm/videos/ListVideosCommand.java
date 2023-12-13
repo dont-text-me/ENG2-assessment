@@ -5,9 +5,8 @@ import com.eng2.assessment.generated.commands.AListVideosCommand;
 import com.eng2.assessment.generated.vm.api.VideosClient;
 import com.eng2.assessment.generated.vm.dto.VideoResultsDTO;
 import jakarta.inject.Inject;
-import picocli.CommandLine;
-
 import java.util.stream.Collectors;
+import picocli.CommandLine;
 
 @CommandLine.Command(name = "list-videos")
 public class ListVideosCommand extends AListVideosCommand {

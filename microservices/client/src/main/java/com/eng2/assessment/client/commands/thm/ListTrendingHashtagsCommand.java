@@ -5,10 +5,9 @@ import com.eng2.assessment.generated.commands.AListTrendingHashtagsCommand;
 import com.eng2.assessment.generated.thm.api.TrendingHashtagsClient;
 import com.eng2.assessment.generated.thm.dto.TrendingHashtagResponseDTO;
 import jakarta.inject.Inject;
-import picocli.CommandLine;
-
 import java.util.Date;
 import java.util.stream.Collectors;
+import picocli.CommandLine;
 
 @CommandLine.Command(name = "list-trending-hashtags")
 public class ListTrendingHashtagsCommand extends AListTrendingHashtagsCommand {

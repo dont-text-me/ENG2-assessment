@@ -2,7 +2,6 @@ package com.eng2.assessment.vm.utils;
 
 import com.eng2.assessment.generated.vm.domain.User;
 import com.eng2.assessment.generated.vm.domain.Video;
-
 import java.util.UUID;
 
 public class UserEntityUtils {

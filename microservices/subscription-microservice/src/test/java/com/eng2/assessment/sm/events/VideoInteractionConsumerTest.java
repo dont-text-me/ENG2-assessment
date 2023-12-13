@@ -1,5 +1,7 @@
 package com.eng2.assessment.sm.events;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.eng2.assessment.generated.sm.domain.Hashtag;
 import com.eng2.assessment.generated.sm.domain.User;
 import com.eng2.assessment.generated.sm.domain.Video;
@@ -10,16 +12,13 @@ import com.eng2.assessment.sm.repositories.VideoRepository;
 import com.eng2.assessment.sm.utils.DbCleanupExtension;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.IntStream;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

@@ -6,12 +6,11 @@ import com.eng2.assessment.generated.vm.dto.VideoDTO;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
+import java.util.Arrays;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
-
-import java.util.Arrays;
-import java.util.List;
 
 @CommandLine.Command(name = "post-video")
 public class PostVideoCommand extends APostVideoCommand {

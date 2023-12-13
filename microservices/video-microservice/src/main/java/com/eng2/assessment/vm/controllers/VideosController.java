@@ -1,5 +1,8 @@
 package com.eng2.assessment.vm.controllers;
 
+import static com.eng2.assessment.vm.utils.UserEntityUtils.*;
+import static com.eng2.assessment.vm.utils.VideoEntityUtils.*;
+
 import com.eng2.assessment.generated.vm.api.IVideosClient;
 import com.eng2.assessment.generated.vm.domain.Hashtag;
 import com.eng2.assessment.generated.vm.domain.User;
@@ -18,16 +21,12 @@ import io.micronaut.http.annotation.*;
 import jakarta.annotation.Nullable;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.net.URI;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static com.eng2.assessment.vm.utils.UserEntityUtils.*;
-import static com.eng2.assessment.vm.utils.VideoEntityUtils.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller("/videos")
 public class VideosController implements IVideosClient {

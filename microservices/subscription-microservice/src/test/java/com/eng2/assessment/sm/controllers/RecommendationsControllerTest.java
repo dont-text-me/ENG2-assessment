@@ -1,5 +1,7 @@
 package com.eng2.assessment.sm.controllers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.eng2.assessment.generated.sm.api.RecommendationsClient;
 import com.eng2.assessment.generated.sm.domain.Hashtag;
 import com.eng2.assessment.generated.sm.domain.User;
@@ -15,14 +17,11 @@ import io.micronaut.http.HttpStatus;
 import io.micronaut.serde.ObjectMapper;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
+import java.util.*;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import java.util.*;
-import java.util.stream.IntStream;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @MicronautTest(transactional = false)
 @ExtendWith(DbCleanupExtension.class)

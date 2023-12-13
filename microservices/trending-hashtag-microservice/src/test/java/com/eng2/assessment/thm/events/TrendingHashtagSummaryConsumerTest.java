@@ -1,25 +1,24 @@
 package com.eng2.assessment.thm.events;
 
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_TRENDING_HASHTAGS;
+import static java.lang.String.valueOf;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.eng2.assessment.generated.thm.domain.TrendingHashtag;
 import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
 import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import com.eng2.assessment.thm.utils.DbCleanupExtension;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
-
-import static com.eng2.assessment.generated.shared.Topics.TOPIC_TRENDING_HASHTAGS;
-import static java.lang.String.valueOf;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 @MicronautTest
 @ExtendWith(DbCleanupExtension.class)

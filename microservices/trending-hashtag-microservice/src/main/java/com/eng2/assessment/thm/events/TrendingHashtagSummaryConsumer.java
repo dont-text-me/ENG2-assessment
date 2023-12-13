@@ -1,5 +1,7 @@
 package com.eng2.assessment.thm.events;
 
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_TRENDING_HASHTAGS;
+
 import com.eng2.assessment.generated.thm.domain.TrendingHashtag;
 import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
 import com.eng2.assessment.generated.thm.events.ITrendingHashtagsSummaryConsumer;
@@ -7,13 +9,10 @@ import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.Topic;
 import jakarta.inject.Inject;
+import java.util.List;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
-
-import static com.eng2.assessment.generated.shared.Topics.TOPIC_TRENDING_HASHTAGS;
 
 @KafkaListener(batch = true)
 public class TrendingHashtagSummaryConsumer implements ITrendingHashtagsSummaryConsumer {

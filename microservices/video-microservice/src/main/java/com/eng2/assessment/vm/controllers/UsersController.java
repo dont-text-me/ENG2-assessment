@@ -10,7 +10,6 @@ import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import jakarta.inject.Inject;
-
 import java.net.URI;
 
 @Controller("/users")

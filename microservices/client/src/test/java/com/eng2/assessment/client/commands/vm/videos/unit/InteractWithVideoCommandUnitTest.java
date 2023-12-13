@@ -1,5 +1,9 @@
 package com.eng2.assessment.client.commands.vm.videos.unit;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.eng2.assessment.client.commands.vm.videos.InteractWithVideoCommand;
 import com.eng2.assessment.generated.enums.VideoInteractionType;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
@@ -10,6 +14,11 @@ import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,16 +26,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import wiremock.com.google.common.collect.Sets;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Stream;
-
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class InteractWithVideoCommandUnitTest {
   @RegisterExtension

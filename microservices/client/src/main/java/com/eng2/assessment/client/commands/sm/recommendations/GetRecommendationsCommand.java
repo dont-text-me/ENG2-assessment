@@ -8,10 +8,9 @@ import com.eng2.assessment.generated.sm.dto.VideoRecommendationDTO;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
-import picocli.CommandLine;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import picocli.CommandLine;
 
 @CommandLine.Command(name = "get-recommendations")
 public class GetRecommendationsCommand extends AGetRecommendationsCommand {

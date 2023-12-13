@@ -1,5 +1,7 @@
 package com.eng2.assessment.client.commands.vm.videos.feature;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.eng2.assessment.client.commands.vm.videos.ListVideosCommand;
 import com.eng2.assessment.client.utils.AbstractFeatureTest;
 import com.eng2.assessment.client.utils.FeatureTestExtension;
@@ -11,18 +13,15 @@ import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testcontainers.shaded.org.apache.commons.lang3.StringUtils;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @MicronautTest
 @Tag("feature-test")

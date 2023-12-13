@@ -3,7 +3,6 @@ package com.eng2.assessment.thm.shared;
 import com.eng2.assessment.generated.thm.domain.TrendingHashtag;
 import com.eng2.assessment.generated.thm.dto.TrendingHashtagResponseDTO;
 import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
-
 import java.util.Comparator;
 import java.util.List;
 

@@ -1,5 +1,8 @@
 package com.eng2.assessment.client.commands.sm.recommendations.feature;
 
+import static com.eng2.assessment.client.utils.TestContainerServicesInfo.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.eng2.assessment.client.commands.sm.recommendations.GetRecommendationsCommand;
 import com.eng2.assessment.client.utils.AbstractFeatureTest;
 import com.eng2.assessment.client.utils.FeatureTestExtension;
@@ -11,12 +14,6 @@ import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.sql.Connection;
@@ -26,9 +23,11 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
-
-import static com.eng2.assessment.client.utils.TestContainerServicesInfo.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 @MicronautTest
 @Tag("feature-test")

@@ -1,25 +1,24 @@
 package com.eng2.assessment.thm.events;
 
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_TRENDING_HASHTAGS;
+import static com.eng2.assessment.generated.shared.Topics.TOPIC_VIDEO_LIKED;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount;
 import com.eng2.assessment.generated.vm.dto.VideoInteractionDetailsDTO;
 import io.micronaut.configuration.kafka.serde.CompositeSerdeRegistry;
 import io.micronaut.configuration.kafka.streams.ConfiguredStreamBuilder;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
+import java.util.List;
+import java.util.Properties;
+import java.util.UUID;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.UUIDSerializer;
 import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Properties;
-import java.util.UUID;
-
-import static com.eng2.assessment.generated.shared.Topics.TOPIC_TRENDING_HASHTAGS;
-import static com.eng2.assessment.generated.shared.Topics.TOPIC_VIDEO_LIKED;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @MicronautTest(environments = "no-streams")
 public class TrendingHashtagTestDoubleStreamTest {
