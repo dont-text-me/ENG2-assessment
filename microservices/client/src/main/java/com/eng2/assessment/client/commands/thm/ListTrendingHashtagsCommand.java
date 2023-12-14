@@ -27,7 +27,7 @@ public class ListTrendingHashtagsCommand extends AListTrendingHashtagsCommand {
               result.hashtags().stream()
                   .max(Comparator.comparing(WindowedHashtagWithLikeCount::windowEnd))
                   .get()
-                  .windowStart());
+                  .windowEnd());
       System.out.printf("Latest trending hashtags (last updated at %s):%n", latestHashtagTimestamp);
       System.out.println(
           result.hashtags().stream()
