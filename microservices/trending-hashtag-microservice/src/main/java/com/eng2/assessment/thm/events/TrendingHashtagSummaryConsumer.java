@@ -9,6 +9,8 @@ import com.eng2.assessment.thm.repositories.TrendingHashtagRepository;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.Topic;
 import jakarta.inject.Inject;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
@@ -36,7 +38,13 @@ public class TrendingHashtagSummaryConsumer implements ITrendingHashtagsSummaryC
                   hashtag.setLikeCount(it.likeCount());
                   hashtag.setWindowStart(it.windowStart());
                   hashtag.setWindowEnd(it.windowEnd());
-                  logger.debug("Created new trending hashtag entry " + hashtag);
+                  logger.info(
+                      String.format(
+                          "Created the following entry: Hashtag :%s, Like count: %s, window start: %s, window end: %s ",
+                          it.hashtagName(),
+                          it.likeCount(),
+                          Date.from(Instant.ofEpochMilli(it.windowStart())),
+                          Date.from(Instant.ofEpochMilli(it.windowEnd()))));
                   return hashtag;
                 })
             .toList();
