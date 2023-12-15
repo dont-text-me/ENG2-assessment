@@ -19,10 +19,8 @@
   * right click anywhere and select `generate` &#8594; `all` ![](./screenshots/generate-editor.png)
   * run the metamodel.edit or metamodel.editor project as an eclipse application
 * In the nested eclipse application:
-  * import the `models` folder as a project:
-    ![](./screenshots/import-models.png)
-  * import the `models.design` project:
-  ![](./screenshots/import-models-design.png)
+  * import the `models` folder as a project: <br/> ![](./screenshots/import-models.png)
+  * import the `models.design` project:<br/>![](./screenshots/import-models-design.png)
 
 ---
 # Navigating the model representations
