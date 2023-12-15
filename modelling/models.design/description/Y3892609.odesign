@@ -40,18 +40,27 @@
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </style>
           </subNodeMappings>
-          <subContainerMappings name="EntityContainer" semanticCandidatesExpression="feature:eAllContents" domainClass="Y3892609::Entity">
-            <subNodeMappings name="FieldNode" semanticCandidatesExpression="feature:eAllContents" domainClass="Y3892609::AField">
-              <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
+          <subContainerMappings name="EntityContainer" label="Entity" semanticCandidatesExpression="feature:entities" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@toolSections.1/@ownedTools[name='NavigateToDomainDiagram']" domainClass="Y3892609::Entity" childrenPresentation="List">
+            <subNodeMappings name="IdField" label="ID field node" semanticCandidatesExpression="feature:idField" domainClass="Y3892609::IdField">
+              <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql:self.type + ' ' + self.name" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelFormat>bold</labelFormat>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              </style>
+            </subNodeMappings>
+            <subNodeMappings name="ColumnFIeld" label="Column field" semanticCandidatesExpression="feature:fields" domainClass="Y3892609::DbColumnField">
+              <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql:self.type + ' ' + self.name" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
               </style>
             </subNodeMappings>
-            <style xsi:type="style:ShapeContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12">
+            <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" backgroundStyle="Liquid">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_orange']"/>
+              <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
             </style>
           </subContainerMappings>
           <style xsi:type="style:ShapeContainerStyleDescription" borderSizeComputationExpression="1" borderLineStyle="dash" labelSize="24" labelAlignment="LEFT" tooltipExpression="feature:description">
@@ -141,80 +150,39 @@
           </ownedTools>
         </toolSections>
         <toolSections name="Domain" label="Domain">
-          <ownedTools xsi:type="tool:ContainerCreationDescription" name="CreateEntity" label="Create Entity" containerMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subContainerMappings[name='EntityContainer']">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="CreateEntity" label="Create Entity">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::Entity" referenceName="entities"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateIDField" label="Create ID field" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subContainerMappings[name='EntityContainer']/@subNodeMappings[name='FieldNode']">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateIDField" label="Create ID field">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::IdField" referenceName="idField"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateDBColumnField" label="Create DB column field" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subContainerMappings[name='EntityContainer']/@subNodeMappings[name='FieldNode']">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateDBColumnField" label="Create DB column field">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::DbColumnField" referenceName="fields"/>
             </initialOperation>
           </ownedTools>
+          <ownedTools xsi:type="tool:DoubleClickDescription" name="NavigateToDomainDiagram" label="Navigate to domain diagram" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subContainerMappings[name='EntityContainer']">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="feature:eContainer">
+                <subModelOperations xsi:type="tool:Navigation" diagramDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
         </toolSections>
       </defaultLayer>
       <additionalLayers name="Transitions" activeByDefault="true">
-        <edgeMappings name="EntityRelationshipEdge" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subContainerMappings[name='EntityContainer']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subContainerMappings[name='EntityContainer']" targetFinderExpression="feature:to" sourceFinderExpression="feature:from" domainClass="Y3892609::EntityRelationship" useDomainElement="true">
-          <style sizeComputationExpression="2">
-            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
-            <centerLabelStyleDescription labelSize="12">
-              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            </centerLabelStyleDescription>
-          </style>
-          <conditionnalStyles predicateExpression="aql:self.type.toString() == 'MANY_TO_MANY'">
-            <style sizeComputationExpression="2">
-              <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
-              <beginLabelStyleDescription labelSize="12" labelExpression="aql:self.fromField.name + ' (0..*)'">
-                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              </beginLabelStyleDescription>
-              <centerLabelStyleDescription labelSize="12" labelExpression="feature:description">
-                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              </centerLabelStyleDescription>
-              <endLabelStyleDescription labelSize="12" labelExpression="aql:self.toField.name + ' (0 ..*)'">
-                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              </endLabelStyleDescription>
-            </style>
-          </conditionnalStyles>
-          <conditionnalStyles predicateExpression="aql:self.type.toString() == 'ONE_TO_MANY'">
-            <style sizeComputationExpression="2">
-              <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
-              <beginLabelStyleDescription labelSize="12" labelExpression="aql:self.fromField.name + ' (0 .. *)'">
-                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              </beginLabelStyleDescription>
-              <centerLabelStyleDescription labelSize="12" labelExpression="feature:description">
-                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              </centerLabelStyleDescription>
-              <endLabelStyleDescription labelSize="12" labelExpression="aql:self.toField.name + ' (1)'">
-                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              </endLabelStyleDescription>
-            </style>
-          </conditionnalStyles>
-          <conditionnalStyles predicateExpression="aql:self.type.toString() == 'MANY_TO_ONE'">
-            <style sizeComputationExpression="2">
-              <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
-              <beginLabelStyleDescription labelSize="12" labelExpression="aql:self.fromField.name + ' (1)'">
-                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              </beginLabelStyleDescription>
-              <centerLabelStyleDescription labelSize="12" labelExpression="feature:description">
-                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              </centerLabelStyleDescription>
-              <endLabelStyleDescription labelSize="12" labelExpression="aql:self.toField.name + '(0 .. *)'">
-                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              </endLabelStyleDescription>
-            </style>
-          </conditionnalStyles>
-        </edgeMappings>
         <edgeMappings name="KafkaWriteEdge" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subNodeMappings[name='KafkaProducerNode']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@nodeMappings[name='KafkaTopicNode']" targetFinderExpression="feature:topicsWrittenTo">
           <style sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
@@ -592,6 +560,121 @@
             <viewVariable name="containerView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::Field" referenceName="kafkaKey"/>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="DomainModel" label="Domain diagram" domainClass="Y3892609::Microservice" enablePopupBars="true">
+      <metamodel href="Y3892609#/"/>
+      <defaultLayer name="Default">
+        <edgeMappings name="EntityRelationshipEdge" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']/@defaultLayer/@containerMappings[name='EntityContainer']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']/@defaultLayer/@containerMappings[name='EntityContainer']" targetFinderExpression="feature:to" sourceFinderExpression="feature:from" domainClass="Y3892609::EntityRelationship" useDomainElement="true">
+          <style sizeComputationExpression="2" routingStyle="manhattan">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+          <conditionnalStyles predicateExpression="aql:self.type.toString() == 'MANY_TO_MANY'">
+            <style sourceArrow="FillDiamond" targetArrow="FillDiamond" sizeComputationExpression="2" routingStyle="manhattan">
+              <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              <beginLabelStyleDescription labelSize="12" labelExpression="aql:self.fromField.name + ' (0..*)'">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </beginLabelStyleDescription>
+              <centerLabelStyleDescription labelSize="12" labelExpression="feature:description">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </centerLabelStyleDescription>
+              <endLabelStyleDescription labelSize="12" labelExpression="aql:self.toField.name + ' (0 ..*)'">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </endLabelStyleDescription>
+            </style>
+          </conditionnalStyles>
+          <conditionnalStyles predicateExpression="aql:self.type.toString() == 'ONE_TO_MANY'">
+            <style targetArrow="FillDiamond" sizeComputationExpression="2" routingStyle="manhattan">
+              <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              <beginLabelStyleDescription labelSize="12" labelExpression="aql:self.fromField.name + ' (0 .. *)'">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </beginLabelStyleDescription>
+              <centerLabelStyleDescription labelSize="12" labelExpression="feature:description">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </centerLabelStyleDescription>
+              <endLabelStyleDescription labelSize="12" labelExpression="aql:self.toField.name + ' (1)'">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </endLabelStyleDescription>
+            </style>
+          </conditionnalStyles>
+          <conditionnalStyles predicateExpression="aql:self.type.toString() == 'MANY_TO_ONE'">
+            <style sourceArrow="FillDiamond" sizeComputationExpression="2" routingStyle="manhattan">
+              <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              <beginLabelStyleDescription labelSize="12" labelExpression="aql:self.fromField.name + ' (1)'">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </beginLabelStyleDescription>
+              <centerLabelStyleDescription labelSize="12" labelExpression="feature:description">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </centerLabelStyleDescription>
+              <endLabelStyleDescription labelSize="12" labelExpression="aql:self.toField.name + '(0 .. *)'">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </endLabelStyleDescription>
+            </style>
+          </conditionnalStyles>
+        </edgeMappings>
+        <containerMappings name="EntityContainer" label="Entity" semanticCandidatesExpression="feature:entities" domainClass="Y3892609::Entity" childrenPresentation="List">
+          <subNodeMappings name="IdField" label="ID field node" semanticCandidatesExpression="feature:idField" domainClass="Y3892609::IdField">
+            <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql:self.type + ' ' + self.name" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            </style>
+          </subNodeMappings>
+          <subNodeMappings name="ColumnFIeld" label="Column field" semanticCandidatesExpression="feature:fields" domainClass="Y3892609::DbColumnField">
+            <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql:self.type + ' ' + self.name" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="EditDomainModel" label="Edit domain model">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="CreateEntity" label="Create Entity" containerMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']/@defaultLayer/@containerMappings[name='EntityContainer']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::Entity" referenceName="entities"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateIDField" label="Create ID field" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']/@defaultLayer/@containerMappings[name='EntityContainer']/@subNodeMappings[name='IdField']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::IdField" referenceName="idField"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateColumnField" label="Create column field" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']/@defaultLayer/@containerMappings[name='EntityContainer']/@subNodeMappings[name='ColumnFIeld']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::DbColumnField" referenceName="fields"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="CreateRelationship" label="Create entity relationship" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']/@defaultLayer/@edgeMappings[name='EntityRelationshipEdge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.eContainer(Y3892609::Microservice)">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::EntityRelationship" referenceName="relationships">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="from" valueExpression="var:source"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="to" valueExpression="var:target"/>
+                </subModelOperations>
+              </firstModelOperations>
             </initialOperation>
           </ownedTools>
         </toolSections>

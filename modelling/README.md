@@ -25,10 +25,10 @@
 ---
 # Navigating the model representations
 
-## 4 representations are provided
+## 5 representations are provided
 * A top level overview of the system containing:
   * Kafka producers and consumers (and streams)
-  * Entity relationships in microservices
+  * Entities, their field names and types for each microservice
   * Available CLI commands
 * An overview of the system from a messaging perspective, containing:
   * Kafka topics
@@ -42,5 +42,9 @@
   * The names of controllers/clients
   * The names of endpoints, their URL and query params
   * For non-string return values, links to response DTO's are shown
+* For each microservice, a diagram of its domain, containing:
+  * The names of entities
+  * Entities, their field names and types
+  * Entity relationships, with labels for connecting fields and differentiation between relationship types
 
-## Navigation between views is possible by double clicking the links in each diagram or double clicking a corresponding node (e.g. clicking an API schema node to navigate to its representation)
+## Navigation between views is possible by double clicking the links in each diagram or double clicking a corresponding node (e.g. clicking an API schema node to navigate to its representation or clicking any entity node to navigate to its service's domain diagram)
