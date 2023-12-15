@@ -32,10 +32,10 @@ task validateModel{
     dependsOn tasks.setupEpsilonTasks
 
     // Load the project.flexmi EMF model
-    ant.'epsilon.emf.loadModel'(name: 'M', modelfile: 'models/acme.Y3892609', metamodelfile: 'metamodel/Y3892609.emf')
+    ant.'epsilon.emf.loadModel'(name: 'M', modelfile: 'models/acme.Y3892609', metamodelfile: 'metamodel/model/Y3892609.emf')
 
     // Validate it with EVL
-    ant.'epsilon.evl'(src: 'metamodel/Y3892609.evl'){ model(ref: 'M') }
+    ant.'epsilon.evl'(src: 'metamodel/model/Y3892609.evl'){ model(ref: 'M') }
 }
 
 task codegen {
