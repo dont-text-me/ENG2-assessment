@@ -3,7 +3,7 @@ package com.eng2.assessment.thm.controllers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.eng2.assessment.generated.thm.api.HealthClient;
-import com.eng2.assessment.thm.utils.DbCleanupExtension;
+import com.eng2.assessment.shared.testUtils.DbCleanupExtension;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
