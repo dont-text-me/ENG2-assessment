@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.eng2.assessment.generated.sm.domain.User;
 import com.eng2.assessment.generated.vm.dto.UserRegisteredMessageValueDTO;
+import com.eng2.assessment.shared.testUtils.DbCleanupExtension;
 import com.eng2.assessment.sm.repositories.UserRepository;
-import com.eng2.assessment.sm.utils.DbCleanupExtension;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.util.Collections;

@@ -29,7 +29,6 @@ dependencies {
 	testImplementation("org.mockito:mockito-core:5.6.0")
 	testImplementation("org.mockito:mockito-junit-jupiter:5.6.0")
 	testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
-	testImplementation(project(":microservices:generated-shared"))
 
 	//address docker scout vulnerabilities
 	implementation ('org.xerial.snappy:snappy-java:1.1.10.5')
