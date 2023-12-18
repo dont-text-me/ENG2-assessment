@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:filter="http://www.eclipse.org/sirius/diagram/description/filter/1.1.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/diagram/description/tool/1.1.0" xmlns:tool_1="http://www.eclipse.org/sirius/description/tool/1.1.0" name="assessment" version="12.0.0.2017041100">
+  <ownedViewpoints name="MyViewpoint">
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="SystemModel" label="High-level system overview" domainClass="Y3892609::System" enablePopupBars="true">
+      <metamodel href="Y3892609#/"/>
+      <defaultLayer name="DefaultDiagram">
+        <nodeMappings name="KafkaTopicNode" domainClass="Y3892609::KafkaTopic">
+          <style xsi:type="style:EllipseNodeDescription" labelSize="12" sizeComputationExpression="12" labelPosition="node" resizeKind="NSEW">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='blue']"/>
+          </style>
+        </nodeMappings>
+        <containerMappings name="ServiceContainer" domainClass="Y3892609::Microservice">
+          <subNodeMappings name="KafkaProducerNode" semanticCandidatesExpression="feature:eAllContents" domainClass="Y3892609::KafkaProducer">
+            <style xsi:type="style:SquareDescription" labelSize="12" sizeComputationExpression="10" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+            </style>
+          </subNodeMappings>
+          <subNodeMappings name="KafkaConsumerNode" semanticCandidatesExpression="feature:eAllContents" domainClass="Y3892609::KafkaConsumer">
+            <style xsi:type="style:SquareDescription" labelSize="12" sizeComputationExpression="12" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+            </style>
+          </subNodeMappings>
+          <subNodeMappings name="KafkaStreamNode" semanticCandidatesExpression="feature:eAllContents" domainClass="Y3892609::KafkaStream">
+            <style xsi:type="style:EllipseNodeDescription" labelSize="12" sizeComputationExpression="10" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+            </style>
+          </subNodeMappings>
+          <subNodeMappings name="ApiSchemaNode" label="API schema" semanticCandidatesExpression="feature:eAllContents" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToAPISchemaDiagram']" domainClass="Y3892609::APISchema">
+            <style xsi:type="style:BundledImageDescription" labelSize="12" labelExpression="API schema" sizeComputationExpression="12" labelPosition="node" resizeKind="NSEW" shape="ring">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </subNodeMappings>
+          <subContainerMappings name="EntityContainer" label="Entity" semanticCandidatesExpression="feature:entities" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@toolSections.1/@ownedTools[name='NavigateToDomainDiagram']" domainClass="Y3892609::Entity" childrenPresentation="List">
+            <subNodeMappings name="IdField" label="ID field node" semanticCandidatesExpression="feature:idField" domainClass="Y3892609::IdField">
+              <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql:self.type + ' ' + self.name" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelFormat>bold</labelFormat>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              </style>
+            </subNodeMappings>
+            <subNodeMappings name="ColumnFIeld" label="Column field" semanticCandidatesExpression="feature:fields" domainClass="Y3892609::DbColumnField">
+              <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql:self.type + ' ' + self.name" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              </style>
+            </subNodeMappings>
+            <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" backgroundStyle="Liquid">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_orange']"/>
+              <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+            </style>
+          </subContainerMappings>
+          <style xsi:type="style:ShapeContainerStyleDescription" borderSizeComputationExpression="1" borderLineStyle="dash" labelSize="24" labelAlignment="LEFT" tooltipExpression="feature:description">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="KafkaSection" label="Kafka">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateKafkaTopic" label="Create kafka topic" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@nodeMappings[name='KafkaTopicNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::KafkaTopic" referenceName="topics"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateKafkaProducer" label="Create Kafka producer" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subNodeMappings[name='KafkaProducerNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::KafkaProducer" referenceName="kafkaProducers"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateKafkaConsumer" label="Create Kafka consumer" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subNodeMappings[name='KafkaConsumerNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::KafkaConsumer" referenceName="kafkaConsumers"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="AddTopicReadFrom" label="Add topic to read from" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@additionalLayers[name='Transitions']/@edgeMappings[name='KafkaReadEdge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:SetValue" featureName="topicsReadFrom" valueExpression="var:target"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="AddTopicToWriteTo" label="Add topic to produce to" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@additionalLayers[name='Transitions']/@edgeMappings[name='KafkaWriteEdge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:SetValue" featureName="topicsWrittenTo" valueExpression="var:target"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateKafkaStream" label="Create Kafka stream" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subNodeMappings[name='KafkaStreamNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::KafkaStream" referenceName="kafkaStreams"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="AddStreamInput" label="Add stream input" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@additionalLayers[name='Transitions']/@edgeMappings[name='KafkaStreamInputEdge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:SetValue" featureName="topicStreamedFrom" valueExpression="var:target"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="AddStreamOutput" label="Add stream output" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@additionalLayers[name='Transitions']/@edgeMappings[name='KafkaStreamOutputEdge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:SetValue" featureName="topicStreamedTo" valueExpression="var:target"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DoubleClickDescription" name="NavigateToCLIOnDoubleClick" label="Navigate to CLI diagram" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@additionalLayers[name='CliLayer']/@nodeMappings[name='CLIClientNode']">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:Navigation" diagramDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='CLIDiagram']"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DoubleClickDescription" name="NavigateToAPISchemaDiagram" label="Navigate to API schema diagram" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subNodeMappings[name='ApiSchemaNode']">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:Navigation" diagramDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']"/>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+        <toolSections name="Domain" label="Domain">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="CreateEntity" label="Create Entity">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::Entity" referenceName="entities"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateIDField" label="Create ID field">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::IdField" referenceName="idField"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateDBColumnField" label="Create DB column field">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::DbColumnField" referenceName="fields"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DoubleClickDescription" name="NavigateToDomainDiagram" label="Navigate to domain diagram" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subContainerMappings[name='EntityContainer']">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="feature:eContainer">
+                <subModelOperations xsi:type="tool:Navigation" diagramDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+      <additionalLayers name="Transitions" activeByDefault="true">
+        <edgeMappings name="KafkaWriteEdge" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subNodeMappings[name='KafkaProducerNode']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@nodeMappings[name='KafkaTopicNode']" targetFinderExpression="feature:topicsWrittenTo">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" labelExpression="Writes to">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="KafkaReadEdge" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subNodeMappings[name='KafkaConsumerNode']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@nodeMappings[name='KafkaTopicNode']" targetFinderExpression="feature:topicsReadFrom">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" labelExpression="Reads from">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="KafkaStreamInputEdge" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subNodeMappings[name='KafkaStreamNode']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@nodeMappings[name='KafkaTopicNode']" targetFinderExpression="feature:topicStreamedFrom">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" labelExpression="Streams from">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="KafkaStreamOutputEdge" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subNodeMappings[name='KafkaStreamNode']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@nodeMappings[name='KafkaTopicNode']" targetFinderExpression="feature:topicStreamedTo">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" labelExpression="Streams to">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+      </additionalLayers>
+      <additionalLayers name="CliLayer" label="Command Line interface">
+        <nodeMappings name="CLIClientNode" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@toolSections.0/@ownedTools[name='NavigateToCLIOnDoubleClick']" domainClass="Y3892609::CommandLineClient">
+          <style xsi:type="style:BundledImageDescription" labelSize="12" showIcon="false" labelPosition="node" resizeKind="NSEW">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='green']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="CliCommandNode" domainClass="Y3892609::CliCommand">
+          <style xsi:type="style:EllipseNodeDescription" labelSize="12" tooltipExpression="feature:description" sizeComputationExpression="24" labelPosition="node" resizeKind="NSEW" horizontalDiameterComputationExpression="12" verticalDiameterComputationExpression="7">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="Cli2Command" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@additionalLayers[name='CliLayer']/@nodeMappings[name='CLIClientNode']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@additionalLayers[name='CliLayer']/@nodeMappings[name='CliCommandNode']" targetFinderExpression="feature:commands">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+      </additionalLayers>
+    </ownedRepresentations>
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="ApiSchemaDescription" label="Microservice API diagram" domainClass="Y3892609::APISchema">
+      <metamodel href="Y3892609#/"/>
+      <filters xsi:type="filter:CompositeFilterDescription" name="HideUnusedDTOs" label="Hide DTOs that are not used by any request">
+        <filters xsi:type="filter:MappingFilter" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@nodeMappings[name='DTONode']" viewConditionExpression="aql:self.incomingEdges->size() > 0"/>
+      </filters>
+      <defaultLayer name="Default">
+        <nodeMappings name="DTONode" label="DTO" semanticCandidatesExpression="aql:self.eContainer(Y3892609::Microservice).dtos" domainClass="Y3892609::DTO">
+          <style xsi:type="style:LozengeNodeDescription" labelSize="12" sizeComputationExpression="8" labelPosition="node" resizeKind="NSEW">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_blue']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="Request2OutputDTO" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@containerMappings[name='ClientControllerContainer']/@subNodeMappings[name='HttpGetRequestNode'] //@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@containerMappings[name='ClientControllerContainer']/@subNodeMappings[name='HTTPNonGetRequestNode']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@nodeMappings[name='DTONode']" targetFinderExpression="feature:responseBody">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" labelExpression="Response body">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="InputDTO2Request" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@containerMappings[name='ClientControllerContainer']/@subNodeMappings[name='HTTPNonGetRequestNode']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@nodeMappings[name='DTONode']" targetFinderExpression="feature:requestBody">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" labelExpression="Request body">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <containerMappings name="ClientControllerContainer" label="Client/controller container" semanticCandidatesExpression="feature:clients" domainClass="Y3892609::ClientDefinition">
+          <subNodeMappings name="HttpGetRequestNode" label="HTTP GET request" semanticCandidatesExpression="feature:requests" domainClass="Y3892609::HttpGetRequest">
+            <borderedNodeMappings name="urlParamNode" label="Url param" semanticCandidatesExpression="feature:urlParams" domainClass="Y3892609::Field">
+              <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelExpression="aql:self.type + ' ' + self.name" sizeComputationExpression="8" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+              </style>
+            </borderedNodeMappings>
+            <borderedNodeMappings name="QueryParamNode" label="Query param" semanticCandidatesExpression="feature:queryParams" domainClass="Y3892609::QueryParamField">
+              <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelExpression="aql:self.type + ' ' + self.name" sizeComputationExpression="8" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_red']"/>
+              </style>
+            </borderedNodeMappings>
+            <style xsi:type="style:DotDescription" labelSize="12" labelExpression="aql:self.name + ' (GET, ' + self.url + ')'" sizeComputationExpression="7" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+            </style>
+          </subNodeMappings>
+          <subNodeMappings name="HTTPNonGetRequestNode" label="HTTP non-GET request" semanticCandidatesExpression="feature:requests" domainClass="Y3892609::HttpNonGetRequest">
+            <borderedNodeMappings name="urlParamNode" label="Url param" semanticCandidatesExpression="feature:urlParams" domainClass="Y3892609::Field">
+              <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelExpression="aql:self.type + ' ' + self.name" sizeComputationExpression="8" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+              </style>
+            </borderedNodeMappings>
+            <style xsi:type="style:DotDescription" labelSize="12" labelExpression="aql:self.name + ' (' + self.type.toString()  + ', ' + self.url + ')'" tooltipExpression="feature:type" sizeComputationExpression="8" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_chocolate']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:ShapeContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="EditAPISchema" label="Edit API schema">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateGetRequest" label="Create GET request" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@containerMappings[name='ClientControllerContainer']/@subNodeMappings[name='HttpGetRequestNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::HttpGetRequest" referenceName="requests"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="CreateClientDefinition" label="Add client/controller definition" containerMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@containerMappings[name='ClientControllerContainer']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::ClientDefinition" referenceName="clients"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateNonGetRequest" label="Create non-GET request" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@containerMappings[name='ClientControllerContainer']/@subNodeMappings[name='HTTPNonGetRequestNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::HttpNonGetRequest" referenceName="requests"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateDTO" label="Create DTO" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@nodeMappings[name='DTONode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.eContainer(Y3892609::Microservice)">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::DTO" referenceName="dtos"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="AddRequestBody" label="Add request body DTO" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@edgeMappings[name='InputDTO2Request']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:SetValue" featureName="requestBody" valueExpression="var:target"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="AddResponseBody" label="Add response body DTO" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@edgeMappings[name='Request2OutputDTO']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:SetValue" featureName="responseBody" valueExpression="var:target"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateUrlParam" label="Add URL param" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@containerMappings[name='ClientControllerContainer']/@subNodeMappings[name='HttpGetRequestNode']/@borderedNodeMappings[name='urlParamNode'] //@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@containerMappings[name='ClientControllerContainer']/@subNodeMappings[name='HTTPNonGetRequestNode']/@borderedNodeMappings[name='urlParamNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::Field" referenceName="urlParams"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateQueryParam" label="Add query param" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='ApiSchemaDescription']/@defaultLayer/@containerMappings[name='ClientControllerContainer']/@subNodeMappings[name='HttpGetRequestNode']/@borderedNodeMappings[name='QueryParamNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::QueryParamField" referenceName="queryParams"/>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="CLIDiagram" label="CLI client diagram" domainClass="Y3892609::CommandLineClient" enablePopupBars="true">
+      <metamodel href="Y3892609#/"/>
+      <defaultLayer name="Default">
+        <nodeMappings name="CLIClientNode" domainClass="Y3892609::CommandLineClient">
+          <style xsi:type="style:BundledImageDescription" labelSize="12" showIcon="false" labelPosition="node" resizeKind="NSEW">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='green']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="EnumNode" label="Enum node" domainClass="Y3892609::CliOptionJavaEnum">
+          <style xsi:type="style:BundledImageDescription" labelSize="12" labelExpression="aql:self.name + '\n' + self.values.concat('\n')" labelPosition="node" resizeKind="NSEW">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_blue']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="Cli2Command" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='CLIDiagram']/@defaultLayer/@nodeMappings[name='CLIClientNode']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='CLIDiagram']/@defaultLayer/@containerMappings[name='CliCommandContainer']" targetFinderExpression="feature:commands">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="EnumArg2Enum" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='CLIDiagram']/@defaultLayer/@containerMappings[name='CliCommandContainer']/@subNodeMappings[name='EnumArgNode']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='CLIDiagram']/@defaultLayer/@nodeMappings[name='EnumNode']" targetFinderExpression="feature:enumType">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <containerMappings name="CliCommandContainer" label="CLI command container" domainClass="Y3892609::CliCommand">
+          <subNodeMappings name="NonEnumArg" label="Non-enum CLI argument" semanticCandidatesExpression="feature:args" domainClass="Y3892609::CliArgument">
+            <borderedNodeMappings name="CommandFieldNode" label="Java field set by non-enum arg" semanticCandidatesExpression="aql:self.field" domainClass="Y3892609::Field">
+              <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelExpression="aql:self.type + ' ' + self.name " labelPosition="node" resizeKind="NSEW" widthComputationExpression="10" heightComputationExpression="6">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_blue']"/>
+              </style>
+            </borderedNodeMappings>
+            <style xsi:type="style:DotDescription" labelSize="12" labelExpression="feature:names" tooltipExpression="feature:description" sizeComputationExpression="7" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='orange']"/>
+            </style>
+          </subNodeMappings>
+          <subNodeMappings name="EnumArgNode" label="Enum CLI argument" semanticCandidatesExpression="feature:args" domainClass="Y3892609::EnumValueCliArgument">
+            <style xsi:type="style:DotDescription" labelSize="12" labelExpression="feature:names" tooltipExpression="feature:description" sizeComputationExpression="7" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_chocolate']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:ShapeContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="EditCLI" label="Modify command line interface">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="CreateContainer" label="Create command" containerMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='CLIDiagram']/@defaultLayer/@containerMappings[name='CliCommandContainer']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::CliCommand" referenceName="commands"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="AddCLIArg" label="Add non-enum argument" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='CLIDiagram']/@defaultLayer/@containerMappings[name='CliCommandContainer']/@subNodeMappings[name='NonEnumArg']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::CliArgument" referenceName="args"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="AddEnumArg" label="Add enum argument" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='CLIDiagram']/@defaultLayer/@containerMappings[name='CliCommandContainer']/@subNodeMappings[name='EnumArgNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::EnumValueCliArgument" referenceName="args"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="AddEnum2EnumArgEdge" label="Link enum with enum argument" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='CLIDiagram']/@defaultLayer/@edgeMappings[name='EnumArg2Enum']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="enumType" valueExpression="var:target"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="AddEnum" label="Add enum" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='CLIDiagram']/@defaultLayer/@nodeMappings[name='EnumNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::CliOptionJavaEnum" referenceName="enums"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateJavaField" label="Create java field for non-enum arg" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='CLIDiagram']/@defaultLayer/@containerMappings[name='CliCommandContainer']/@subNodeMappings[name='NonEnumArg']/@borderedNodeMappings[name='CommandFieldNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::Field" referenceName="field"/>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="MessagingOverview" label="Overview of the system from a messaging perspective" domainClass="Y3892609::System" enablePopupBars="true">
+      <metamodel href="Y3892609#/"/>
+      <filters xsi:type="filter:CompositeFilterDescription" name="HideUnusedDTOs" label="Hide DTOs not used by any consumer or producer">
+        <filters xsi:type="filter:MappingFilter" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='MessagingOverview']/@defaultLayer/@containerMappings[name='MicroserviceContainerKafka']/@subNodeMappings[name='DTONode']" viewConditionExpression="aql:self.incomingEdges->size() > 0"/>
+      </filters>
+      <defaultLayer name="Default">
+        <nodeMappings name="KafkaTopicNode" label="Kafka topic" domainClass="Y3892609::KafkaTopic">
+          <borderedNodeMappings name="KafkaKeyNode" label="Kafka key" semanticCandidatesExpression="feature:kafkaKey" domainClass="Y3892609::Field">
+            <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelExpression="aql:self.type + ' ' + self.name" sizeComputationExpression="8" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_orange']"/>
+            </style>
+          </borderedNodeMappings>
+          <style xsi:type="style:EllipseNodeDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_blue']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="KafkaValueDTOEdge" label="Kafka value DTO edge" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='MessagingOverview']/@defaultLayer/@nodeMappings[name='KafkaTopicNode']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='MessagingOverview']/@defaultLayer/@containerMappings[name='MicroserviceContainerKafka']/@subNodeMappings[name='DTONode']" targetFinderExpression="feature:kafkaValue">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" labelExpression="Message value">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <containerMappings name="MicroserviceContainerKafka" label="Microservice" domainClass="Y3892609::Microservice">
+          <subNodeMappings name="DTONode" label="DTO" semanticCandidatesExpression="feature:dtos" domainClass="Y3892609::DTO">
+            <style xsi:type="style:BundledImageDescription" labelSize="12" labelPosition="node" resizeKind="NSEW" shape="ring">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:ShapeContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="KafkaSection" label="Kafka">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateKafkaTopic" label="Create kafka topic" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='MessagingOverview']/@defaultLayer/@nodeMappings[name='KafkaTopicNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::KafkaTopic" referenceName="topics"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="LinkKafkaValueDTO" label="Link value DTO to kafka topic" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='MessagingOverview']/@defaultLayer/@edgeMappings[name='KafkaValueDTOEdge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:SetValue" featureName="kafkaValue" valueExpression="var:target"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateDTO" label="Create DTO" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='MessagingOverview']/@defaultLayer/@containerMappings[name='MicroserviceContainerKafka']/@subNodeMappings[name='DTONode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::DTO" referenceName="dtos"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateKafkaKeyField" label="Create kafka key field" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='MessagingOverview']/@defaultLayer/@nodeMappings[name='KafkaTopicNode']/@borderedNodeMappings[name='KafkaKeyNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::Field" referenceName="kafkaKey"/>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="DomainModel" label="Domain diagram" domainClass="Y3892609::Microservice" enablePopupBars="true">
+      <metamodel href="Y3892609#/"/>
+      <defaultLayer name="Default">
+        <edgeMappings name="EntityRelationshipEdge" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']/@defaultLayer/@containerMappings[name='EntityContainer']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']/@defaultLayer/@containerMappings[name='EntityContainer']" targetFinderExpression="feature:to" sourceFinderExpression="feature:from" domainClass="Y3892609::EntityRelationship" useDomainElement="true">
+          <style sizeComputationExpression="2" routingStyle="manhattan">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+          <conditionnalStyles predicateExpression="aql:self.type.toString() == 'MANY_TO_MANY'">
+            <style sourceArrow="FillDiamond" targetArrow="FillDiamond" sizeComputationExpression="2" routingStyle="manhattan">
+              <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              <beginLabelStyleDescription labelSize="12" labelExpression="aql:self.fromField.name + ' (0..*)'">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </beginLabelStyleDescription>
+              <centerLabelStyleDescription labelSize="12" labelExpression="feature:description">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </centerLabelStyleDescription>
+              <endLabelStyleDescription labelSize="12" labelExpression="aql:self.toField.name + ' (0 ..*)'">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </endLabelStyleDescription>
+            </style>
+          </conditionnalStyles>
+          <conditionnalStyles predicateExpression="aql:self.type.toString() == 'ONE_TO_MANY'">
+            <style targetArrow="FillDiamond" sizeComputationExpression="2" routingStyle="manhattan">
+              <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              <beginLabelStyleDescription labelSize="12" labelExpression="aql:self.fromField.name + ' (0 .. *)'">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </beginLabelStyleDescription>
+              <centerLabelStyleDescription labelSize="12" labelExpression="feature:description">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </centerLabelStyleDescription>
+              <endLabelStyleDescription labelSize="12" labelExpression="aql:self.toField.name + ' (1)'">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </endLabelStyleDescription>
+            </style>
+          </conditionnalStyles>
+          <conditionnalStyles predicateExpression="aql:self.type.toString() == 'MANY_TO_ONE'">
+            <style sourceArrow="FillDiamond" sizeComputationExpression="2" routingStyle="manhattan">
+              <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              <beginLabelStyleDescription labelSize="12" labelExpression="aql:self.fromField.name + ' (1)'">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </beginLabelStyleDescription>
+              <centerLabelStyleDescription labelSize="12" labelExpression="feature:description">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </centerLabelStyleDescription>
+              <endLabelStyleDescription labelSize="12" labelExpression="aql:self.toField.name + '(0 .. *)'">
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </endLabelStyleDescription>
+            </style>
+          </conditionnalStyles>
+        </edgeMappings>
+        <containerMappings name="EntityContainer" label="Entity" semanticCandidatesExpression="feature:entities" domainClass="Y3892609::Entity" childrenPresentation="List">
+          <subNodeMappings name="IdField" label="ID field node" semanticCandidatesExpression="feature:idField" domainClass="Y3892609::IdField">
+            <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql:self.type + ' ' + self.name" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            </style>
+          </subNodeMappings>
+          <subNodeMappings name="ColumnFIeld" label="Column field" semanticCandidatesExpression="feature:fields" domainClass="Y3892609::DbColumnField">
+            <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql:self.type + ' ' + self.name" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="EditDomainModel" label="Edit domain model">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="CreateEntity" label="Create Entity" containerMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']/@defaultLayer/@containerMappings[name='EntityContainer']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::Entity" referenceName="entities"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateIDField" label="Create ID field" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']/@defaultLayer/@containerMappings[name='EntityContainer']/@subNodeMappings[name='IdField']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::IdField" referenceName="idField"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateColumnField" label="Create column field" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']/@defaultLayer/@containerMappings[name='EntityContainer']/@subNodeMappings[name='ColumnFIeld']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::DbColumnField" referenceName="fields"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="CreateRelationship" label="Create entity relationship" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']/@defaultLayer/@edgeMappings[name='EntityRelationshipEdge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.eContainer(Y3892609::Microservice)">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::EntityRelationship" referenceName="relationships">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="from" valueExpression="var:source"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="to" valueExpression="var:target"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedJavaExtensions qualifiedClassName="my.assessment.design.Services"/>
+  </ownedViewpoints>
+</description:Group>

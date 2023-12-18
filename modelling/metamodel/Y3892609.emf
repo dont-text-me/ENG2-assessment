@@ -1,46 +1,46 @@
-@namespace(uri="Y3892609")
+@namespace(uri="Y3892609", prefix="")
 package Y3892609;
 
 class System {
-    val Microservice [*] services;
-    val CommandLineClient client;
-    val KafkaTopic[*] topics;
-    attr Integer kafkaBrokerCount = 3;
+	val Microservice[*] services;
+	val CommandLineClient client;
+	val KafkaTopic[*] topics;
+	attr Integer kafkaBrokerCount = "3";
 }
 
 class Microservice {
-    attr String name;
-    attr String description;
-    attr Integer dockerComposePortForwardValue = 8080;
-    val APISchema api;
-    val DTO[*] dtos;
-    val Entity[*] entities;
-    val KafkaConsumer[*] kafkaConsumers;
-    val KafkaProducer[*] kafkaProducers;
-    val KafkaStream[*] kafkaStreams;
-    val EntityRelationship[*] relationships;
+	attr String name;
+	attr String description;
+	attr Integer dockerComposePortForwardValue = "8080";
+	val APISchema api;
+	val DTO[*] dtos;
+	val Entity[*] entities;
+	val KafkaConsumer[*] kafkaConsumers;
+	val KafkaProducer[*] kafkaProducers;
+	val KafkaStream[*] kafkaStreams;
+	val EntityRelationship[*] relationships;
 }
 
-class KafkaConsumer{
+class KafkaConsumer {
 	attr String name;
-	attr Boolean isBatch = false;
+	attr Boolean isBatch = "false";
 	ref KafkaTopic[*]#consumers topicsReadFrom;
 }
 
-class KafkaProducer{
+class KafkaProducer {
 	attr String name;
 	ref KafkaTopic[*]#producers topicsWrittenTo;
 }
 
-class KafkaStream{
+class KafkaStream {
 	attr String name;
 	ref KafkaTopic#streamInputs topicStreamedFrom;
 	ref KafkaTopic#streamOutputs topicStreamedTo;
 }
 
-class KafkaTopic{
+class KafkaTopic {
 	attr String name;
-	attr Boolean isStreamOutputTopic = false;
+	attr Boolean isStreamOutputTopic = "false";
 	val Field kafkaKey;
 	ref DTO kafkaValue;
 	ref KafkaConsumer[*]#topicsReadFrom consumers;
@@ -49,130 +49,127 @@ class KafkaTopic{
 	ref KafkaStream[*]#topicStreamedTo streamOutputs;
 }
 
-
 class CommandLineClient {
 	attr String name;
 	val CliOptionJavaEnum[*] enums;
-    val CliCommand[*] commands;
+	val CliCommand[*] commands;
 }
 
 class CliCommand {
-    attr String name;
-    attr String description;
-    val ACliArgument[*] args;
+	attr String name;
+	attr String description;
+	val ACliArgument[*] args;
 }
 
-class CliOptionJavaEnum{
+class CliOptionJavaEnum {
 	attr String name;
 	attr String[*] values;
 }
 
 abstract class ACliArgument {
-    attr String[*] names;
-    attr String description;
-    attr Boolean isRequired = false;
+	attr String[*] names;
+	attr String description;
+	attr Boolean isRequired = "false";
 }
 
-class CliArgument extends ACliArgument{
+class CliArgument extends ACliArgument {
 	val Field field;
 }
 
-class EnumValueCliArgument extends ACliArgument{
+class EnumValueCliArgument extends ACliArgument {
 	ref CliOptionJavaEnum enumType;
 }
 
 class Entity {
 	attr String name;
 	val IdField idField;
-    val DbColumnField[*] fields;
-    ref EntityRelationship[*]#to incoming;
-    ref EntityRelationship[*]#from outgoing;
+	val DbColumnField[*] fields;
+	ref EntityRelationship[*]#to incoming;
+	ref EntityRelationship[*]#from outgoing;
 }
 
-class DTO{
+class DTO {
 	attr String name;
 	val Field[*] fields;
 }
-class EntityRelationship{
-    attr EntityRelationshipType type;
-    attr String joinTableName;
-    attr String description;
-    attr Boolean isJsonIgnoreFrom = true;
-    attr Boolean isJsonIgnoreTo = true;
-    ref Entity#incoming to;
-    val Field toField;
-    ref Entity#outgoing from;
-    val Field fromField;
+
+class EntityRelationship {
+	attr EntityRelationshipType type;
+	attr String joinTableName;
+	attr String description;
+	attr Boolean isJsonIgnoreFrom = "true";
+	attr Boolean isJsonIgnoreTo = "true";
+	ref Entity#incoming to;
+	val Field toField;
+	ref Entity#outgoing from;
+	val Field fromField;
 }
 
-enum EntityRelationshipType{
-    MANY_TO_ONE;
-    ONE_TO_MANY;
-    MANY_TO_MANY;
+enum EntityRelationshipType {
+	MANY_TO_ONE = 0;
+	ONE_TO_MANY = 1;
+	MANY_TO_MANY = 2;
 }
-
 
 class APISchema {
-    val ClientDefinition[*] clients;
+	val ClientDefinition[*] clients;
 }
 
-class ClientDefinition{
+class ClientDefinition {
 	attr String name;
 	attr String urlConfigProperty;
 	attr String defaultUrl;
 	attr String errorType = "String";
-	attr Boolean isHealthClient = false;
+	attr Boolean isHealthClient = "false";
 	val HttpRequest[*] requests;
 }
 
-abstract class HttpRequest{
+abstract class HttpRequest {
 	attr String name;
 	attr String url;
 	val Field[*] urlParams;
 	ref DTO responseBody;
-	attr Boolean isResponseWrappedInHttpResponse = false; //ignored if string response. If true, the return type is HttpResponse<responseBody>
-	attr Boolean isStringResponse = false; // Cannot have a response body if string response - enforced in EVL
+	attr Boolean isResponseWrappedInHttpResponse = "false";
+	attr Boolean isStringResponse = "false";
 }
 
-
-class HttpGetRequest extends HttpRequest{
+class HttpGetRequest extends HttpRequest {
 	val QueryParamField[*] queryParams;
 }
 
-class HttpNonGetRequest extends HttpRequest{
+class HttpNonGetRequest extends HttpRequest {
 	attr HttpNonGetRequestType type;
-	attr Boolean isStringRequestBody = false; // cannot have a DTO body if body is a string - enforced in EVL
+	attr Boolean isStringRequestBody = "false";
 	attr String stringRequestBodyName;
 	ref DTO requestBody;
 }
 
-enum HttpNonGetRequestType{
-	POST;
-	PUT;
-	DELETE;
+enum HttpNonGetRequestType {
+	POST = 0;
+	PUT = 1;
+	DELETE = 2;
 }
 
-
-abstract class AField{
-    attr String name;
-    attr String type;
+abstract class AField {
+	attr String name;
+	attr String type;
 }
 
-class Field extends AField{
-	
+class Field extends AField {
 }
 
-class IdField extends AField{
-	attr Boolean isAutoGenerated = true;
+class IdField extends AField {
+	attr Boolean isAutoGenerated = "true";
 }
 
-class QueryParamField extends AField{
-	attr Boolean isNullable = false;
+class QueryParamField extends AField {
+	attr Boolean isNullable = "false";
 }
 
-class DbColumnField extends AField{
-	attr Boolean isNullable = true;
-	attr Boolean isUnique = false;
-	attr Boolean hasDefaultValue = false;
+class DbColumnField extends AField {
+	attr Boolean isNullable = "true";
+	attr Boolean isUnique = "false";
+	attr Boolean hasDefaultValue = "false";
 	attr String defaultValue;
 }
+

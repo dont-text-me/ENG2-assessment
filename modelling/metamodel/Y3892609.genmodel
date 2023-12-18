@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/metamodel/src-gen" creationIcons="false" editDirectory="/metamodel.edit/src-gen"
+    editorDirectory="/metamodel.editor/src-gen" modelPluginID="metamodel" modelName="Metamodel"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" codeFormatting="true"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>Y3892609.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="Metamodel" disposableProviderFactory="true" ecorePackage="Y3892609.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Y3892609.ecore#//EntityRelationshipType">
+      <genEnumLiterals ecoreEnumLiteral="Y3892609.ecore#//EntityRelationshipType/MANY_TO_ONE"/>
+      <genEnumLiterals ecoreEnumLiteral="Y3892609.ecore#//EntityRelationshipType/ONE_TO_MANY"/>
+      <genEnumLiterals ecoreEnumLiteral="Y3892609.ecore#//EntityRelationshipType/MANY_TO_MANY"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Y3892609.ecore#//HttpNonGetRequestType">
+      <genEnumLiterals ecoreEnumLiteral="Y3892609.ecore#//HttpNonGetRequestType/POST"/>
+      <genEnumLiterals ecoreEnumLiteral="Y3892609.ecore#//HttpNonGetRequestType/PUT"/>
+      <genEnumLiterals ecoreEnumLiteral="Y3892609.ecore#//HttpNonGetRequestType/DELETE"/>
+    </genEnums>
+    <genClasses ecoreClass="Y3892609.ecore#//System">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//System/services"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//System/client"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//System/topics"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//System/kafkaBrokerCount"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//Microservice">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//Microservice/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//Microservice/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//Microservice/dockerComposePortForwardValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//Microservice/api"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//Microservice/dtos"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//Microservice/entities"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//Microservice/kafkaConsumers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//Microservice/kafkaProducers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//Microservice/kafkaStreams"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//Microservice/relationships"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//KafkaConsumer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//KafkaConsumer/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//KafkaConsumer/isBatch"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//KafkaConsumer/topicsReadFrom"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//KafkaProducer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//KafkaProducer/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//KafkaProducer/topicsWrittenTo"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//KafkaStream">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//KafkaStream/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//KafkaStream/topicStreamedFrom"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//KafkaStream/topicStreamedTo"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//KafkaTopic">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//KafkaTopic/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//KafkaTopic/isStreamOutputTopic"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//KafkaTopic/kafkaKey"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//KafkaTopic/kafkaValue"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//KafkaTopic/consumers"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//KafkaTopic/producers"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//KafkaTopic/streamInputs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//KafkaTopic/streamOutputs"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//CommandLineClient">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//CommandLineClient/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//CommandLineClient/enums"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//CommandLineClient/commands"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//CliCommand">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//CliCommand/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//CliCommand/description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//CliCommand/args"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//CliOptionJavaEnum">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//CliOptionJavaEnum/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//CliOptionJavaEnum/values"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Y3892609.ecore#//ACliArgument">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//ACliArgument/names"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//ACliArgument/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//ACliArgument/isRequired"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//CliArgument">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//CliArgument/field"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//EnumValueCliArgument">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//EnumValueCliArgument/enumType"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//Entity">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//Entity/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//Entity/idField"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//Entity/fields"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//Entity/incoming"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//Entity/outgoing"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//DTO">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//DTO/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//DTO/fields"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//EntityRelationship">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//EntityRelationship/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//EntityRelationship/joinTableName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//EntityRelationship/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//EntityRelationship/isJsonIgnoreFrom"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//EntityRelationship/isJsonIgnoreTo"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//EntityRelationship/to"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//EntityRelationship/toField"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//EntityRelationship/from"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//EntityRelationship/fromField"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//APISchema">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//APISchema/clients"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//ClientDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//ClientDefinition/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//ClientDefinition/urlConfigProperty"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//ClientDefinition/defaultUrl"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//ClientDefinition/errorType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//ClientDefinition/isHealthClient"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//ClientDefinition/requests"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Y3892609.ecore#//HttpRequest">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//HttpRequest/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//HttpRequest/url"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//HttpRequest/urlParams"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//HttpRequest/responseBody"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//HttpRequest/isResponseWrappedInHttpResponse"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//HttpRequest/isStringResponse"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//HttpGetRequest">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Y3892609.ecore#//HttpGetRequest/queryParams"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//HttpNonGetRequest">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//HttpNonGetRequest/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//HttpNonGetRequest/isStringRequestBody"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//HttpNonGetRequest/stringRequestBodyName"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Y3892609.ecore#//HttpNonGetRequest/requestBody"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Y3892609.ecore#//AField">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//AField/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//AField/type"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//Field"/>
+    <genClasses ecoreClass="Y3892609.ecore#//IdField">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//IdField/isAutoGenerated"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//QueryParamField">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//QueryParamField/isNullable"/>
+    </genClasses>
+    <genClasses ecoreClass="Y3892609.ecore#//DbColumnField">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//DbColumnField/isNullable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//DbColumnField/isUnique"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//DbColumnField/hasDefaultValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Y3892609.ecore#//DbColumnField/defaultValue"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
