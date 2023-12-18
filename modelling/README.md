@@ -15,9 +15,8 @@
 ---
 # Starting the graphical editor
 * From the `metamodel` folder:
-  * navigate to the aird file and open the class diagram
-  * right click anywhere and select `generate` &#8594; `all` ![](./screenshots/generate-editor.png)
   * run the metamodel.edit or metamodel.editor project as an eclipse application
+    * Note: you may need to right click on the metamodel, metamodel.edit and metamodel.editor folders and select `import as project`: <br/> ![](./screenshots/import-as-project.png)
 * In the nested eclipse application:
   * import the `models` folder as a project: <br/> ![](./screenshots/import-models.png)
   * import the `models.design` project:<br/>![](./screenshots/import-models-design.png)
