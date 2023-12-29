@@ -150,21 +150,21 @@
           </ownedTools>
         </toolSections>
         <toolSections name="Domain" label="Domain">
-          <ownedTools xsi:type="tool:ContainerCreationDescription" name="CreateEntity" label="Create Entity">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="CreateEntity" label="Create Entity" containerMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subContainerMappings[name='EntityContainer']">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::Entity" referenceName="entities"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateIDField" label="Create ID field">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateIDField" label="Create ID field" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subContainerMappings[name='EntityContainer']/@subNodeMappings[name='IdField']">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::IdField" referenceName="idField"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateDBColumnField" label="Create DB column field">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateDBColumnField" label="Create DB column field" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subContainerMappings[name='EntityContainer']/@subNodeMappings[name='ColumnFIeld']">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
@@ -178,6 +178,31 @@
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="feature:eContainer">
                 <subModelOperations xsi:type="tool:Navigation" diagramDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='DomainModel']"/>
               </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+        <toolSections name="System" label="System">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="CreateMicroservice" label="Create microservice" containerMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::Microservice" referenceName="services"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateCLIClient" label="Create CLI client" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@additionalLayers[name='CliLayer']/@nodeMappings[name='CLIClientNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::CommandLineClient" referenceName="client"/>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+        <toolSections name="HTTP" label="HTTP">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateAPISchema" label="Create API schema" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='SystemModel']/@defaultLayer/@containerMappings[name='ServiceContainer']/@subNodeMappings[name='ApiSchemaNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Y3892609::APISchema" referenceName="api"/>
             </initialOperation>
           </ownedTools>
         </toolSections>

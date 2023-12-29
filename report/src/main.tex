@@ -19,6 +19,9 @@
 % Document
 \singlespacing
 \begin{document}
+    \title{ENG2 report}
+    \author{Y3892609}
+    \maketitle
     \tableofcontents
     \pagebreak
     \section{Data intensive systems}
@@ -63,7 +66,7 @@
     The client communicates with the running system on its exposed ports and makes requests to the corresponding HTTP controllers.
     In the current version of the system, the client is not part of the docker compose cluster and communicates with it as an external connection.
     A more user-friendly approach to interacting with the system could involve the development of a front-end, which could be then added to the docker cluster and not require a java runtime to be installed on the user's machine.
-    A more thorough documentation of the CLI client's capabilities is provided in section 2.1.2
+    A more thorough documentation of the CLI client's capabilities is provided in section 1.2.1
 
     Figure \ref{fig:siriusSystemOverview} shows a view of the system from a message exchange perspective: the figure shows kafka streams, producers and consumers involved in the system's message exchange.
 
@@ -226,7 +229,7 @@ Feature tests were moved into a separate gradle task by tagging the test classes
 Utility functions were unit tested when applicable (i.e. when they were not simply wrappers over a getter/setter) and added to their containing microservices's test suite.
 
 Overall, 132 tests were run, all passing, achieving 78\% class coverage and 96\% line coverage.
-It should be noted that this takes the generated code, with many abstract classes, interfaces and DTO classes into account (more in section 2.2.4), which brings down the percentage of testable code.
+It should be noted that this takes the generated code, with many abstract classes, interfaces and DTO classes into account (more in section 2.4), which brings down the percentage of testable code.
 Out of the manually written packages, the lowest coverage was achieved by the trending hashtags service at 95\% and the highest was shared by the video and subscription microservices at 99\%.
 
 While it could be argued that using the CLI clients and/or micronaut repositories to seed test data makes the test scenarios less``pure''i.e. relies on one component of the system while testing another, the relative simplicity of the database structure and the API makes it unlikely that the clients and repositories, whose implementation is handled by micronaut will cause any issues or test flakiness.
@@ -464,13 +467,17 @@ The generated docker compose did not include sensitive data like database passwo
 Entity relationships were constructed by checking the``toField''and``fromField''on``incoming''and``outgoing''relationships respectively.
 As described in 2.2.1, only the``incoming''transitions contained the ``mappedBy'' micronaut field, which allowed the generated code to match the intended use case e.g. when the desired way of adding a user to a video is by changing the user entity rather than the video entity.
 Convenience methods for modifying entities were written, as needed, in the``utils''package of the corresponding microservice.
+    \end{itemize}
+
 Overall, the generated code allowed for a significant saving in effort when writing the microservices.
 The only things up to the user were making sure that all microservices' projects are created (with the right source set added), writing the controller behaviour, the repositories, the Kafka consumers (and streams) and the behaviour of the CLI commands.
 While this is still a significant undertaking, not needing to write the mostly boilerplate code of the remaining parts of the system allows the developer to focus purely on adhering to the requirements and making sure that the business logic is executed correctly.
-\end{itemize}
+
     \pagebreak
-    \section{References}
-    TODO TODO TODO
+    \begin{thebibliography}{1}
+        \bibitem{test}
+        ``Kafka streams examples'', GitHub, https://github.com/confluentinc/kafka-streams-examples/blob/5.1.4-post/docker-compose.yml (accessed Dec. 29, 2023).
+    \end{thebibliography}
 
 
 
