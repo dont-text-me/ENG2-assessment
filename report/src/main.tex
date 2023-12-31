@@ -13,6 +13,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \usepackage{hyperref}
+\usepackage{lipsum}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt} %disable the header bar
 \fancyfoot[R]{\thepage} %move page number to the right
@@ -342,7 +343,83 @@
     \end{itemize}
     \pagebreak
     \subsection{Graphical concrete synthax}
-    TODO
+    Due to the complexity of the resulting model, a single graphical representation was too complex and cluttered to efficiently work with.
+    Because of that, several representations and graphical editors have been created, each dealing with a smaller aspect of the system.
+    For brevity, where several representations of the same kind have been created, only the one with the most elements is displayed.
+    \subsubsection{Top-level system model editor}
+    \begin{wrapfigure}{r}{0.2\linewidth}
+        \hspace{3em}
+        \includegraphics[height=0.1\paperheight]{high-level-overview-pallette}
+        \caption{Top-level representation pallette}
+        \label{fig:topLevelPallette}
+    \end{wrapfigure}
+    This representation provided a top-level view of the entire system.
+    An example of such a representation is shown on figure \ref{fig:siriusSystemOverview}.
+    It is possible to toggle the presence of a brief representation of the CLI client as well, showing just the client itself and its commands for a full overview of the system.
+    This representation also handles some parts of the kafka message exchange: the diagram shows kafka consumers, producers and streams, as well as shows which kafka component interacts with which topic.
+
+    While this representation is to be used for sketching the high-level design of the system, it provides some editing functionality that can benefit from a more broad look at the system, such as adding entities to the domain of a microservice, along with their ID fields and any fields not representing a relationship between entities.
+    The Kafka section of the pallette allows the creation of kafka topics, messaging components (e.g. producers) as well as links between topics and components.
+    A screenshot of the pallette accompanying a representation such as the one on figure \ref{fig:siriusSystemOverview} is shown on figure \ref{fig:topLevelPallette}.
+    \subsubsection{Kafka messaging model editor}
+    \begin{wrapfigure}{r}{0.4\linewidth}
+        \vspace{-3em}
+        \includegraphics[height=0.2\paperheight]{messaging-overview-with-pallette}
+        \caption{Kafka messaging representation}
+        \label{fig:kafkaMessagingEditor}
+        \vspace{-3em}
+    \end{wrapfigure}
+    This representation provided a view of the systems in terms of the flow of data in its message exchange.
+    Similar to the previous representation, this one displayed kafka topics and microservices, with the addition of each microservice's DTO's.
+    A filter was also added to remove DTO's that were not used in the message exchange (e.g. the ones used in the API).
+
+    The pallette accompanying this representation allowed the creation of topics and DTO's as well as the creation of links between topics and their message DTO's.
+    Furthermore, the editor also displayed the types of each topic's key field and allowed the editing and creation of these fields for the system's topics.
+    An example of this representation is shown on figure \ref{fig:kafkaMessagingEditor}.
+    \subsubsection{CLI client model editor}
+    \begin{wrapfigure}{r}{0.4\linewidth}
+        \includegraphics[height=0.2\paperheight]{cli-editor-with-pallette}
+        \caption{CLI client representation}
+        \label{fig:cliEditor}
+        \vspace{-10em}
+    \end{wrapfigure}
+    This representation provides a deeper look into the CLI client.
+    The gray rectangles represent commands, with the command name displayed at the top.
+    Inside each command rectangle, an orange ellipse represents each of the command's arguments, as well as the variable it maps to in an implementation of the CLI.
+    The arguments that reference enums are coloured slightly differently and link to an enum container.
+
+    The pallette shown on figure \ref{fig:cliEditor} allows the creation of commands, arguments (and the associated variables), option enums, as well as the links between enum arguments and enums.
+    \pagebreak
+    \subsubsection{Microservice domain model editor}
+    \begin{wrapfigure}{r}{0.1\linewidth}
+        \includegraphics[width=0.2\paperwidth]{domain-model-editor-pallette}
+        \caption{Domain model pallette}
+        \label{fig:domainEditor}
+        \vspace{-5em}
+    \end{wrapfigure}
+    This representation shows the entities in a microservice's domain along with their relationships.
+    The entities are represented as rectangles, with their column fields inside and the entity relationships represented as edges.
+    The style of the edge tips reflects the type of the relationship: a diamond represents multiple entities on a given end of a relationship, while an arrow represents a single entity.
+    The names of the relationship fields are also displayed.
+    For example, on figure \ref{fig:smDomain}, the viewedVideos and viewers fields are displayed in the diagram.
+    This representation aims to mirror a standard entity relationship diagram, making it easy to convey the domain of a given microservice.
+
+    The pallette shown on figure \ref{fig:domainEditor} allows for the creation of entities, their fields, as well as entity relationships.
+    \subsubsection{Microservice API model editor}
+    \begin{wrapfigure}{r}{0.4\linewidth}
+        \includegraphics[height=0.17\paperheight]{vm-api-editor-with-pallette}
+        \caption{API schema representation}
+        \label{fig:apiEditor}
+        \vspace{-2em}
+    \end{wrapfigure}
+    This representation on figure \ref{fig:apiEditor} shows the API of a given microservice.
+    Each controller is represented with a rectangle, with requests/resources represented by ellipses.
+    The type of the request determines the colour: GET requests are green while others are orange.
+    Similar to the kafka messaging representation, this one also shows the DTO's belonging to a given microservice.
+    A filter is also implemented to hide DTO's that are not used as a request or response body in any request.
+    URL parameters and their types are represented as purple diamonds, while query params, if any exist, are represented by red diamonds.
+
+    The pallete allows for the creation of controllers, requests and DTO's as well as the linking of DTO's and requests as either the request or response body.
     \pagebreak
     \subsection{Model validation}
     Table \ref{tab:evlTable} contains the list of EVL validations that was applied to the model.
