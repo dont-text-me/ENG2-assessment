@@ -23,4 +23,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Y3892609
-          path: main.pdf
+          path: report/src/main.pdf
