@@ -24,3 +24,8 @@ jobs:
         with:
           name: Y3892609
           path: report/src/main.pdf
+      - name: Move and rename PDF as specified in the assessment
+        run: mv ./report/src/main.pdf ./Y3892609.pdf
+      - name: Add and commit file
+        run: 
+
