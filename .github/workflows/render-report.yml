@@ -9,7 +9,7 @@ on:
 
 permissions: write-all
 jobs:
-  build:
+  render-report:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
