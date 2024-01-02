@@ -14,8 +14,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }} # https://github.com/actions/checkout/issues/317#issuecomment-1221335371
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
