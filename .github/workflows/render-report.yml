@@ -15,7 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Move to report directory
-        run: cd report
+        run: cd ./report
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
