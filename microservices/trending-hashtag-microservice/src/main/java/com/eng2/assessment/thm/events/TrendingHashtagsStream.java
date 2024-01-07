@@ -34,9 +34,9 @@ public class TrendingHashtagsStream implements ITrendingHashtagsStream {
    * <p>The stream breaks incoming messages down in a way that one liked hashtag is associated with
    * one record, i.e. if a video with 5 hashtags is liked, 5 internal messages are produced for each
    * of the hashtags. Then, the likes for each hashtag are summed over a time window and passed
-   * forward. Further processing is done in {@link
-   * TrendingHashtagSummaryConsumer}, which stores a {@link com.eng2.assessment.generated.thm.domain.TrendingHashtag} for each
-   * summarized message i.e. for each hashtag's like count over the time window.
+   * forward. Further processing is done in {@link TrendingHashtagSummaryConsumer}, which stores a
+   * {@link com.eng2.assessment.generated.thm.domain.TrendingHashtag} for each summarized message
+   * i.e. for each hashtag's like count over the time window.
    */
   @Singleton
   public KStream<String, WindowedHashtagWithLikeCount> streamVideoLikedMessages(
