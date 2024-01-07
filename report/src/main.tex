@@ -4,7 +4,7 @@
 % Packages
 \usepackage{graphicx}
 \graphicspath{{./figures/}}
-\usepackage[nohead, nomarginpar, margin=2cm, foot=2cm]{geometry}
+\usepackage[nohead, nomarginpar, margin=2cm, foot=1.5cm, footskip=.5cm]{geometry}
 \usepackage{setspace}
 \usepackage{booktabs}
 \usepackage{wrapfig}
@@ -16,7 +16,8 @@
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt} %disable the header bar
 \fancyfoot[R]{\thepage} %move page number to the right
-\usepackage[numbib,notlof,notlot,nottoc]{tocbibind} %add bibliohgraphy to table of contents
+\usepackage[numbib,notlof,notlot,nottoc]{tocbibind}
+\usepackage{mathtools} %add bibliohgraphy to table of contents
 
 % Document
 \singlespacing
@@ -33,6 +34,10 @@
         \includegraphics[width=0.5\textwidth]{c4-diagram-top-level}
         \caption{C4 diagram of the system}
         \label{fig:c4Diagram}
+        \vspace{8em}
+        \includegraphics[width=0.5\textwidth]{video-platform-top-level-sirius}
+        \caption{Top-level overview of the system}
+        \label{fig:siriusSystemOverview}
     \end{wrapfigure}
 
     The top-level architecture of the platform (Figure \ref{fig:c4Diagram}) consists of 3 microservices, with a dedicated database node for each, a command line client app and a Kafka cluster.
@@ -53,13 +58,6 @@
     The separate databases also allow for each microservice to store the smallest possible representation of each entity.
     For example, while the video microservice could store user information such as date of birth, their posted videos and region, the subscription microservice could store only the username in order to keep track of the links between a user and a hashtag.
     This keeps the amount of exposed information to a minimum in case the security of any database container is compromised, increasing the overall security of the system.
-
-    \begin{wrapfigure}{r}{0.5\textwidth}
-        \includegraphics[width=0.5\textwidth]{video-platform-top-level-sirius}
-        \caption{Top-level overview of the system}
-        \label{fig:siriusSystemOverview}
-        \vspace{-5em}
-    \end{wrapfigure}
 
     The microservices architecture also allows for the system to be scaled according to the users' needs.
     Each database node can handle communication with several instances of each of its corresponding microservice nodes, and more database nodes could also be created to allow for features like region-based splitting of the data to organically split the dataflow.
