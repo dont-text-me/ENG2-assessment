@@ -114,9 +114,7 @@
         \item TrendingHashtagsController - used for retrieving the top trending hashtags.
 
         Since each event could be in several time windows, only records with the highest like count in the given hour are returned.
-        As executing GROUP BY statements with the micronaut repository DSL is not straightforward (a native query could be used instead, which would make the system dependant on a particular database), a TreeSet \cite{treeSet} is used to construct the leaderboard instead.
-        This structure is a set ordered by the likeCount and hashtagName fields on the entity (if 2 hashtags have the same count, they are returned in alphabetical order).
-        This approach allows for a system whose compatibility with several database systems is handled internally by micronaut, improving its versatility.
+        This is achieved with an explicit query in the service's repository interface, which utilises a GROUP BY clause to find the highest like count for each hashtag.
         \item HealthController
     \end{itemize}
     \pagebreak
@@ -147,7 +145,7 @@
     \subsubsection{Command line client}
     The command line client interacts with the microservices and provides success/error messages for POST/PUT requests.
     For GET requests returning a serialized value, the client applies a formatter to make the resulting data look presentable and easy to read.
-    The client supports the following commands (a more thorough description can be found in the README in the client's code directory):
+    The client supports the following commands (a more thorough description can be found in the README in the client's code directory or by running each command with the --help flag):
 
     \begin{table}[h]
         \centering
