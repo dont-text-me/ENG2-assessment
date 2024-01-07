@@ -23,7 +23,7 @@ from TrendingHashtag th
 where th.windowEnd >= :windowEndFrom
 and th.windowEnd <= :windowEndTo
 group by th.hashtagName
-order by th.likeCount desc, th.hashtagName asc
+order by max(th.likeCount) desc, th.hashtagName
 """)
   List<WindowedHashtagWithLikeCount> getTrending(Long windowEndFrom, Long windowEndTo);
 }
