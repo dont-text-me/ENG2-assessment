@@ -16,8 +16,9 @@
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt} %disable the header bar
 \fancyfoot[R]{\thepage} %move page number to the right
-\usepackage[numbib,notlof,notlot,nottoc]{tocbibind}
-\usepackage{mathtools} %add bibliohgraphy to table of contents
+\usepackage[style=ieee, backend=biber, language=british]{biblatex}
+\addbibresource{main.bib}
+\usepackage{mathtools}
 
 % Document
 \singlespacing
@@ -319,8 +320,10 @@
             \item Note:  while it might seem that the ONE\_TO\_MANY and MANY\_TO\_ONE relationship types are duplicates, this is an adaptation to the specifics of micronaut.
             This adaptation was applied in section 2.2.4, where only the  ``target'' entity's field contained the  ``mappedBy'' annotation, allowing developers to customize which side of the relationship can accept edits when writing Java code.
         \end{itemize}
-        While the model aims to be as general as possible, it still makes some assumptions about the design of the system:
-        \item	The system shall have a single CLI client (or at least, a single CLI project)
+    \end{itemize}
+    While the model aims to be as general as possible, it still makes some assumptions about the design of the system:
+    \begin{itemize}
+    \item	The system shall have a single CLI client (or at least, a single CLI project)
         \begin{itemize}
             \item While a system with a greater number of components and/or developer teams working on it may benefit from having several distinct projects for the command line clients, the increased amount of required setup (e.g. maintaining several nested java projects, repeated build scripts) was deemed not worth it.
         \end{itemize}
@@ -328,11 +331,14 @@
         \begin{itemize}
             \item Different messaging systems use different terminology for its components (e.g. topics vs event streams).
         \end{itemize}
-        Since Kafka is the chosen system for this project, limiting the metamodel to only Kafka concepts and terminology was deemed a worthy tradeoff over maximizing generalizability.
-        \item	The users of the concrete graphical synthax will be responsible for providing correct types when adding typed values (e.g. column fields for entities)
+    \end{itemize}
+    Since Kafka is the chosen system for this project, limiting the metamodel to only Kafka concepts and terminology was deemed a worthy tradeoff over maximizing generalizability.
+    \begin{itemize}
+    \item	The users of the concrete graphical synthax will be responsible for providing correct types when adding typed values (e.g. column fields for entities)
         \begin{itemize}
             \item Since it is impossible to predict the exact dependencies or types of each field, the metamodel leaves it up to the developer to provide valid types for their programming language of choice (e.g. Java for the current project)
         \end{itemize}
+
         The following design choices have been considered but rejected in the final version:
         \item	Not having separate types for GET and non-GET HTTP requests
         \begin{itemize}
@@ -581,8 +587,7 @@
     While this is still a significant undertaking, not needing to write the mostly boilerplate code of the remaining parts of the system allows the developer to focus purely on adhering to the requirements and making sure that the business logic is executed correctly.
 
     \pagebreak
-    \bibliographystyle{IEEEtran}
-    \bibliography{main}
+    \printbibliography[heading=bibnumbered]
 
 
 
