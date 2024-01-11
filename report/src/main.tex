@@ -1,5 +1,5 @@
 % Preamble
-\documentclass[parskip=full]{article}
+\documentclass[parskip=full, 11pt]{article}
 \fontfamily{cmss}
 % Packages
 \usepackage{graphicx}
@@ -35,7 +35,7 @@
         \includegraphics[width=0.5\textwidth]{c4-diagram-top-level}
         \caption{C4 diagram of the system}
         \label{fig:c4Diagram}
-        \vspace{8em}
+        \vspace{6em}
         \includegraphics[width=0.5\textwidth]{video-platform-top-level-sirius}
         \caption{Top-level overview of the system}
         \label{fig:siriusSystemOverview}
@@ -77,10 +77,11 @@
     \subsection{Microservices}
     \subsubsection{Video microservice}
 
-    \begin{wrapfigure}{r}{0.5\textwidth}
-        \includegraphics[width=0.5\textwidth]{vm-domain-diagram}
+    \begin{wrapfigure}{r}{0.4\textwidth}
+        \includegraphics[width=0.4\textwidth]{vm-domain-diagram}
         \caption{Video microservice domain diagram}
         \label{fig:vmDomain}
+        \vspace{-3em}
     \end{wrapfigure}
     The video microservice is responsible for the creation of videos, users and hashtags.
     It also allows users to interact with videos by liking, viewing or disliking them, publishing messages to the Kafka cluster when these interactions happen.
@@ -97,6 +98,7 @@
     \subsubsection{Trending hashtag microservice}
 
     \begin{wrapfigure}{r}{0.3\textwidth}
+        \vspace{-1em}
         \includegraphics[width=0.3\textwidth]{thm-domain-diagram}
         \caption{Trending hashtag microservice domain diagram}
         \label{fig:thmDomain}
@@ -118,8 +120,8 @@
     \end{itemize}
     \pagebreak
     \subsubsection{Subscription microservice}
-    \begin{wrapfigure}{r}{0.5\textwidth}
-        \includegraphics[width=0.5\textwidth]{sm-domain-diagram}
+    \begin{wrapfigure}{r}{0.4\textwidth}
+        \includegraphics[width=0.4\textwidth]{sm-domain-diagram}
         \caption{Subscription microservice domain diagram}
         \label{fig:smDomain}
         \vspace{-1em}
@@ -144,7 +146,7 @@
     \subsubsection{Command line client}
     The command line client interacts with the microservices and provides success/error messages for POST/PUT requests.
     For GET requests returning a serialized value, the client applies a formatter to make the resulting data look presentable and easy to read.
-    The client supports the following commands (a more thorough description can be found in the README in the client's code directory or by running each command with the --help flag):
+    The client supports the following commands:
 
     \begin{table}[h]
         \centering
@@ -274,14 +276,14 @@
 
     It should be noted that medium and low vulnerabilities were investigated, but not addressed, given the limited timeframe of the project, the limited likelihood of these vulnerabilities occurring, and the low impact if they did occur.
 
-
+    \pagebreak
     \section{Application of model driven engineering}
     \subsection{Metamodel}
-    \begin{figure}[h]
-        \includegraphics[width=\textwidth]{metamodel-class-diagram}
+    \begin{wrapfigure}{r}{0.7\textwidth}
+        \includegraphics[width=0.7\textwidth]{metamodel-class-diagram}
         \caption{Metamodel class diagram}
         \label{fig:metamodelDiagram}
-    \end{figure}
+    \end{wrapfigure}
 
     The metamodel in figure \ref{fig:metamodelDiagram} describes a multi-component system with a command line interface.
     Since the model's main use will be the generation of code implementing parts of such a system, the metamodel includes the Afield class, representing a variable in some programming language.
@@ -361,16 +363,13 @@
     \end{wrapfigure}
     This representation provided a top-level view of the entire system.
     An example of such a representation is shown on figure \ref{fig:siriusSystemOverview}.
-    It is possible to toggle the presence of a brief representation of the CLI client as well, showing just the client and its commands as connected nodes for a full overview of the system.
     This representation also handles some parts of the kafka message exchange: the diagram shows kafka consumers, producers and streams, as well as shows which kafka component interacts with which topic.
 
-    While this representation is to be used for sketching the high-level design of the system, it provides some editing functionality that can benefit from a more broad look at the system, such as adding entities to the domain of a microservice, along with their ID fields and any fields not representing a relationship between entities.
-    The Kafka section of the pallette allows the creation of kafka topics, messaging components (e.g. producers) as well as links between topics and components.
-    A screenshot of the pallette accompanying a representation such as the one on figure \ref{fig:siriusSystemOverview} is shown on figure \ref{fig:topLevelPallette}.
+    While this representation is to be used for sketching the high-level design of the system, it provides some editing functionality that can benefit from a more broad look at the system, such as adding entities to the domain of a microservice.
+    The Kafka section of the pallette (figure \ref{fig:topLevelPallette}) allows the creation of kafka topics, messaging components (e.g. producers) as well as links between topics and components.
 
     This representation's design does not reveal in-depth functionality on purpose.
-    It is instead used for viewing the overall purpose of each of the system's components as well as for navigating to more detailed diagrams.
-    To achieve this, several double click navigations have been added to the odesign file, each taking the user to a more detailed view of a smaller part of the system.
+    It is instead used for viewing the overall purpose of each of the system's components as well as for navigating to more detailed diagrams by double clicking certain nodes.
     \subsubsection{Kafka messaging model editor}
     \begin{wrapfigure}{r}{0.4\linewidth}
         \vspace{-3em}
@@ -383,8 +382,6 @@
     Similar to the previous representation, this one displayed kafka topics and microservices, with the addition of each microservice's DTO's.
     A filter was also added to remove DTO's that were not used in the message exchange (e.g. the ones used in the API).
 
-    The pallette accompanying this representation allowed the creation of topics and DTO's as well as the creation of links between topics and their message DTO's.
-    Furthermore, the editor also displayed the types of each topic's key field and allowed the editing and creation of these fields for the system's topics.
     An example of this representation is shown on figure \ref{fig:kafkaMessagingEditor}.
 
     The representation's scope has been limited on purpose.
@@ -396,11 +393,9 @@
         \includegraphics[height=0.15\paperheight]{cli-editor-with-pallette}
         \caption{CLI client representation}
         \label{fig:cliEditor}
-        \vspace{-1em}
+        \vspace{-3em}
     \end{wrapfigure}
-    This representation provides a deeper look into the CLI client.
-    The gray rectangles represent commands, with the command name displayed at the top.
-    Inside each command rectangle, an orange ellipse represents each of the command's arguments, as well as the variable it maps to in an implementation of the CLI.
+    This representation provides a deeper look into the CLI client, displaying commands, their arguments, and java variables they map to.
     The arguments that reference enums are coloured slightly differently and link to an enum container.
 
     The pallette shown on figure \ref{fig:cliEditor} allows the creation of commands, arguments (and the associated variables), option enums, as well as the links between enum arguments and enums.
@@ -439,10 +434,7 @@
     Each controller is represented with a rectangle, with requests/resources represented by ellipses.
     The type of the request determines the colour: GET requests are green while others are orange.
     Similar to the kafka messaging representation, this one also shows the DTO's belonging to a given microservice.
-    A filter is also implemented to hide DTO's that are not used as a request or response body in any request.
     URL parameters and their types are represented as purple diamonds, while query params, if any exist, are represented by red diamonds.
-
-    The pallete allows for the creation of controllers, requests and DTO's as well as the linking of DTO's and requests as either the request or response body.
 
     While this representation's design is quite detailed and represents a lot of the smaller parts of an API, its main weakness is in its ability to be understood by a new user.
     Some measures to combat this weakness were taken in the representation design, such as displaying the full URL of request nodes and displaying the type of requests on hover.
@@ -457,7 +449,7 @@
     \subsection{Model validation}
     Table \ref{tab:evlTable} contains the list of EVL validations that was applied to the model.
     Highlighted rows are warnings (critiques) while the rest are errors (constraints).
-    Critiques that do not directly affect the submission criteria have been omitted for brevity.
+    Constraints and critiques with trivial implementation have been omitted for brevity.
 
     \begin{table}[h]
         \centering
@@ -471,15 +463,7 @@
             \rowcolor{lightgray}
             KafkaTopic & shouldHaveAtLeastOneProducer &  \\
             \hline
-            KafkaTopic & mustHaveKafkaKeyField &  \\
-            \hline
-            KafkaTopic & mustHaveValueDTO &  \\
-            \hline
             Entity & mustHaveIdField & Error if entity does not have an @ID annotated field \\
-            \hline
-            EntityRelationship & mustHaveToEntity &  \\
-            \hline
-            EntityRelationship & mustHaveFromEntity &  \\
             \hline
             EntityRelationship & mustHaveToField & Entities must have a java field for incoming/outgoing relationships \\
             \hline
@@ -489,9 +473,7 @@
             \hline
             System & \hspace{0pt}microservicesMustNotExposeConflictingPorts & Error if several microservices are exposing the same port in docker compose \\
             \hline
-            Microservice & nameMustNotContainSpaces &  \\
-            \hline
-            Microservice & mustHaveDifferentJoinTablesForMultipleMany\-ToManyRelationships & Error if there are several many to many relationships using the same join table \\
+            Microservice & mustHaveDifferentJoinTablesForMultiple\-ManyToManyRelationships & Error if there are several many to many relationships using the same join table \\
             \hline
             APISchema & mustHaveOneHealthEndpoint & Every microservice must have a health client. \\
             \hline
@@ -505,21 +487,11 @@
             \hline
             HttpNonGetRequest &\hspace{0pt}mustNotHaveARequestBodyDTOIfStringRequestBody &  \\
             \hline
-            HttpNonGetRequest & mustHaveType & Non - GET requests must specify a type - POST, PUT etc. \\
-            \hline
-            ClientDefinition & mustHaveAtLeastOneRequest &  \\
-            \hline
-            ClientDefinition & healthClientMustHaveOneHealthGetEndpoint &  \\
+            ClientDefinition & healthClientMustHaveOneHealth\-GetEndpoint &  \\
             \hline
             Afield & typeMustStartWithUpperCase & Type must be a java type i.e. start with uppercase letter \\
             \hline
-            CommandLineClient & mustHaveAtLeastOneCommand &  \\
-            \hline
             CLICommand &\hspace{0pt}mustNotHaveDifferentArgumentsWithSameName & Error if several CLI args for a command attempt to use the same name \\
-            \hline
-            EnumValueCliArgument & mustHaveDefinedEnum & Error if doesn't reference an existing enum \\
-            \hline
-            CliArgument & mustHaveDefinedField &  \\
             \bottomrule
         \end{tabular}
         \caption{EVL validation rules}
