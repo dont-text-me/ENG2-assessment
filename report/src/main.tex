@@ -247,7 +247,7 @@
     Due to the longer startup time, longer test execution and less clarity about the insides of the microservices associated with the feature tests, they did not cover as many edge cases and relied on the lower-level tests to fill the ``gaps''in coverage and business logic.
     Thererfore, any suite taken on its own may not be sufficient to verify the correctness of the system.
     When running them together though, the tests provide a reasonable level of coverage and ensure that the system conforms to the high-level requirements.
-
+    \pagebreak
     \subsubsection{Addressing container vulnerabilities}
     An initial scan of the microservices' images revealed a relatively large number of high and critical vulnerabilities.
     Due to the microservices differing only slightly in terms of dependencies, the vulnerability list ended up looking very similar for all three.
@@ -329,24 +329,23 @@
         \begin{itemize}
             \item While a system with a greater number of components and/or developer teams working on it may benefit from having several distinct projects for the command line clients, the increased amount of required setup (e.g. maintaining several nested java projects, repeated build scripts) was deemed not worth it.
         \end{itemize}
-        \item	The system shall use Apache Kafka for its message exchange
+    \item The system shall use Apache Kafka for its message exchange
         \begin{itemize}
             \item Different messaging systems use different terminology for its components (e.g. topics vs event streams).
+            Since Kafka is the chosen system for this project, limiting the metamodel to only Kafka concepts and terminology was deemed a worthy tradeoff over maximizing generalizability.
         \end{itemize}
-    \end{itemize}
-    Since Kafka is the chosen system for this project, limiting the metamodel to only Kafka concepts and terminology was deemed a worthy tradeoff over maximizing generalizability.
-    \begin{itemize}
-    \item	The users of the concrete graphical synthax will be responsible for providing correct types when adding typed values (e.g. column fields for entities)
+    \item The users of the concrete graphical synthax will be responsible for providing correct types when adding typed values (e.g. column fields for entities)
         \begin{itemize}
             \item Since it is impossible to predict the exact dependencies or types of each field, the metamodel leaves it up to the developer to provide valid types for their programming language of choice (e.g. Java for the current project)
         \end{itemize}
-
-        The following design choices have been considered but rejected in the final version:
-        \item	Not having separate types for GET and non-GET HTTP requests
+    \end{itemize}
+    The following design choices have been considered but rejected in the final version:
+    \begin{itemize}
+        \item Not having separate types for GET and non-GET HTTP requests
         \begin{itemize}
             \item This was dismissed as it made the model validation rules less clear, particularly with request bodies, as these are typically not used for GET requests
         \end{itemize}
-        \item	Linking CLI commands and HTTP requests
+        \item Linking CLI commands and HTTP requests
         \begin{itemize}
             \item This was dismissed as while it would allow for a clearer link between microservice functionality and the CLI interface, it could potentially limit the functionality of the client, e.g. when requesting information from one microservice and using the response data to make another request
         \end{itemize}
