@@ -1,6 +1,7 @@
 % Preamble
 \documentclass[parskip=full, 11pt]{article}
 \fontfamily{cmss}
+\singlespacing
 % Packages
 \usepackage{graphicx}
 \graphicspath{{./figures/}}
@@ -21,7 +22,6 @@
 \usepackage{mathtools}
 
 % Document
-\singlespacing
 \begin{document}
     \title{ENG2 report}
     \author{Y3892609}
@@ -446,56 +446,49 @@
     While this design choice sacrifices some editor functionality, it provides a significant improvement in terms of the ease of understanding the representations.
     \pagebreak
     \subsection{Model validation}
-    Table \ref{tab:evlTable} contains the list of EVL validations that was applied to the model.
-    Highlighted rows are warnings (critiques) while the rest are errors (constraints).
-    Constraints and critiques with trivial implementation have been omitted for brevity.
+    Table \ref{tab:evlTable} contains the list of EVL validations that were applied to the model as required by section 1.2 of the assessment brief.
+
+    It should be noted that the checks for each topic having a subscriber and a publisher (highlighted in gray) are ``critiques'' instead of ``constraints''.
+    This is due to the fact that the final version of the system, while conforming to all requirements in the assessment brief, had 2 topics which were written to but not written from, which can be seen on figure \ref{fig:siriusSystemOverview}.
+    Therefore, the checks instead provided a warning to the developer.
 
     \begin{table}[h]
         \centering
-        \begin{tabular}{|p{0.21\linewidth}|p{0.4\linewidth}|p{0.39\linewidth}|}
+        \begin{tabular}{|p{0.2\linewidth}|p{0.15\linewidth}|p{0.65\linewidth}|}
             \toprule
-            \textbf{Context} & \textbf{Name} & \textbf{Description} \\
+            \textbf{Name} & \textbf{Context} & \textbf{Implementation} \\
             \midrule
             \rowcolor{lightgray}
-            KafkaTopic & shouldHaveAtLeastOneConsumer &  \\
+            shouldHaveAtLeast\-OneConsumer & KafkaTopic & Verifying that at least one of topic's ``consumers'' or ``streamInputs'' fields has the size of at least 1.\\
             \hline
             \rowcolor{lightgray}
-            KafkaTopic & shouldHaveAtLeastOneProducer &  \\
+            shouldHaveAtLeast\-OneProducer & KafkaTopic & Verifying that at least one of topic's ``producers'' or ``streamOutputs'' fields has the size of at least 1. \\
             \hline
-            Entity & mustHaveIdField & Error if entity does not have an @ID annotated field \\
+            mustHaveAtLeast\-OneMicroservice & System & Verifying that the system's ``services'' field has the size of at least 1.\\
             \hline
-            EntityRelationship & mustHaveToField & Entities must have a java field for incoming/outgoing relationships \\
+            mustHaveOne\-HealthEndpoint & APISchema & Verifying that at least one of the api schema's clients has the ``isHealthClient'' flag set. \\
             \hline
-            EntityRelationship & mustHaveFromField & \\
-            \hline
-            System & mustHaveAtLeastOneMicroservice &  \\
-            \hline
-            System & \hspace{0pt}microservicesMustNotExposeConflictingPorts & Error if several microservices are exposing the same port in docker compose \\
-            \hline
-            Microservice & mustHaveDifferentJoinTablesForMultiple\-ManyToManyRelationships & Error if there are several many to many relationships using the same join table \\
-            \hline
-            APISchema & mustHaveOneHealthEndpoint & Every microservice must have a health client. \\
-            \hline
-            HttpRequest & \hspace{0pt}mustNotHaveAResponseBodyDTOIfStringResponse &  \\
-            \hline
-            HttpRequest & mustHaveAFieldForEveryURLParameter & Error if no java value exists for any URL parameter \\
-            \hline
-            HttpRequest & mustNotHaveBackToBackURLParameters & Error if URL has several parameters without a slash e.g. /\{id\}\{name\} \\
-            \hline
-            HttpRequest & mustHaveAURLParameterForEveryField & Error if no URL parameter exists for any of the java values in the request method \\
-            \hline
-            HttpNonGetRequest &\hspace{0pt}mustNotHaveARequestBodyDTOIfStringRequestBody &  \\
-            \hline
-            ClientDefinition & healthClientMustHaveOneHealth\-GetEndpoint &  \\
-            \hline
-            Afield & typeMustStartWithUpperCase & Type must be a java type i.e. start with uppercase letter \\
-            \hline
-            CLICommand &\hspace{0pt}mustNotHaveDifferentArgumentsWithSameName & Error if several CLI args for a command attempt to use the same name \\
+            healthClientMust\-HaveOneHealth\-GetEndpoint & ClientDefinition
+            & Verifying that all of the following is true:
+                \begin{itemize}
+                    \item The client being checked is a health client (via EVL guard)
+                    \item The client has a single resource at the url ``/'' that takes no parameters and is accessed with a GET request
+                    \item The client's root url is ``/health''
+                \end{itemize}
+            \\
             \bottomrule
         \end{tabular}
         \caption{EVL validation rules}
         \label{tab:evlTable}
     \end{table}
+
+    Additional checks have been written to check other aspects of the system.
+    Examples of such checks include:
+    \begin{itemize}
+        \item Verifying that when 2 entities have several relationships between each other, each relationship uses a separate join table.
+        \item Verifying that for each CLI command, each argument has a unique name
+        \item Verifying that names of microservices do not contain spaces
+    \end{itemize}
 
     \pagebreak
     \subsection{Model-to-text transformation}
@@ -552,6 +545,9 @@
         As described in 2.2.1, only the ``incoming''transitions contained the  ``mappedBy'' micronaut field, which allowed the generated code to match the intended use case e.g. when the desired way of adding a user to a video is by changing the user entity rather than the video entity.
         Convenience methods for modifying entities were written, as needed, in the  ``utils'' package of the corresponding microservice.
     \end{itemize}
+
+    The general strategy for developing the templates involved picking a fully functioning and tested component (mostly from the video microservice code) and gradually replacing specific names, types and parameters with attributes of the metamodel class.
+    This approach ensured that the generated code files had a similar writing style and functionality to the previously handwritten code.
 
     Overall, the generated code allowed for a significant saving in effort when writing the microservices.
     The only things up to the user were making sure that all microservices' projects are created (with the right source set added), writing the controller behaviour, the repositories, the Kafka consumers (and streams) and the behaviour of the CLI commands.
