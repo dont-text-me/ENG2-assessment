@@ -11,11 +11,14 @@ import java.util.UUID;
 @Repository
 public interface TrendingHashtagRepository extends CrudRepository<TrendingHashtag, UUID> {
   /**
-   * Fetches a list of {@link WindowedHashtagWithLikeCount} entities representing the **max** like count for a given hashtag within a given period of time.
-   * The max function is needed to handle records belonging to multiple windows at a time: only the one with the most likes will be returned.
+   * Fetches a list of {@link WindowedHashtagWithLikeCount} entities representing the **max** like
+   * count for a given hashtag within a given period of time. The max function is needed to handle
+   * records belonging to multiple windows at a time: only the one with the most likes will be
+   * returned.
    *
-   * @param windowEndFrom The maximum age of a window - windows that have closed earlier than this point are not returned
-   * */
+   * @param windowEndFrom The maximum age of a window - windows that have closed earlier than this
+   *     point are not returned
+   */
   @Query(
       """
 select new com.eng2.assessment.generated.thm.dto.WindowedHashtagWithLikeCount(th.hashtagName, max(th.likeCount), th.windowStart, th.windowEnd)
